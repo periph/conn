@@ -4,7 +4,7 @@
 
 Documentation is at https://periph.io
 
-[![PkgGoDev](https://pkg.go.dev/badge/periph.io/x/conn)](https://pkg.go.dev/github.com/periph.io/x/conn)
+[![PkgGoDev](https://pkg.go.dev/badge/periph.io/x/conn)](https://pkg.go.dev/periph.io/x/conn)
 [![Coverage
 Status](https://codecov.io/gh/periph/conn/graph/badge.svg)](https://codecov.io/gh/periph/conn)
 
