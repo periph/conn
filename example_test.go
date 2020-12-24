@@ -8,17 +8,16 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/periph/conn/physic"
-	"periph.io/x/periph/conn/spi"
-	"periph.io/x/periph/conn/spi/spireg"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/physic"
+	"periph.io/x/conn/v0/spi"
+	"periph.io/x/conn/v0/spi/spireg"
 )
 
 func Example() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Using SPI as an example. See package ./spi/spireg for more details.
 	p, err := spireg.Open("")

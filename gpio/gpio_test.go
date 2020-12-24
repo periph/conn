@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"periph.io/x/periph/conn/physic"
-	"periph.io/x/periph/conn/pin"
+	"periph.io/x/conn/v0/physic"
+	"periph.io/x/conn/v0/pin"
 )
 
 func TestStrings(t *testing.T) {

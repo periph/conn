@@ -9,16 +9,15 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/periph/conn/i2c"
-	"periph.io/x/periph/conn/i2c/i2creg"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/i2c"
+	"periph.io/x/conn/v0/i2c/i2creg"
 )
 
 func Example() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use i2creg I²C bus registry to find the first available I²C bus.
 	b, err := i2creg.Open("")
@@ -40,10 +39,10 @@ func Example() {
 }
 
 func ExamplePins() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use i2creg I²C port registry to find the first available I²C bus.
 	b, err := i2creg.Open("")

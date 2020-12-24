@@ -9,19 +9,18 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/periph/conn/i2c"
-	"periph.io/x/periph/conn/i2c/i2creg"
-	"periph.io/x/periph/conn/mmr"
-	"periph.io/x/periph/conn/onewire"
-	"periph.io/x/periph/conn/onewire/onewirereg"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/i2c"
+	"periph.io/x/conn/v0/i2c/i2creg"
+	"periph.io/x/conn/v0/mmr"
+	"periph.io/x/conn/v0/onewire"
+	"periph.io/x/conn/v0/onewire/onewirereg"
 )
 
 func ExampleDev8() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Open a connection, using I²C as an example:
 	b, err := i2creg.Open("")
@@ -42,10 +41,10 @@ func ExampleDev8() {
 }
 
 func ExampleDev8_ReadStruct() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Open a connection, using I²C as an example:
 	b, err := i2creg.Open("")
@@ -67,10 +66,10 @@ func ExampleDev8_ReadStruct() {
 }
 
 func ExampleDev8_WriteStruct() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Open a connection, using 1-wire as an example:
 	b, err := onewirereg.Open("")

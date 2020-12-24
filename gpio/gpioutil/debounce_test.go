@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"periph.io/x/periph/conn/gpio"
-	"periph.io/x/periph/conn/gpio/gpiotest"
+	"periph.io/x/conn/v0/gpio"
+	"periph.io/x/conn/v0/gpio/gpiotest"
 )
 
 func TestDebounce_Err(t *testing.T) {

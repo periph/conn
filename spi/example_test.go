@@ -8,17 +8,16 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/periph/conn/physic"
-	"periph.io/x/periph/conn/spi"
-	"periph.io/x/periph/conn/spi/spireg"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/physic"
+	"periph.io/x/conn/v0/spi"
+	"periph.io/x/conn/v0/spi/spireg"
 )
 
 func Example() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use spireg SPI port registry to find the first available SPI bus.
 	p, err := spireg.Open("")
@@ -44,10 +43,10 @@ func Example() {
 }
 
 func ExamplePins() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use spireg SPI port registry to find the first available SPI bus.
 	p, err := spireg.Open("")

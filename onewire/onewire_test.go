@@ -9,7 +9,7 @@ import (
 	"errors"
 	"testing"
 
-	"periph.io/x/periph/conn"
+	"periph.io/x/conn/v0"
 )
 
 func TestPullUp(t *testing.T) {

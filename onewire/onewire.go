@@ -5,7 +5,7 @@
 // Package onewire defines the API to communicate with devices over the Dallas
 // Semiconductor / Maxim Integrated 1-wire protocol.
 //
-// As described in https://periph.io/x/periph/conn#hdr-Concepts, periph.io uses
+// As described in https://periph.io/x/conn/v0#hdr-Concepts, periph.io uses
 // the concepts of Bus, Port and Conn.
 //
 // In the package onewire, 'Port' is not exposed, since once you know the 1-wire
@@ -27,8 +27,8 @@ package onewire
 import (
 	"strconv"
 
-	"periph.io/x/periph/conn"
-	"periph.io/x/periph/conn/gpio"
+	"periph.io/x/conn/v0"
+	"periph.io/x/conn/v0/gpio"
 )
 
 // Bus defines the function a concrete driver for a 1-wire bus must implement.

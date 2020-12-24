@@ -8,15 +8,14 @@ import (
 	"image"
 	"log"
 
-	"periph.io/x/periph/conn/display"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/display"
 )
 
 func ExampleDrawer() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Get a display output device, like an apa102 or ssd1306. For example:
 	//   s, _ := spireg.Open("")

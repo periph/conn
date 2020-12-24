@@ -9,10 +9,10 @@ import (
 	"sort"
 	"testing"
 
-	"periph.io/x/periph/conn"
-	"periph.io/x/periph/conn/gpio"
-	"periph.io/x/periph/conn/physic"
-	"periph.io/x/periph/experimental/conn/uart"
+	"periph.io/x/conn/v0"
+	"periph.io/x/conn/v0/gpio"
+	"periph.io/x/conn/v0/physic"
+	"periph.io/x/conn/v0/uart"
 )
 
 func TestOpen(t *testing.T) {

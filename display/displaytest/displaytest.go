@@ -9,7 +9,7 @@ import (
 	"image/color"
 	"image/draw"
 
-	"periph.io/x/periph/conn/display"
+	"periph.io/x/conn/v0/display"
 )
 
 // Drawer is a fake display.Drawer.

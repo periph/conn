@@ -10,16 +10,15 @@ import (
 	"log"
 	"strings"
 
-	"periph.io/x/periph/conn/i2c"
-	"periph.io/x/periph/conn/i2c/i2creg"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/i2c"
+	"periph.io/x/conn/v0/i2c/i2creg"
 )
 
 func Example() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// A command line tool may let the user choose a I²C port, yet default to the
 	// first port known.
@@ -44,10 +43,10 @@ func Example() {
 }
 
 func ExampleAll() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Enumerate all I²C buses available and the corresponding pins.
 	fmt.Print("I²C buses available:\n")
@@ -75,10 +74,10 @@ func ExampleAll() {
 }
 
 func ExampleOpen() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// On Linux, the following calls will likely open the same bus.
 	_, _ = i2creg.Open("/dev/i2c-1")

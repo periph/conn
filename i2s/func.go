@@ -4,7 +4,7 @@
 
 package i2s
 
-import "periph.io/x/periph/conn/pin"
+import "periph.io/x/conn/v0/pin"
 
 // Well known pin functionality.
 const (

@@ -6,19 +6,17 @@ package onewirereg_test
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
-	"periph.io/x/periph/conn/onewire"
-	"periph.io/x/periph/conn/onewire/onewirereg"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/onewire"
+	"periph.io/x/conn/v0/onewire/onewirereg"
 )
 
 func ExampleAll() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Enumerate all 1-wire buses available and the corresponding pins.
 	fmt.Print("1-wire buses available:\n")

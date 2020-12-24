@@ -8,11 +8,10 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/periph/conn/gpio"
-	"periph.io/x/periph/conn/gpio/gpioreg"
-	"periph.io/x/periph/conn/gpio/gpiostream"
-	"periph.io/x/periph/conn/physic"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/gpio"
+	"periph.io/x/conn/v0/gpio/gpioreg"
+	"periph.io/x/conn/v0/gpio/gpiostream"
+	"periph.io/x/conn/v0/physic"
 )
 
 func ExampleBitStream() {
@@ -67,10 +66,10 @@ func ExampleBitStream() {
 }
 
 func ExamplePinIn() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Read one second of sample at 1ms resolution and print the values read.
 	p := gpioreg.ByName("GPIO3")
@@ -95,10 +94,10 @@ func ExamplePinIn() {
 }
 
 func ExamplePinOut() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Generates a 25% duty cycle PWM at 1kHz for 5 seconds with a precision of
 	// 1µs.

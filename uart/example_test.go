@@ -8,16 +8,15 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/periph/experimental/conn/uart"
-	"periph.io/x/periph/experimental/conn/uart/uartreg"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/uart"
+	"periph.io/x/conn/v0/uart/uartreg"
 )
 
 func ExamplePins() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use uartreg UART port registry to find the first available UART port.
 	p, err := uartreg.Open("")

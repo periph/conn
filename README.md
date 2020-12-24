@@ -24,7 +24,7 @@ package main
 
 import (
     "time"
-    "periph.io/x/periph/conn/gpio"
+    "periph.io/x/conn/v0/gpio"
     "periph.io/x/periph/host"
     "periph.io/x/periph/host/rpi"
 )

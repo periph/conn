@@ -8,16 +8,15 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/periph/conn/onewire"
-	"periph.io/x/periph/conn/onewire/onewirereg"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/onewire"
+	"periph.io/x/conn/v0/onewire/onewirereg"
 )
 
 func Example() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use onewirereg 1-wire bus registry to find the first available 1-wire bus.
 	b, err := onewirereg.Open("")
@@ -39,10 +38,10 @@ func Example() {
 }
 
 func ExamplePins() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use onewirereg 1-wire bus registry to find the first available 1-wire bus.
 	b, err := onewirereg.Open("")

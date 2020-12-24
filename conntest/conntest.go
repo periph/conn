@@ -11,7 +11,7 @@ import (
 	"io"
 	"sync"
 
-	"periph.io/x/periph/conn"
+	"periph.io/x/conn/v0"
 )
 
 // IsErr returns true if the error is from a conntest failure.

@@ -10,17 +10,16 @@ import (
 	"log"
 	"strings"
 
-	"periph.io/x/periph/conn/physic"
-	"periph.io/x/periph/conn/spi"
-	"periph.io/x/periph/conn/spi/spireg"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/physic"
+	"periph.io/x/conn/v0/spi"
+	"periph.io/x/conn/v0/spi/spireg"
 )
 
 func Example() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// A command line tool may let the user choose a SPI port, yet default to the
 	// first port known.
@@ -49,10 +48,10 @@ func Example() {
 }
 
 func ExampleAll() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Enumerate all SPI ports available and the corresponding pins.
 	fmt.Print("SPI ports available:\n")
@@ -82,10 +81,10 @@ func ExampleAll() {
 }
 
 func ExampleOpen() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// On Linux, the following calls will likely open the same port.
 	_, _ = spireg.Open("/dev/spidev1.0")

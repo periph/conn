@@ -10,17 +10,16 @@ import (
 	"log"
 	"strings"
 
-	"periph.io/x/periph/conn/physic"
-	"periph.io/x/periph/experimental/conn/uart"
-	"periph.io/x/periph/experimental/conn/uart/uartreg"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/physic"
+	"periph.io/x/conn/v0/uart"
+	"periph.io/x/conn/v0/uart/uartreg"
 )
 
 func Example() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// How a command line tool may let the user choose an UART port, yet default
 	// to the first bus known.
@@ -42,10 +41,10 @@ func Example() {
 }
 
 func ExampleAll() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Enumerate all UART ports available and the corresponding pins.
 	fmt.Print("UART ports available:\n")
@@ -75,10 +74,10 @@ func ExampleAll() {
 }
 
 func ExampleOpen() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// On linux, the following calls will likely open the same bus.
 	_, _ = uartreg.Open("/dev/ttyUSB0")

@@ -13,12 +13,12 @@ import (
 	"os"
 	"testing"
 
-	"periph.io/x/periph/conn"
-	"periph.io/x/periph/conn/conntest"
-	"periph.io/x/periph/conn/gpio"
-	"periph.io/x/periph/conn/gpio/gpiotest"
-	"periph.io/x/periph/conn/physic"
-	"periph.io/x/periph/conn/spi"
+	"periph.io/x/conn/v0"
+	"periph.io/x/conn/v0/conntest"
+	"periph.io/x/conn/v0/gpio"
+	"periph.io/x/conn/v0/gpio/gpiotest"
+	"periph.io/x/conn/v0/physic"
+	"periph.io/x/conn/v0/spi"
 )
 
 func TestRecordRaw(t *testing.T) {

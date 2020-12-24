@@ -8,17 +8,16 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/periph/conn/gpio"
-	"periph.io/x/periph/conn/gpio/gpioreg"
-	"periph.io/x/periph/conn/physic"
-	"periph.io/x/periph/host"
+	"periph.io/x/conn/v0/gpio"
+	"periph.io/x/conn/v0/gpio/gpioreg"
+	"periph.io/x/conn/v0/physic"
 )
 
 func Example() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use gpioreg GPIO pin registry to find a GPIO pin by name.
 	p := gpioreg.ByName("GPIO6")
@@ -42,10 +41,10 @@ func ExampleParseDuty() {
 }
 
 func ExamplePinIn() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use gpioreg GPIO pin registry to find a GPIO pin by name.
 	p := gpioreg.ByName("GPIO6")
@@ -67,10 +66,10 @@ func ExamplePinIn() {
 }
 
 func ExamplePinOut() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use gpioreg GPIO pin registry to find a GPIO pin by name.
 	p := gpioreg.ByName("GPIO6")
@@ -85,10 +84,10 @@ func ExamplePinOut() {
 }
 
 func ExamplePinOut_pWM() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use gpioreg GPIO pin registry to find a GPIO pin by name.
 	p := gpioreg.ByName("GPIO6")
@@ -103,10 +102,10 @@ func ExamplePinOut_pWM() {
 }
 
 func ExampleRealPin() {
-	// Make sure periph is initialized.
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
+	// TODO: Make sure periph is initialized.
+	//if _, err := host.Init(); err != nil {
+	//	log.Fatal(err)
+	//}
 
 	// Use gpioreg GPIO pin registry to find a GPIO pin by name.
 	p := gpioreg.ByName("P1_3")
