@@ -12,11 +12,11 @@ import (
 	"reflect"
 	"sync"
 
-	"periph.io/x/conn/v0"
-	"periph.io/x/conn/v0/conntest"
-	"periph.io/x/conn/v0/gpio"
-	"periph.io/x/conn/v0/gpio/gpiostream"
-	"periph.io/x/conn/v0/pin"
+	"periph.io/x/conn"
+	"periph.io/x/conn/conntest"
+	"periph.io/x/conn/gpio"
+	"periph.io/x/conn/gpio/gpiostream"
+	"periph.io/x/conn/pin"
 )
 
 // InOp represents an expected replay StreamIn operation in PinIn.

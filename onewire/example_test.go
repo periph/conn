@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/conn/v0/onewire"
-	"periph.io/x/conn/v0/onewire/onewirereg"
+	"periph.io/x/conn/onewire"
+	"periph.io/x/conn/onewire/onewirereg"
 )
 
 func Example() {

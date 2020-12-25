@@ -1,3 +1,3 @@
-module periph.io/x/conn/v0
+module periph.io/x/conn
 
 go 1.13

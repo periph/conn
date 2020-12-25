@@ -7,9 +7,9 @@ package i2ctest
 import (
 	"testing"
 
-	"periph.io/x/conn/v0/conntest"
-	"periph.io/x/conn/v0/gpio"
-	"periph.io/x/conn/v0/gpio/gpiotest"
+	"periph.io/x/conn/conntest"
+	"periph.io/x/conn/gpio"
+	"periph.io/x/conn/gpio/gpiotest"
 )
 
 func TestRecord_empty(t *testing.T) {

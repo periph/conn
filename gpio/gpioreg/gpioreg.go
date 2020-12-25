@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"sync"
 
-	"periph.io/x/conn/v0/gpio"
+	"periph.io/x/conn/gpio"
 )
 
 // ByName returns a GPIO pin from its name, gpio number or one of its aliases.

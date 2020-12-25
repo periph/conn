@@ -10,9 +10,9 @@ import (
 	"log"
 	"strings"
 
-	"periph.io/x/conn/v0/physic"
-	"periph.io/x/conn/v0/uart"
-	"periph.io/x/conn/v0/uart/uartreg"
+	"periph.io/x/conn/physic"
+	"periph.io/x/conn/uart"
+	"periph.io/x/conn/uart/uartreg"
 )
 
 func Example() {

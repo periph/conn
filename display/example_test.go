@@ -8,7 +8,7 @@ import (
 	"image"
 	"log"
 
-	"periph.io/x/conn/v0/display"
+	"periph.io/x/conn/display"
 )
 
 func ExampleDrawer() {

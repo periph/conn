@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/conn/v0/uart"
-	"periph.io/x/conn/v0/uart/uartreg"
+	"periph.io/x/conn/uart"
+	"periph.io/x/conn/uart/uartreg"
 )
 
 func ExamplePins() {

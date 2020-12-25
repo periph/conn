@@ -11,8 +11,8 @@ import (
 	"reflect"
 	"testing"
 
-	"periph.io/x/conn/v0"
-	"periph.io/x/conn/v0/conntest"
+	"periph.io/x/conn"
+	"periph.io/x/conn/conntest"
 )
 
 func TestDev8_String(t *testing.T) {

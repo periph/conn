@@ -9,11 +9,11 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/conn/v0/i2c"
-	"periph.io/x/conn/v0/i2c/i2creg"
-	"periph.io/x/conn/v0/mmr"
-	"periph.io/x/conn/v0/onewire"
-	"periph.io/x/conn/v0/onewire/onewirereg"
+	"periph.io/x/conn/i2c"
+	"periph.io/x/conn/i2c/i2creg"
+	"periph.io/x/conn/mmr"
+	"periph.io/x/conn/onewire"
+	"periph.io/x/conn/onewire/onewirereg"
 )
 
 func ExampleDev8() {

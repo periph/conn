@@ -10,7 +10,7 @@ import (
 	"image"
 	"image/color"
 
-	"periph.io/x/conn/v0"
+	"periph.io/x/conn"
 )
 
 // Drawer represents a context to display pixels on an output device. It is a

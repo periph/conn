@@ -13,11 +13,11 @@ import (
 	"testing"
 	"time"
 
-	"periph.io/x/conn/v0/gpio"
-	"periph.io/x/conn/v0/gpio/gpioreg"
-	"periph.io/x/conn/v0/i2c"
-	"periph.io/x/conn/v0/physic"
-	"periph.io/x/conn/v0/pin"
+	"periph.io/x/conn/gpio"
+	"periph.io/x/conn/gpio/gpioreg"
+	"periph.io/x/conn/i2c"
+	"periph.io/x/conn/physic"
+	"periph.io/x/conn/pin"
 )
 
 func TestPin(t *testing.T) {

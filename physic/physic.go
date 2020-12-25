@@ -7,7 +7,7 @@ package physic
 import (
 	"time"
 
-	"periph.io/x/conn/v0"
+	"periph.io/x/conn"
 )
 
 // Env represents measurements from an environmental sensor.

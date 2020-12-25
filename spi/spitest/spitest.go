@@ -10,11 +10,11 @@ import (
 	"log"
 	"sync"
 
-	"periph.io/x/conn/v0"
-	"periph.io/x/conn/v0/conntest"
-	"periph.io/x/conn/v0/gpio"
-	"periph.io/x/conn/v0/physic"
-	"periph.io/x/conn/v0/spi"
+	"periph.io/x/conn"
+	"periph.io/x/conn/conntest"
+	"periph.io/x/conn/gpio"
+	"periph.io/x/conn/physic"
+	"periph.io/x/conn/spi"
 )
 
 // RecordRaw implements spi.PortCloser.

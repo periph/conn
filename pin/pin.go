@@ -12,7 +12,7 @@ package pin
 import (
 	"errors"
 
-	"periph.io/x/conn/v0"
+	"periph.io/x/conn"
 )
 
 // These are well known pins.

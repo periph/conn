@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"testing"
 
-	"periph.io/x/conn/v0"
+	"periph.io/x/conn"
 )
 
 func TestRecordRaw(t *testing.T) {

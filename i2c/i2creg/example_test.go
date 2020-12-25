@@ -10,8 +10,8 @@ import (
 	"log"
 	"strings"
 
-	"periph.io/x/conn/v0/i2c"
-	"periph.io/x/conn/v0/i2c/i2creg"
+	"periph.io/x/conn/i2c"
+	"periph.io/x/conn/i2c/i2creg"
 )
 
 func Example() {

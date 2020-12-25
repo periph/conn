@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"periph.io/x/conn/v0/physic"
+	"periph.io/x/conn/physic"
 )
 
 func TestBitStream(t *testing.T) {

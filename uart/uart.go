@@ -4,7 +4,7 @@
 
 // Package uart defines the UART protocol.
 //
-// As described in https://periph.io/x/conn/v0#hdr-Concepts, periph.io uses
+// As described in https://periph.io/x/conn#hdr-Concepts, periph.io uses
 // the concepts of Bus, Port and Conn.
 //
 // In the package uart, 'Bus' is not exposed, as the protocol is primarily
@@ -31,9 +31,9 @@ import (
 	"fmt"
 	"io"
 
-	"periph.io/x/conn/v0"
-	"periph.io/x/conn/v0/gpio"
-	"periph.io/x/conn/v0/physic"
+	"periph.io/x/conn"
+	"periph.io/x/conn/gpio"
+	"periph.io/x/conn/physic"
 )
 
 // Flow determines the data flow to use, if any.

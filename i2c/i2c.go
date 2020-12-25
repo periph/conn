@@ -5,7 +5,7 @@
 // Package i2c defines the API to communicate with devices over the I²C
 // protocol.
 //
-// As described in https://periph.io/x/conn/v0#hdr-Concepts, periph.io uses
+// As described in https://periph.io/x/conn#hdr-Concepts, periph.io uses
 // the concepts of Bus, Port and Conn.
 //
 // In the package i2c, 'Port' is not exposed, since once you know the I²C
@@ -23,9 +23,9 @@ import (
 	"io"
 	"strconv"
 
-	"periph.io/x/conn/v0"
-	"periph.io/x/conn/v0/gpio"
-	"periph.io/x/conn/v0/physic"
+	"periph.io/x/conn"
+	"periph.io/x/conn/gpio"
+	"periph.io/x/conn/physic"
 )
 
 // Bus defines the interface a concrete I²C driver must implement.
