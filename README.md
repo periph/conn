@@ -45,8 +45,8 @@ examples!
 
 `periph` was initiated with ❤️️ and passion by [Marc-Antoine
 Ruel](https://github.com/maruel). The full list of contributors is in
-[AUTHORS](https://github.com/google/periph/blob/master/AUTHORS) and
-[CONTRIBUTORS](https://github.com/google/periph/blob/master/CONTRIBUTORS).
+[AUTHORS](https://github.com/periph/conn/blob/main/AUTHORS) and
+[CONTRIBUTORS](https://github.com/periph/conn/blob/main/CONTRIBUTORS).
 
 
 ## Disclaimer
