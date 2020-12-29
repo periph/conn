@@ -10,16 +10,19 @@ import (
 	"log"
 	"strings"
 
+	"periph.io/x/conn/driver/driverreg"
 	"periph.io/x/conn/physic"
 	"periph.io/x/conn/spi"
 	"periph.io/x/conn/spi/spireg"
 )
 
 func Example() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// A command line tool may let the user choose a SPI port, yet default to the
 	// first port known.
@@ -48,10 +51,12 @@ func Example() {
 }
 
 func ExampleAll() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Enumerate all SPI ports available and the corresponding pins.
 	fmt.Print("SPI ports available:\n")
@@ -81,10 +86,12 @@ func ExampleAll() {
 }
 
 func ExampleOpen() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// On Linux, the following calls will likely open the same port.
 	_, _ = spireg.Open("/dev/spidev1.0")

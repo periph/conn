@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 
+	"periph.io/x/conn/driver/driverreg"
 	"periph.io/x/conn/i2c"
 	"periph.io/x/conn/i2c/i2creg"
 	"periph.io/x/conn/mmr"
@@ -17,10 +18,12 @@ import (
 )
 
 func ExampleDev8() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Open a connection, using I²C as an example:
 	b, err := i2creg.Open("")
@@ -41,10 +44,12 @@ func ExampleDev8() {
 }
 
 func ExampleDev8_ReadStruct() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Open a connection, using I²C as an example:
 	b, err := i2creg.Open("")
@@ -66,10 +71,12 @@ func ExampleDev8_ReadStruct() {
 }
 
 func ExampleDev8_WriteStruct() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Open a connection, using 1-wire as an example:
 	b, err := onewirereg.Open("")

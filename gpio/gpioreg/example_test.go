@@ -9,15 +9,18 @@ import (
 	"fmt"
 	"log"
 
+	"periph.io/x/conn/driver/driverreg"
 	"periph.io/x/conn/gpio"
 	"periph.io/x/conn/gpio/gpioreg"
 )
 
 func Example() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// A command line tool may let the user choose a GPIO pin.
 	name := flag.String("p", "", "GPIO pin to use")
@@ -37,10 +40,12 @@ func Example() {
 }
 
 func ExampleAll() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	fmt.Print("GPIO pins available:\n")
 	for _, p := range gpioreg.All() {
@@ -49,10 +54,12 @@ func ExampleAll() {
 }
 
 func ExampleByName_alias() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// LCD-D2 is a pin found on the C.H.I.P.
 	p := gpioreg.ByName("LCD-D2")
@@ -67,10 +74,12 @@ func ExampleByName_alias() {
 }
 
 func ExampleByName_number() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// The string representation of a number works too.
 	p := gpioreg.ByName("6")

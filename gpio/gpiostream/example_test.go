@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 
+	"periph.io/x/conn/driver/driverreg"
 	"periph.io/x/conn/gpio"
 	"periph.io/x/conn/gpio/gpioreg"
 	"periph.io/x/conn/gpio/gpiostream"
@@ -66,10 +67,12 @@ func ExampleBitStream() {
 }
 
 func ExamplePinIn() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Read one second of sample at 1ms resolution and print the values read.
 	p := gpioreg.ByName("GPIO3")
@@ -94,10 +97,12 @@ func ExamplePinIn() {
 }
 
 func ExamplePinOut() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Generates a 25% duty cycle PWM at 1kHz for 5 seconds with a precision of
 	// 1µs.

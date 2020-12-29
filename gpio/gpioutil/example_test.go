@@ -9,6 +9,7 @@ import (
 	"log"
 	"time"
 
+	"periph.io/x/conn/driver/driverreg"
 	"periph.io/x/conn/gpio"
 	"periph.io/x/conn/gpio/gpioreg"
 	"periph.io/x/conn/gpio/gpioutil"
@@ -16,6 +17,13 @@ import (
 )
 
 func ExampleDebounce() {
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
+
 	p := gpioreg.ByName("GPIO16")
 	if p != nil {
 		log.Fatal("please open another GPIO")
@@ -37,6 +45,13 @@ func ExampleDebounce() {
 }
 
 func ExamplePollEdge() {
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
+
 	// Flow when it is known that the GPIO does not support edge detection.
 	p := gpioreg.ByName("XOI-P1")
 	if p != nil {
@@ -56,6 +71,13 @@ func ExamplePollEdge() {
 }
 
 func Example() {
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
+
 	// Complete solution:
 	// - Fallback to software polling if the GPIO doesn't support hardware edge
 	//   detection.

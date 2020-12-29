@@ -8,15 +8,18 @@ import (
 	"fmt"
 	"log"
 
+	"periph.io/x/conn/driver/driverreg"
 	"periph.io/x/conn/uart"
 	"periph.io/x/conn/uart/uartreg"
 )
 
 func ExamplePins() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Use uartreg UART port registry to find the first available UART port.
 	p, err := uartreg.Open("")

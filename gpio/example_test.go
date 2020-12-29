@@ -8,16 +8,19 @@ import (
 	"fmt"
 	"log"
 
+	"periph.io/x/conn/driver/driverreg"
 	"periph.io/x/conn/gpio"
 	"periph.io/x/conn/gpio/gpioreg"
 	"periph.io/x/conn/physic"
 )
 
 func Example() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Use gpioreg GPIO pin registry to find a GPIO pin by name.
 	p := gpioreg.ByName("GPIO6")
@@ -41,10 +44,12 @@ func ExampleParseDuty() {
 }
 
 func ExamplePinIn() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Use gpioreg GPIO pin registry to find a GPIO pin by name.
 	p := gpioreg.ByName("GPIO6")
@@ -66,10 +71,12 @@ func ExamplePinIn() {
 }
 
 func ExamplePinOut() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Use gpioreg GPIO pin registry to find a GPIO pin by name.
 	p := gpioreg.ByName("GPIO6")
@@ -84,10 +91,12 @@ func ExamplePinOut() {
 }
 
 func ExamplePinOut_pWM() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Use gpioreg GPIO pin registry to find a GPIO pin by name.
 	p := gpioreg.ByName("GPIO6")
@@ -102,10 +111,12 @@ func ExamplePinOut_pWM() {
 }
 
 func ExampleRealPin() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Use gpioreg GPIO pin registry to find a GPIO pin by name.
 	p := gpioreg.ByName("P1_3")

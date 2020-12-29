@@ -6,17 +6,21 @@ package onewirereg_test
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
+	"periph.io/x/conn/driver/driverreg"
 	"periph.io/x/conn/onewire"
 	"periph.io/x/conn/onewire/onewirereg"
 )
 
 func ExampleAll() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Enumerate all 1-wire buses available and the corresponding pins.
 	fmt.Print("1-wire buses available:\n")

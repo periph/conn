@@ -8,16 +8,19 @@ import (
 	"fmt"
 	"log"
 
+	"periph.io/x/conn/driver/driverreg"
 	"periph.io/x/conn/physic"
 	"periph.io/x/conn/spi"
 	"periph.io/x/conn/spi/spireg"
 )
 
 func Example() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Use spireg SPI port registry to find the first available SPI bus.
 	p, err := spireg.Open("")
@@ -43,10 +46,12 @@ func Example() {
 }
 
 func ExamplePins() {
-	// TODO: Make sure periph is initialized.
-	//if _, err := host.Init(); err != nil {
-	//	log.Fatal(err)
-	//}
+	// Make sure periph is initialized.
+	// TODO: Use host.Init(). It is not used in this example to prevent circular
+	// go package import.
+	if _, err := driverreg.Init(); err != nil {
+		log.Fatal(err)
+	}
 
 	// Use spireg SPI port registry to find the first available SPI bus.
 	p, err := spireg.Open("")
