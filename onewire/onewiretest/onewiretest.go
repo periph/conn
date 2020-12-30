@@ -9,9 +9,9 @@ import (
 	"bytes"
 	"sync"
 
-	"periph.io/x/conn/conntest"
-	"periph.io/x/conn/gpio"
-	"periph.io/x/conn/onewire"
+	"periph.io/x/conn/v3/conntest"
+	"periph.io/x/conn/v3/gpio"
+	"periph.io/x/conn/v3/onewire"
 )
 
 // IO registers the I/O that happened on either a real or fake 1-wire bus.

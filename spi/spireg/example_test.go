@@ -10,10 +10,10 @@ import (
 	"log"
 	"strings"
 
-	"periph.io/x/conn/driver/driverreg"
-	"periph.io/x/conn/physic"
-	"periph.io/x/conn/spi"
-	"periph.io/x/conn/spi/spireg"
+	"periph.io/x/conn/v3/driver/driverreg"
+	"periph.io/x/conn/v3/physic"
+	"periph.io/x/conn/v3/spi"
+	"periph.io/x/conn/v3/spi/spireg"
 )
 
 func Example() {

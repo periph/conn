@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/conn/driver/driverreg"
-	"periph.io/x/conn/gpio"
-	"periph.io/x/conn/gpio/gpioreg"
+	"periph.io/x/conn/v3/driver/driverreg"
+	"periph.io/x/conn/v3/gpio"
+	"periph.io/x/conn/v3/gpio/gpioreg"
 )
 
 func Example() {

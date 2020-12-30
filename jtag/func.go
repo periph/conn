@@ -4,7 +4,7 @@
 
 package jtag
 
-import "periph.io/x/conn/pin"
+import "periph.io/x/conn/v3/pin"
 
 // Well known pin functionality.
 const (

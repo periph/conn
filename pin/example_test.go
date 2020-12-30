@@ -8,10 +8,10 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/conn/gpio/gpioreg"
-	"periph.io/x/conn/pin"
-	"periph.io/x/conn/spi"
-	"periph.io/x/conn/uart"
+	"periph.io/x/conn/v3/gpio/gpioreg"
+	"periph.io/x/conn/v3/pin"
+	"periph.io/x/conn/v3/spi"
+	"periph.io/x/conn/v3/uart"
 )
 
 func ExampleBasicPin() {

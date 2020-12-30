@@ -8,7 +8,7 @@ import (
 	"errors"
 	"testing"
 
-	"periph.io/x/conn/driver"
+	"periph.io/x/conn/v3/driver"
 )
 
 func TestInitSimple(t *testing.T) {

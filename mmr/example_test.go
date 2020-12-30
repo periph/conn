@@ -9,12 +9,12 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/conn/driver/driverreg"
-	"periph.io/x/conn/i2c"
-	"periph.io/x/conn/i2c/i2creg"
-	"periph.io/x/conn/mmr"
-	"periph.io/x/conn/onewire"
-	"periph.io/x/conn/onewire/onewirereg"
+	"periph.io/x/conn/v3/driver/driverreg"
+	"periph.io/x/conn/v3/i2c"
+	"periph.io/x/conn/v3/i2c/i2creg"
+	"periph.io/x/conn/v3/mmr"
+	"periph.io/x/conn/v3/onewire"
+	"periph.io/x/conn/v3/onewire/onewirereg"
 )
 
 func ExampleDev8() {

@@ -8,11 +8,11 @@ import (
 	"reflect"
 	"testing"
 
-	"periph.io/x/conn/conntest"
-	"periph.io/x/conn/gpio"
-	"periph.io/x/conn/gpio/gpiostream"
-	"periph.io/x/conn/physic"
-	"periph.io/x/conn/pin"
+	"periph.io/x/conn/v3/conntest"
+	"periph.io/x/conn/v3/gpio"
+	"periph.io/x/conn/v3/gpio/gpiostream"
+	"periph.io/x/conn/v3/physic"
+	"periph.io/x/conn/v3/pin"
 )
 
 // PinIn

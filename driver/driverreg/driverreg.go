@@ -12,7 +12,7 @@ import (
 	"strings"
 	"sync"
 
-	"periph.io/x/conn/driver"
+	"periph.io/x/conn/v3/driver"
 )
 
 // DriverFailure is a driver that wasn't loaded, either because it was skipped

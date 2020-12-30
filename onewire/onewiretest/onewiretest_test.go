@@ -8,10 +8,10 @@ import (
 	"encoding/binary"
 	"testing"
 
-	"periph.io/x/conn/conntest"
-	"periph.io/x/conn/gpio"
-	"periph.io/x/conn/gpio/gpiotest"
-	"periph.io/x/conn/onewire"
+	"periph.io/x/conn/v3/conntest"
+	"periph.io/x/conn/v3/gpio"
+	"periph.io/x/conn/v3/gpio/gpiotest"
+	"periph.io/x/conn/v3/onewire"
 )
 
 func TestRecord_empty(t *testing.T) {

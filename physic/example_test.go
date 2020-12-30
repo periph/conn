@@ -10,7 +10,7 @@ import (
 	"log"
 	"time"
 
-	"periph.io/x/conn/physic"
+	"periph.io/x/conn/v3/physic"
 )
 
 func ExampleAngle() {

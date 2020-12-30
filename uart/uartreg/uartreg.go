@@ -13,7 +13,7 @@ import (
 	"strings"
 	"sync"
 
-	"periph.io/x/conn/uart"
+	"periph.io/x/conn/v3/uart"
 )
 
 // Opener opens an handle to a port.

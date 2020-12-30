@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"log"
 
-	"periph.io/x/conn/driver/driverreg"
+	"periph.io/x/conn/v3/driver/driverreg"
 )
 
 func Example() {

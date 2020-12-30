@@ -8,9 +8,9 @@ import (
 	"errors"
 	"testing"
 
-	"periph.io/x/conn"
-	"periph.io/x/conn/physic"
-	"periph.io/x/conn/spi"
+	"periph.io/x/conn/v3"
+	"periph.io/x/conn/v3/physic"
+	"periph.io/x/conn/v3/spi"
 )
 
 func TestOpen(t *testing.T) {

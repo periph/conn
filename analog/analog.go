@@ -9,8 +9,8 @@ package analog
 import (
 	"errors"
 
-	"periph.io/x/conn/physic"
-	"periph.io/x/conn/pin"
+	"periph.io/x/conn/v3/physic"
+	"periph.io/x/conn/v3/pin"
 )
 
 // Sample is one analog sample.

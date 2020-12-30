@@ -14,7 +14,7 @@ import (
 	"strings"
 	"sync"
 
-	"periph.io/x/conn/spi"
+	"periph.io/x/conn/v3/spi"
 )
 
 // Opener opens an handle to a port.

@@ -14,7 +14,7 @@ import (
 	"strconv"
 	"sync"
 
-	"periph.io/x/conn/driver"
+	"periph.io/x/conn/v3/driver"
 )
 
 func initImpl() (*State, error) {

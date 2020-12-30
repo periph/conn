@@ -9,10 +9,10 @@ import (
 	"bytes"
 	"sync"
 
-	"periph.io/x/conn/conntest"
-	"periph.io/x/conn/gpio"
-	"periph.io/x/conn/i2c"
-	"periph.io/x/conn/physic"
+	"periph.io/x/conn/v3/conntest"
+	"periph.io/x/conn/v3/gpio"
+	"periph.io/x/conn/v3/i2c"
+	"periph.io/x/conn/v3/physic"
 )
 
 // IO registers the I/O that happened on either a real or fake I²C bus.
