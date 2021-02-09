@@ -4,7 +4,12 @@ You are looking at an intentionally broken v0 version. **Use v3 or later.**
 
 Documentation is at https://periph.io
 
+Join us for a chat on
+[gophers.slack.com/messages/periph](https://gophers.slack.com/messages/periph),
+get an [invite here](https://invite.slack.golangbridge.org/).
+
 [![mascot](https://raw.githubusercontent.com/periph/website/master/site/static/img/periph-mascot-280.png)](https://periph.io/)
+
 
 ## Authors
 
