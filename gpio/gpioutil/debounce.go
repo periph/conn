@@ -83,5 +83,4 @@ func (d *debounced) Real() gpio.PinIO {
 	return d.PinIO
 }
 
-var now = time.Now
 var _ gpio.PinIO = &debounced{}
