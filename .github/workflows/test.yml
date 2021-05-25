@@ -196,21 +196,21 @@ jobs:
           false
         fi
 
-    - name: 'Test on periph.io/x/devices'
-      # Force an upgrade to test cmd with tip of tree conn.
-      run: |
-        cd ..
-        git clone https://github.com/periph/devices
-        cd devices
-        go get periph.io/x/conn/v3@${GITHUB_SHA}
-        go test -short ./...
-
     - name: 'Test on periph.io/x/host'
-      # Force an upgrade to test cmd with tip of tree conn.
+      # Force an upgrade to test host with tip of tree conn.
       run: |
         cd ..
         git clone https://github.com/periph/host
         cd host
+        go get periph.io/x/conn/v3@${GITHUB_SHA}
+        go test -short ./...
+
+    - name: 'Test on periph.io/x/devices'
+      # Force an upgrade to test devices with tip of tree conn.
+      run: |
+        cd ..
+        git clone https://github.com/periph/devices
+        cd devices
         go get periph.io/x/conn/v3@${GITHUB_SHA}
         go test -short ./...
 
