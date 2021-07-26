@@ -34,6 +34,12 @@ type debounced struct {
 // state, ignoring following state changes.
 //
 // Either value can be 0.
+//
+// WARNING
+//
+// This is not yet implemented.
+//
+// TODO(https://github.com/periph/conn/issues/5): Implement this
 func Debounce(p gpio.PinIO, denoise, debounce time.Duration, edge gpio.Edge) (gpio.PinIO, error) {
 	if denoise == 0 && debounce == 0 {
 		return p, nil
