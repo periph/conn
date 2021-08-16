@@ -34,12 +34,6 @@ type debounced struct {
 // state, ignoring following state changes.
 //
 // Either value can be 0.
-//
-// WARNING
-//
-// This is not yet implemented.
-//
-// TODO(https://github.com/periph/conn/issues/5): Implement this
 func Debounce(p gpio.PinIO, denoise, debounce time.Duration, edge gpio.Edge) (gpio.PinIO, error) {
 	if denoise == 0 && debounce == 0 {
 		return p, nil
@@ -73,7 +67,22 @@ func (d *debounced) Read() gpio.Level {
 //
 // It is the smoothed out value from the underlying gpio.PinIO.
 func (d *debounced) WaitForEdge(timeout time.Duration) bool {
-	return d.PinIO.WaitForEdge(timeout)
+	prev := d.PinIO.Read()
+	start := time.Now()
+	for {
+		if timeout != -1 && time.Since(start) > timeout {
+			return false
+		}
+		if !d.PinIO.WaitForEdge(timeout) {
+			// Timeout has occurred, propagate it
+			return false
+		}
+		time.Sleep(d.denoise)
+		curr := d.PinIO.Read()
+		if curr != prev {
+			return true
+		}
+	}
 }
 
 // Halt implements gpio.PinIO.

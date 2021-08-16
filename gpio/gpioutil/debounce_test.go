@@ -75,11 +75,54 @@ func TestDebounce_Read_High(t *testing.T) {
 func TestDebounce_WaitForEdge_Got(t *testing.T) {
 	f := gpiotest.Pin{EdgesChan: make(chan gpio.Level, 1)}
 	p, err := Debounce(&f, time.Second, 0, gpio.BothEdges)
+	f.Out(gpio.High)
 	if err != nil {
 		t.Fatal(err)
 	}
 	f.EdgesChan <- gpio.Low
 	if !p.WaitForEdge(-1) {
+		t.Fatal("expected edge")
+	}
+}
+
+func TestDebounce_WaitForEdge_Noise_NoEdge(t *testing.T) {
+	f := gpiotest.Pin{EdgesChan: make(chan gpio.Level, 1)}
+	p, err := Debounce(&f, time.Second, 0, gpio.BothEdges)
+	f.Out(gpio.Low)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Short high, comes back down too soon
+	f.EdgesChan <- gpio.High
+	go func() {
+		time.Sleep(500 * time.Millisecond)
+		f.Out(gpio.Low)
+	}()
+
+	if p.WaitForEdge(1 * time.Second) {
+		t.Fatal("expected no edge")
+	}
+}
+
+func TestDebounce_WaitForEdge_Noise_Edge(t *testing.T) {
+	f := gpiotest.Pin{EdgesChan: make(chan gpio.Level, 2)}
+	p, err := Debounce(&f, time.Second, 0, gpio.BothEdges)
+	f.Out(gpio.Low)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Short high, comes back down too soon
+	f.EdgesChan <- gpio.High
+	go func() {
+		time.Sleep(500 * time.Millisecond)
+		f.Out(gpio.Low)
+	}()
+
+	// Second edge, stays high
+	f.EdgesChan <- gpio.High
+	if !p.WaitForEdge(4 * time.Second) {
 		t.Fatal("expected edge")
 	}
 }
