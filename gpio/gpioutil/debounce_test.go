@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/jonboulle/clockwork"
 	"periph.io/x/conn/v3/gpio"
 	"periph.io/x/conn/v3/gpio/gpiotest"
 )
@@ -86,18 +87,27 @@ func TestDebounce_WaitForEdge_Got(t *testing.T) {
 }
 
 func TestDebounce_WaitForEdge_Noise_NoEdge(t *testing.T) {
-	f := gpiotest.Pin{EdgesChan: make(chan gpio.Level, 1)}
+	fakeClock := clockwork.NewFakeClock()
+	f := gpiotest.Pin{
+		Clock:     fakeClock,
+		EdgesChan: make(chan gpio.Level, 1),
+	}
 	p, err := Debounce(&f, time.Second, 0, gpio.BothEdges)
-	f.Out(gpio.Low)
 	if err != nil {
 		t.Fatal(err)
 	}
+	p.(*debounced).clock = fakeClock
+	f.Out(gpio.Low)
 
 	// Short high, comes back down too soon
 	f.EdgesChan <- gpio.High
 	go func() {
-		time.Sleep(500 * time.Millisecond)
+		// Sleepers:
+		// * gpiotest.WaitForEdge's After
+		// * debounce.WaitForEdge's d.Clock.Sleep
+		fakeClock.BlockUntil(2)
 		f.Out(gpio.Low)
+		fakeClock.Advance(2 * time.Second)
 	}()
 
 	if p.WaitForEdge(1 * time.Second) {

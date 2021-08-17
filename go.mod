@@ -8,3 +8,5 @@ go 1.13
 
 // Warning: do not add any external dependencies here. This package should only
 // depend on the standard library.
+
+require github.com/jonboulle/clockwork v0.2.2

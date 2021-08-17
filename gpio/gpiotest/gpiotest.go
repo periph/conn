@@ -12,6 +12,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/jonboulle/clockwork"
 	"periph.io/x/conn/v3/gpio"
 	"periph.io/x/conn/v3/physic"
 	"periph.io/x/conn/v3/pin"
@@ -25,6 +26,9 @@ type Pin struct {
 	N   string
 	Num int
 	Fn  string // TODO(maruel): pin.Func in v4.
+
+	// These are safe to use concurrently.
+	Clock clockwork.Clock // If nil, real clock will be used.
 
 	// Grab the Mutex before accessing the following members.
 	sync.Mutex
@@ -109,12 +113,16 @@ func (p *Pin) Read() gpio.Level {
 
 // WaitForEdge implements gpio.PinIn.
 func (p *Pin) WaitForEdge(timeout time.Duration) bool {
+	if p.Clock == nil {
+		p.Clock = clockwork.NewRealClock()
+	}
+
 	if timeout == -1 {
 		_ = p.Out(<-p.EdgesChan)
 		return true
 	}
 	select {
-	case <-time.After(timeout):
+	case <-p.Clock.After(timeout):
 		return false
 	case l := <-p.EdgesChan:
 		_ = p.Out(l)
