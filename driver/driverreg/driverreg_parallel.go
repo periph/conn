@@ -50,9 +50,11 @@ func initImpl() (*State, error) {
 	if err != nil {
 		return state, err
 	}
-	loaded := make(map[string]struct{}, len(byName))
+	loaded := sync.Map{}
 	for _, s := range stages {
-		s.loadParallel(loaded, cD, cS, cE)
+		// It's very important that each of the stage is fully completed before the
+		// next one is attempted.
+		s.loadParallel(&loaded, cD, cS, cE)
 	}
 	close(cD)
 	close(cS)
@@ -61,10 +63,9 @@ func initImpl() (*State, error) {
 	return state, nil
 }
 
-// loadParallel loads all the drivers for this stage in parallel.
-//
-// Updates loaded in a safe way.
-func (s *stage) loadParallel(loaded map[string]struct{}, cD chan<- driver.Impl, cS, cE chan<- DriverFailure) {
+// loadParallel loads all the drivers for this stage in parallel and returns
+// once they are all loaded.
+func (s *stage) loadParallel(loaded *sync.Map, cD chan<- driver.Impl, cS, cE chan<- DriverFailure) {
 	success := make(chan string)
 	go func() {
 		defer close(success)
@@ -73,7 +74,7 @@ func (s *stage) loadParallel(loaded map[string]struct{}, cD chan<- driver.Impl, 
 		for name, drv := range s.drvs {
 			// Intentionally do not look at After(), only Prerequisites().
 			for _, dep := range drv.Prerequisites() {
-				if _, ok := loaded[dep]; !ok {
+				if _, ok := loaded.Load(dep); !ok {
 					cS <- DriverFailure{drv, errors.New("dependency not loaded: " + strconv.Quote(dep))}
 					continue loop
 				}
@@ -98,6 +99,6 @@ func (s *stage) loadParallel(loaded map[string]struct{}, cD chan<- driver.Impl, 
 		wg.Wait()
 	}()
 	for s := range success {
-		loaded[s] = struct{}{}
+		loaded.Store(s, nil)
 	}
 }
