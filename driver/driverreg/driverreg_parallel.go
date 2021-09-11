@@ -5,6 +5,7 @@
 // This file contains the parallelized driver loading logic. It is meant to be
 // load the drivers as fast as possible by parallelising work.
 
+//go:build !tinygo
 // +build !tinygo
 
 package driverreg

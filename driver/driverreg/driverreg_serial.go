@@ -5,6 +5,7 @@
 // This file contains the single threaded driver loading code, to be used on
 // low performance cores.
 
+//go:build tinygo
 // +build tinygo
 
 package driverreg
