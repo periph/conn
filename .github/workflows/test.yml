@@ -69,14 +69,6 @@ jobs:
         github.com/client9/misspell/cmd/misspell
         github.com/google/addlicense
 
-    # Specific to github.com/conn.
-    - name: "Check: go.sum is disallowed"
-      run: |
-        if [ -f go.sum ]; then
-          echo "go.sum is disallowed in periph.io/x/conn"
-          exit 1
-        fi
-
       # Now run proper checks.
     - name: 'Check: go vet'
       if: always()
@@ -176,7 +168,7 @@ jobs:
         # TODO(maruel): Due to https://github.com/golang/go/issues/40276, ignore
         # go.mod/go.sum modifications. Remove once a new Go toolchain fixes
         # this.
-        git checkout HEAD -- go.mod
+        git checkout HEAD -- go.mod go.sum
         # Also test for untracked files.
         TOUCHED=$(git status --porcelain --ignored)
         if ! test -z "$TOUCHED"; then
