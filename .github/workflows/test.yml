@@ -201,7 +201,7 @@ jobs:
         cd ..
         git clone https://github.com/periph/host
         cd host
-        go get periph.io/x/conn/v3@${GITHUB_SHA}
+        go mod edit -replace=periph.io/x/conn/v3=../conn
         go test -short ./...
 
     - name: 'Test on periph.io/x/devices'
@@ -210,7 +210,7 @@ jobs:
         cd ..
         git clone https://github.com/periph/devices
         cd devices
-        go get periph.io/x/conn/v3@${GITHUB_SHA}
+        go mod edit -replace=periph.io/x/conn/v3=../conn
         go test -short ./...
 
     - name: 'Test on periph.io/x/cmd'
@@ -219,7 +219,7 @@ jobs:
         cd ..
         git clone https://github.com/periph/cmd
         cd cmd
-        go get periph.io/x/conn/v3@${GITHUB_SHA}
+        go mod edit -replace=periph.io/x/conn/v3=../conn
         go test -short ./...
 
     - name: 'Send comments'
