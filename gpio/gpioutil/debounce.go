@@ -7,6 +7,7 @@ package gpioutil
 import (
 	"time"
 
+	"github.com/jonboulle/clockwork"
 	"periph.io/x/conn/v3/gpio"
 )
 
@@ -22,6 +23,7 @@ type debounced struct {
 	debounce time.Duration
 
 	// Mutable.
+	clock clockwork.Clock
 }
 
 // Debounce returns a debounced gpio.PinIO from a gpio.PinIO source. Only the
@@ -34,12 +36,6 @@ type debounced struct {
 // state, ignoring following state changes.
 //
 // Either value can be 0.
-//
-// WARNING
-//
-// This is not yet implemented.
-//
-// TODO(https://github.com/periph/conn/issues/5): Implement this
 func Debounce(p gpio.PinIO, denoise, debounce time.Duration, edge gpio.Edge) (gpio.PinIO, error) {
 	if denoise == 0 && debounce == 0 {
 		return p, nil
@@ -53,6 +49,7 @@ func Debounce(p gpio.PinIO, denoise, debounce time.Duration, edge gpio.Edge) (gp
 		denoise:  denoise,
 		debounce: debounce,
 		// Mutable.
+		clock: clockwork.NewRealClock(),
 	}, nil
 }
 
@@ -73,7 +70,22 @@ func (d *debounced) Read() gpio.Level {
 //
 // It is the smoothed out value from the underlying gpio.PinIO.
 func (d *debounced) WaitForEdge(timeout time.Duration) bool {
-	return d.PinIO.WaitForEdge(timeout)
+	prev := d.PinIO.Read()
+	start := d.clock.Now()
+	for {
+		if timeout != -1 && d.clock.Since(start) > timeout {
+			return false
+		}
+		if !d.PinIO.WaitForEdge(timeout) {
+			// Timeout has occurred, propagate it
+			return false
+		}
+		d.clock.Sleep(d.denoise)
+		curr := d.PinIO.Read()
+		if curr != prev {
+			return true
+		}
+	}
 }
 
 // Halt implements gpio.PinIO.
