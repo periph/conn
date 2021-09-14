@@ -74,13 +74,28 @@ func TestDebounce_Read_High(t *testing.T) {
 }
 
 func TestDebounce_WaitForEdge_Got(t *testing.T) {
-	f := gpiotest.Pin{EdgesChan: make(chan gpio.Level, 1)}
+	fakeClock := clockwork.NewFakeClock()
+	f := gpiotest.Pin{
+		Clock:     fakeClock,
+		EdgesChan: make(chan gpio.Level, 1),
+	}
 	p, err := Debounce(&f, time.Second, 0, gpio.BothEdges)
-	f.Out(gpio.High)
 	if err != nil {
 		t.Fatal(err)
 	}
+	p.(*debounced).clock = fakeClock
+	f.Out(gpio.High)
 	f.EdgesChan <- gpio.Low
+	go func() {
+		// Sleepers:
+		// * debounce.WaitForEdge's d.Clock.Sleep
+		//
+		// gpiotest.WaitForEdge doesn't call sleep due to infinite timeout.
+		const numSleepers = 1
+
+		fakeClock.BlockUntil(numSleepers)
+		fakeClock.Advance(2 * time.Second)
+	}()
 	if !p.WaitForEdge(-1) {
 		t.Fatal("expected edge")
 	}
@@ -99,13 +114,16 @@ func TestDebounce_WaitForEdge_Noise_NoEdge(t *testing.T) {
 	p.(*debounced).clock = fakeClock
 	f.Out(gpio.Low)
 
-	// Short high, comes back down too soon
-	f.EdgesChan <- gpio.High
 	go func() {
 		// Sleepers:
 		// * gpiotest.WaitForEdge's After
 		// * debounce.WaitForEdge's d.Clock.Sleep
-		fakeClock.BlockUntil(2)
+		const numSleepers = 2
+
+		// Short high, comes back down too soon
+		f.EdgesChan <- gpio.High
+		fakeClock.BlockUntil(numSleepers)
+		fakeClock.Advance(100 * time.Millisecond)
 		f.Out(gpio.Low)
 		fakeClock.Advance(2 * time.Second)
 	}()
@@ -116,22 +134,37 @@ func TestDebounce_WaitForEdge_Noise_NoEdge(t *testing.T) {
 }
 
 func TestDebounce_WaitForEdge_Noise_Edge(t *testing.T) {
-	f := gpiotest.Pin{EdgesChan: make(chan gpio.Level, 2)}
+	fakeClock := clockwork.NewFakeClock()
+
+	f := gpiotest.Pin{
+		Clock:     fakeClock,
+		EdgesChan: make(chan gpio.Level, 2),
+	}
 	p, err := Debounce(&f, time.Second, 0, gpio.BothEdges)
+	p.(*debounced).clock = fakeClock
 	f.Out(gpio.Low)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	// Short high, comes back down too soon
-	f.EdgesChan <- gpio.High
 	go func() {
-		time.Sleep(500 * time.Millisecond)
+		// Sleepers:
+		// * gpiotest.WaitForEdge's After
+		// * debounce.WaitForEdge's d.Clock.Sleep
+		const numSleepers = 2
+
+		// 100ms high (too short)
+		f.EdgesChan <- gpio.High
+		fakeClock.BlockUntil(numSleepers)
 		f.Out(gpio.Low)
+		fakeClock.Advance(100 * time.Millisecond)
+
+		// stays high indefinitely (long enough)
+		fakeClock.BlockUntil(numSleepers)
+		f.Out(gpio.High)
+		fakeClock.Advance(2 * time.Second)
 	}()
 
-	// Second edge, stays high
-	f.EdgesChan <- gpio.High
 	if !p.WaitForEdge(4 * time.Second) {
 		t.Fatal("expected edge")
 	}
