@@ -77,7 +77,6 @@ workers:
     - --depth
     - 1
     - https://github.com/periph/cmd
-    dir: ..
   - dir: ../cmd
     cmd:
     - go
@@ -196,7 +195,6 @@ workers:
     - --depth
     - 1
     - https://github.com/periph/cmd
-    dir: ..
   - dir: ../cmd
     cmd:
     - go
@@ -329,7 +327,6 @@ workers:
     - --depth
     - 1
     - https://github.com/periph/cmd
-    dir: ..
   - dir: ../cmd
     cmd:
     - go
@@ -478,7 +475,6 @@ workers:
     - --depth
     - 1
     - https://github.com/periph/cmd
-    dir: ..
   - dir: ../cmd
     cmd:
     - go
@@ -593,7 +589,6 @@ workers:
     - --depth
     - 1
     - https://github.com/periph/cmd
-    dir: ..
   - dir: ../cmd
     cmd:
     - go
