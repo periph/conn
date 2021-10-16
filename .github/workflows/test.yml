@@ -191,7 +191,7 @@ jobs:
       # Force an upgrade to test host with tip of tree conn.
       run: |
         cd ..
-        git clone https://github.com/periph/host
+        git clone --depth 1 https://github.com/periph/host
         cd host
         go mod edit -replace=periph.io/x/conn/v3=../conn
         go get -t ./...
@@ -201,7 +201,7 @@ jobs:
       # Force an upgrade to test devices with tip of tree conn.
       run: |
         cd ..
-        git clone https://github.com/periph/devices
+        git clone --depth 1 https://github.com/periph/devices
         cd devices
         go mod edit -replace=periph.io/x/conn/v3=../conn
         go get -t ./...
@@ -211,7 +211,7 @@ jobs:
       # Force an upgrade to test cmd with tip of tree conn.
       run: |
         cd ..
-        git clone https://github.com/periph/cmd
+        git clone --depth 1 https://github.com/periph/cmd
         cd cmd
         go mod edit -replace=periph.io/x/conn/v3=../conn
         go get -t ./...
