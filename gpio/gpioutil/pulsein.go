@@ -7,6 +7,7 @@ package gpioutil
 import (
 	"time"
 
+	"github.com/jonboulle/clockwork"
 	"periph.io/x/conn/v3/gpio"
 )
 
@@ -18,6 +19,10 @@ import (
 // Returns the length of the pulse as a time.Duration or gives up and returns 0
 // if no complete pulse was received within the timeout.
 func PulseIn(pin gpio.PinIn, lvl gpio.Level, t time.Duration) (time.Duration, error) {
+	return pulseInWithClock(pin, lvl, t, clockwork.NewRealClock())
+}
+
+func pulseInWithClock(pin gpio.PinIn, lvl gpio.Level, t time.Duration, clock clockwork.Clock) (time.Duration, error) {
 	e1 := gpio.FallingEdge
 	e2 := gpio.RisingEdge
 
@@ -34,7 +39,7 @@ func PulseIn(pin gpio.PinIn, lvl gpio.Level, t time.Duration) (time.Duration, er
 		return 0, nil
 	}
 
-	now := time.Now()
+	now := clock.Now()
 
 	if err := pin.In(gpio.PullNoChange, e2); err != nil {
 		return 0, err
@@ -44,5 +49,5 @@ func PulseIn(pin gpio.PinIn, lvl gpio.Level, t time.Duration) (time.Duration, er
 		return 0, nil
 	}
 
-	return time.Since(now), nil
+	return clock.Since(now), nil
 }
