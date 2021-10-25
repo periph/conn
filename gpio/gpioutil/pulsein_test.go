@@ -18,18 +18,25 @@ func TestPulseIn_Success(t *testing.T) {
 
 	done := make(chan struct{})
 
-	edgesChan := make(chan gpio.Level)
+	edgesChan := make(chan gpio.Level, 1)
+	// insert for pin.In emptying buffer
+	edgesChan <- gpio.High
 	clock := clockwork.NewFakeClock()
 
 	pin.EdgesChan = edgesChan
 	pin.L = gpio.Low
 
 	go func() {
+		for len(edgesChan) != 0 {
+		}
 		edgesChan <- gpio.High
+
+		// insert for pin.In emptying buffer
 		edgesChan <- gpio.High
+		for len(edgesChan) != 0 {
+		}
 
 		clock.Advance(time.Second)
-
 		edgesChan <- gpio.Low
 
 		close(done)
@@ -81,14 +88,20 @@ func TestPulseIn_Timeout_2(t *testing.T) {
 
 	done := make(chan struct{})
 
-	edgesChan := make(chan gpio.Level)
+	edgesChan := make(chan gpio.Level, 1)
+	// insert for pin.In emptying buffer
+	edgesChan <- gpio.High
 	clock := clockwork.NewFakeClock()
 
 	pin.EdgesChan = edgesChan
 	pin.L = gpio.Low
 
 	go func() {
+		for len(edgesChan) != 0 {
+		}
 		edgesChan <- gpio.High
+
+		// insert for pin.In emptying buffer
 		edgesChan <- gpio.High
 
 		clock.Advance(time.Second)
