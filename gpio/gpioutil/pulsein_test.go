@@ -14,15 +14,16 @@ import (
 )
 
 func TestPulseIn_Success(t *testing.T) {
-	var pin gpiotest.Pin
-
 	edgesChan := make(chan gpio.Level, 1)
-	// insert for pin.In emptying buffer
-	edgesChan <- gpio.High
 	clock := clockwork.NewFakeClock()
 
-	pin.EdgesChan = edgesChan
-	pin.L = gpio.Low
+	pin := gpiotest.Pin{
+		EdgesChan: edgesChan,
+		L:         gpio.Low,
+		Clock:     clock,
+	}
+	// insert for pin.In emptying buffer
+	edgesChan <- gpio.High
 
 	go func() {
 		for len(edgesChan) != 0 {
@@ -49,16 +50,16 @@ func TestPulseIn_Success(t *testing.T) {
 }
 
 func TestPulseIn_Timeout_1(t *testing.T) {
-	var pin gpiotest.Pin
-
 	done := make(chan struct{})
 
 	edgesChan := make(chan gpio.Level)
 	clock := clockwork.NewFakeClock()
 
-	pin.EdgesChan = edgesChan
-	pin.Clock = clock
-	pin.L = gpio.Low
+	pin := gpiotest.Pin{
+		EdgesChan: edgesChan,
+		L:         gpio.Low,
+		Clock:     clock,
+	}
 
 	go func() {
 		for {
@@ -84,18 +85,18 @@ func TestPulseIn_Timeout_1(t *testing.T) {
 }
 
 func TestPulseIn_Timeout_2(t *testing.T) {
-	var pin gpiotest.Pin
-
 	done := make(chan struct{})
 
 	edgesChan := make(chan gpio.Level, 1)
-	// insert for pin.In emptying buffer
-	edgesChan <- gpio.High
 	clock := clockwork.NewFakeClock()
 
-	pin.EdgesChan = edgesChan
-	pin.Clock = clock
-	pin.L = gpio.Low
+	pin := gpiotest.Pin{
+		EdgesChan: edgesChan,
+		L:         gpio.Low,
+		Clock:     clock,
+	}
+	// insert for pin.In emptying buffer
+	edgesChan <- gpio.High
 
 	go func() {
 		for len(edgesChan) != 0 {
