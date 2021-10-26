@@ -16,8 +16,6 @@ import (
 func TestPulseIn_Success(t *testing.T) {
 	var pin gpiotest.Pin
 
-	done := make(chan struct{})
-
 	edgesChan := make(chan gpio.Level, 1)
 	// insert for pin.In emptying buffer
 	edgesChan <- gpio.High
@@ -38,8 +36,6 @@ func TestPulseIn_Success(t *testing.T) {
 
 		clock.Advance(time.Second)
 		edgesChan <- gpio.Low
-
-		close(done)
 	}()
 
 	duration, err := pulseInWithClock(&pin, gpio.High, -1, clock)
@@ -50,8 +46,6 @@ func TestPulseIn_Success(t *testing.T) {
 	if duration != time.Second {
 		t.Fatal("it should takes 1 second")
 	}
-
-	<-done
 }
 
 func TestPulseIn_Timeout_1(t *testing.T) {
@@ -67,8 +61,14 @@ func TestPulseIn_Timeout_1(t *testing.T) {
 	pin.L = gpio.Low
 
 	go func() {
-		clock.Advance(time.Second)
-		close(done)
+		for {
+			select {
+			case <-done:
+				return
+			default:
+				clock.Advance(time.Second)
+			}
+		}
 	}()
 
 	duration, err := pulseInWithClock(&pin, gpio.High, time.Second, clock)
@@ -76,11 +76,11 @@ func TestPulseIn_Timeout_1(t *testing.T) {
 		t.Fatal("shouldn't have any error")
 	}
 
+	close(done)
+
 	if duration != 0 {
 		t.Fatal("it should returns 0 for timeout")
 	}
-
-	<-done
 }
 
 func TestPulseIn_Timeout_2(t *testing.T) {
@@ -94,6 +94,7 @@ func TestPulseIn_Timeout_2(t *testing.T) {
 	clock := clockwork.NewFakeClock()
 
 	pin.EdgesChan = edgesChan
+	pin.Clock = clock
 	pin.L = gpio.Low
 
 	go func() {
@@ -103,10 +104,17 @@ func TestPulseIn_Timeout_2(t *testing.T) {
 
 		// insert for pin.In emptying buffer
 		edgesChan <- gpio.High
+		for len(edgesChan) != 0 {
+		}
 
-		clock.Advance(time.Second)
-
-		close(done)
+		for {
+			select {
+			case <-done:
+				return
+			default:
+				clock.Advance(time.Second)
+			}
+		}
 	}()
 
 	duration, err := pulseInWithClock(&pin, gpio.High, time.Second, clock)
@@ -114,9 +122,9 @@ func TestPulseIn_Timeout_2(t *testing.T) {
 		t.Fatal("shouldn't have any error")
 	}
 
+	close(done)
+
 	if duration != 0 {
 		t.Fatal("it should returns 0 for timeout")
 	}
-
-	<-done
 }
