@@ -11,7 +11,7 @@ import (
 	"periph.io/x/conn/v3/gpio"
 )
 
-// PluseIn reads a pulse (either HIGH or LOW) on a pin.
+// PulseIn reads a pulse (either HIGH or LOW) on a pin.
 //
 // For example, if lvl is HIGH, PulseIn() waits for the pin to go from LOW to HIGH, starts timing,
 // then waits for the pin to go LOW and stops timing.
