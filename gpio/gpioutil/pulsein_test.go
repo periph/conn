@@ -6,7 +6,6 @@ package gpioutil
 
 import (
 	"errors"
-	"fmt"
 	"testing"
 	"time"
 
@@ -132,8 +131,6 @@ func (p *pulseInPin) In(pull gpio.Pull, edge gpio.Edge) error {
 		}
 		p.sleeps = p.sleeps[1:]
 	}
-
-	fmt.Printf("there is a %s\n", edge)
 
 	return nil
 }
