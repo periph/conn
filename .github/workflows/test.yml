@@ -24,18 +24,20 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         # Do not forget to bump every 6 months!
-        gover: ["1.17"]
+        gover: ["1.18"]
     runs-on: "${{matrix.os}}"
     name: "go${{matrix.gover}}.x on ${{matrix.os}}"
+    env:
+      PYTHONDONTWRITEBYTECODE: x
     steps:
     - uses: actions/setup-go@v3
       with:
-        go-version: "~${{matrix.gover}}.0"
+        go-version: "${{matrix.gover}}"
 
       # Checkout and print debugging information.
     - name: Turn off git core.autocrlf
       run: git config --global core.autocrlf false
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: "Debug"
       run: |
         echo HOME = $HOME
@@ -51,18 +53,19 @@ jobs:
         path: ~/go
         key: "${{runner.os}}-gopkg-${{hashFiles('go.sum', '.github/workflows/*.yml')}}"
 
-      # Fetch the tools before checking out, so they don't modify go.mod/go.sum.
+      # Fetch the tools.
     - name: 'go install necessary tools'
+      if: always()
       run: |
-        go install -v github.com/gordonklaus/ineffassign@latest
-        go install -v github.com/securego/gosec/cmd/gosec@latest
-        go install -v golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow@latest
-        go install -v honnef.co/go/tools/cmd/staticcheck@latest
+        go install github.com/gordonklaus/ineffassign@latest
+        go install github.com/securego/gosec/v2/cmd/gosec@latest
+        go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow@latest
+        go install honnef.co/go/tools/cmd/staticcheck@latest
     - name: 'go install necessary tools (ubuntu)'
       if: always() && matrix.os == 'ubuntu-latest'
       run: |
-        go install -v github.com/client9/misspell/cmd/misspell@latest
-        go install -v github.com/google/addlicense@latest
+        go install github.com/client9/misspell/cmd/misspell@latest
+        go install github.com/google/addlicense@latest
 
       # Now run proper checks.
     - name: 'Check: go vet'
@@ -81,8 +84,8 @@ jobs:
     - name: 'Check: staticcheck'
       if: always()
       run: staticcheck -checks inherit,-SA1019 ./...
-    - name: 'Check: gosec (only G104)'
-      run: gosec -include=G104 -fmt=golint -quiet ./...
+    - name: 'Check: gosec'
+      run: gosec -fmt=golint -quiet ./...
 
       # The following checks are not dependent on the OS or go build tags. Only
       # run them on ubuntu-latest since it's the fastest one.
@@ -132,16 +135,18 @@ jobs:
       # Don't send code coverage if anything failed to reduce spam.
     - uses: codecov/codecov-action@v2
     - name: 'Cleanup'
+      if: always()
       run: rm coverage.txt
       # Don't run go test -race if anything failed, to speed up the results.
     - name: 'Check: go test -race'
       run: go test -timeout=60s -race ./...
-    - name: 'Check: go test -bench .'
-      run: go test -timeout=40s -bench . -benchtime=100ms -cpu=1 ./...
+    - name: 'Check: go test -bench=.'
+      run: go test -timeout=40s -bench=. -benchtime=100ms -cpu=1 -run NONE ./...
     - name: 'Check: CGO_ENABLED=0 go test -short'
       run: CGO_ENABLED=0 go test -timeout=40s -short ./...
 
     - name: "Check: tree is clean"
+      if: always()
       run: |
         # Nothing should have changed in the tree up to that point and no
         # unsuspected file was created.
@@ -154,6 +159,7 @@ jobs:
         fi
 
     - name: "Check: go generate doesn't modify files"
+      if: always()
       run: |
         go generate ./...
         # Also test for untracked files.
@@ -165,6 +171,7 @@ jobs:
         fi
 
     - name: "Check: go mod tidy doesn't modify files"
+      if: always()
       run: |
         go mod tidy
         TOUCHED=$(git status --porcelain --ignored)
@@ -227,9 +234,34 @@ jobs:
     runs-on: "${{matrix.os}}"
     name: "go${{matrix.gover}} on ${{matrix.os}} (quick)"
     steps:
-    - uses: actions/setup-go@v2
+    - uses: actions/setup-go@v3
       with:
         go-version: "${{matrix.gover}}"
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: 'Check: go test'
       run: go test -timeout=40s ./...
+
+  codeql:
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        # Do not forget to bump every 6 months!
+        gover: ["1.18"]
+    permissions:
+      security-events: write
+    runs-on: ubuntu-latest
+    name: "go${{matrix.gover}}.x on ubuntu-latest (codeql)"
+    steps:
+    - uses: actions/setup-go@v3
+      with:
+        go-version: "${{matrix.gover}}"
+    - uses: actions/checkout@v3
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: go
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
