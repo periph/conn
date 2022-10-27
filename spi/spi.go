@@ -34,7 +34,6 @@ import (
 //
 // The bits can be OR'ed to change the parameters used for
 // communication.
-//
 type Mode int
 
 // Mode determines the SPI communication parameters.

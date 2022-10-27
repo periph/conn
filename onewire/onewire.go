@@ -17,7 +17,7 @@
 //
 // See https://en.wikipedia.org/wiki/1-Wire for more information.
 //
-// References
+// # References
 //
 // Overview: https://www.maximintegrated.com/en/app-notes/index.mvp/id/1796
 //

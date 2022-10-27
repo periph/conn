@@ -6,8 +6,8 @@
 // Mapped Registers protocol.
 //
 // The protocol is defined two supported commands:
-//  - Write Address, Read Value
-//  - Write Address, Write Value
+//   - Write Address, Read Value
+//   - Write Address, Write Value
 package mmr
 
 import (

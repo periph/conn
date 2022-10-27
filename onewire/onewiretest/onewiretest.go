@@ -190,7 +190,6 @@ func (p *Playback) SearchTriplet(direction byte) (onewire.TripletResult, error) 
 	return tr, nil
 }
 
-//
 // errorf is the internal implementation that optionally panic.
 //
 // If dontPanic is false, it panics instead.

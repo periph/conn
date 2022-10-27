@@ -4,7 +4,7 @@
 
 // Package gpiostream defines digital streams.
 //
-// Warning
+// # Warning
 //
 // This package is still in flux as development is on-going.
 package gpiostream
@@ -159,7 +159,7 @@ func (p *Program) Duration() time.Duration {
 
 // PinIn allows to read a bit stream from a pin.
 //
-// Caveat
+// # Caveat
 //
 // This interface doesn't enable sampling multiple pins in a
 // synchronized way or reading in a continuous uninterrupted way. As such, it
@@ -179,7 +179,7 @@ type PinIn interface {
 // Program that is an infinite loop, a separate goroutine can be used to cancel
 // the program. In this case StreamOut() returns without an error.
 //
-// Caveat
+// # Caveat
 //
 // This interface doesn't enable streaming to multiple pins in a
 // synchronized way or reading in a continuous uninterrupted way. As such, it

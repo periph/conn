@@ -9,11 +9,11 @@
 // includes registries to enable the application to discover the available
 // hardware.
 //
-// Concepts
+// # Concepts
 //
 // periph uses 3 layered concepts for interfacing:
 //
-//     Bus → Port → Conn
+//	Bus → Port → Conn
 //
 // Not every subpackage expose all 3 concepts. In fact, most packages don't.
 // For example, SPI doesn't expose Bus as the OSes generally only expose the
@@ -24,7 +24,7 @@
 // periph doesn't have yet a concept of star-like communication network, like
 // an IP network.
 //
-// Bus
+// # Bus
 //
 // A Bus is a multi-point communication channel where one "master" and multiple
 // "slaves" communicate together. In the case of periph, the Bus handle is
@@ -38,20 +38,20 @@
 // communication line (Chip Select (CS) line for SPI, address for I²C or
 // 1-wire) converts the Bus into a Port.
 //
-// Port
+// # Port
 //
 // A port is a point-to-point communication channel that is yet to be
 // initialized. It cannot be used for communication until it is connected and
 // transformed into a Conn. Configuring a Port converts it into a Conn. Not all
 // Port need configuration.
 //
-// Conn
+// # Conn
 //
 // A Conn is a fully configured half or full duplex communication channel that
 // is point-to-point, only between two devices. It is ready to use like any
 // readable and/or writable pipe.
 //
-// Subpackages
+// # Subpackages
 //
 // Most connection-type specific subpackages include subpackages:
 //

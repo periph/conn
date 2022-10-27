@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"errors"
 	"flag"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 	"testing"
@@ -339,7 +339,7 @@ func TestLog_Playback(t *testing.T) {
 func TestMain(m *testing.M) {
 	flag.Parse()
 	if !testing.Verbose() {
-		log.SetOutput(ioutil.Discard)
+		log.SetOutput(io.Discard)
 	}
 	os.Exit(m.Run())
 }
