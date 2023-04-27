@@ -35,7 +35,10 @@ func TestINVALID(t *testing.T) {
 	if INVALID.Halt() == nil {
 		t.Fatal("Halt")
 	}
-	INVALID.Range()
+	sample := Sample{}
+	if s1, s2 := INVALID.Range(); s1 != sample || s2 != sample {
+		t.Fatal("Range")
+	}
 	if _, err := INVALID.Read(); err == nil {
 		t.Fatal("Read")
 	}
