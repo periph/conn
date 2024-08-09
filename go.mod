@@ -4,7 +4,7 @@
 
 module periph.io/x/conn/v3
 
-go 1.22
+go 1.22.6
 
 // Warning: do not add any external dependencies here unless absolutely necessary.
 // This package should primarily depend on the standard library.
