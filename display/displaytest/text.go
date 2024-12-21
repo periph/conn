@@ -25,18 +25,18 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 		pauseTime = 3 * time.Second
 	}
 	// Turn the dev on and write the String() value.
-	if err := dev.Display(true); err != nil {
+	if err = dev.Display(true); err != nil {
 		result = append(result, err)
 	}
-	if err := dev.Clear(); err != nil {
+	if err = dev.Clear(); err != nil {
 		result = append(result, err)
 	}
-	if _, err := dev.WriteString(dev.String()); err != nil {
+	if _, err = dev.WriteString(dev.String()); err != nil {
 		result = append(result, err)
 	}
 
 	time.Sleep(pauseTime)
-	if err := dev.Clear(); err != nil {
+	if err = dev.Clear(); err != nil {
 		result = append(result, err)
 	}
 	_, err = dev.WriteString("Auto Scroll Test")
@@ -51,7 +51,7 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 	// Test Display fill
 	for line := range dev.Rows() {
 		c := rune('A')
-		if err := dev.MoveTo(dev.MinRow()+line, dev.MinCol()); err != nil {
+		if err = dev.MoveTo(dev.MinRow()+line, dev.MinCol()); err != nil {
 			result = append(result, err)
 		}
 		for col := range dev.Cols() {
