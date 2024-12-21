@@ -194,5 +194,10 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 	}
 	time.Sleep(pauseTime)
 
+	if interactive {
+		for _, e := range result {
+			fmt.Print(e)
+		}
+	}
 	return result
 }
