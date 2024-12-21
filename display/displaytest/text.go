@@ -25,11 +25,20 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 		pauseTime = 3 * time.Second
 	}
 	// Turn the dev on and write the String() value.
-	dev.Display(true)
-	dev.Clear()
-	dev.WriteString(dev.String())
+	if err := dev.Display(true); err != nil {
+		result = append(result, err)
+	}
+	if err := dev.Clear(); err != nil {
+		result = append(result, err)
+	}
+	if _, err := dev.WriteString(dev.String()); err != nil {
+		result = append(result, err)
+	}
+
 	time.Sleep(pauseTime)
-	dev.Clear()
+	if err := dev.Clear(); err != nil {
+		result = append(result, err)
+	}
 	_, err = dev.WriteString("Auto Scroll Test")
 	if err != nil {
 		result = append(result, err)
@@ -42,7 +51,9 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 	// Test Display fill
 	for line := range dev.Rows() {
 		c := rune('A')
-		dev.MoveTo(dev.MinRow()+line, dev.MinCol())
+		if err := dev.MoveTo(dev.MinRow()+line, dev.MinCol()); err != nil {
+			result = append(result, err)
+		}
 		for col := range dev.Cols() {
 			if col%5 == 0 && col > 0 {
 				_, err = dev.Write([]byte{byte(' ')})
@@ -71,13 +82,23 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 	time.Sleep(pauseTime)
 
 	// Test Absolute Positioning
-	dev.Clear()
-	dev.WriteString("Absolute Positioning")
+	if err := dev.Clear(); err != nil {
+		result = append(result, err)
+	}
+	if _, err := dev.WriteString("Absolute Positioning"); err != nil {
+		result = append(result, err)
+	}
 	time.Sleep(pauseTime)
-	dev.Clear()
+	if err := dev.Clear(); err != nil {
+		result = append(result, err)
+	}
 	for ix := range dev.Rows() {
-		dev.MoveTo(dev.MinRow()+ix, dev.MinCol()+ix)
-		dev.WriteString(fmt.Sprintf("(%d,%d)", dev.MinRow()+ix, dev.MinCol()+ix))
+		if err := dev.MoveTo(dev.MinRow()+ix, dev.MinCol()+ix); err != nil {
+			result = append(result, err)
+		}
+		if _, err := dev.WriteString(fmt.Sprintf("(%d,%d)", dev.MinRow()+ix, dev.MinCol()+ix)); err != nil {
+			result = append(result, err)
+		}
 	}
 	time.Sleep(pauseTime)
 
@@ -98,43 +119,79 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 	}
 
 	// Test Cursor Modes
-	dev.Clear()
+	if err := dev.Clear(); err != nil {
+		result = append(result, err)
+	}
 	modes := []string{"Off", "Underline", "Block", "Blink"}
 	for ix := display.CursorOff; ix <= display.CursorBlink; ix++ {
-		dev.MoveTo(dev.MinRow()/2+1, dev.MinCol())
-		dev.WriteString("Cursor: " + modes[ix])
-		dev.Cursor(ix)
+		if err := dev.MoveTo(dev.MinRow()/2+1, dev.MinCol()); err != nil {
+			result = append(result, err)
+		}
+		if _, err := dev.WriteString("Cursor: " + modes[ix]); err != nil {
+			result = append(result, err)
+		}
+		if err := dev.Cursor(ix); err != nil {
+			result = append(result, err)
+		}
 		time.Sleep(pauseTime)
-		dev.Cursor(display.CursorOff)
-		dev.Clear()
+		if err := dev.Cursor(display.CursorOff); err != nil {
+			result = append(result, err)
+		}
+		if err := dev.Clear(); err != nil {
+			result = append(result, err)
+		}
 	}
 	if err := dev.Cursor(display.CursorBlink + 1); err == nil {
 		result = append(result, errors.New("did not receive expected error on Cursor() with invalid value"))
 	}
 
 	// Test Move Forward and Backward. 2 Should overwrite the 1
-	dev.Clear()
-	dev.WriteString("Testing >")
-	dev.Move(display.Forward)
-	dev.Move(display.Forward)
+	if err := dev.Clear(); err != nil {
+		result = append(result, err)
+	}
+	if _, err := dev.WriteString("Testing >"); err != nil {
+		result = append(result, err)
+	}
+	if err := dev.Move(display.Forward); err != nil {
+		result = append(result, err)
+	}
+	if err := dev.Move(display.Forward); err != nil {
+		result = append(result, err)
+	}
 	for ix := range 10 {
-		dev.WriteString(fmt.Sprintf("%d", ix))
+		if _, err := dev.WriteString(fmt.Sprintf("%d", ix)); err != nil {
+			result = append(result, err)
+		}
 		time.Sleep(pauseTime)
-		dev.Move(display.Backward)
+		if err := dev.Move(display.Backward); err != nil {
+			result = append(result, err)
+		}
 	}
 	if err := dev.Move(display.Down + 1); err == nil {
 		result = append(result, errors.New("did not receive expected error on Move() with invalid value"))
 	}
 
 	// Test Display on/off
-	dev.Clear()
-	dev.WriteString("Set dev off")
+	if err := dev.Clear(); err != nil {
+		result = append(result, err)
+	}
+	if _, err := dev.WriteString("Set dev off"); err != nil {
+		result = append(result, err)
+	}
 	time.Sleep(pauseTime)
-	dev.Display(false)
+	if err := dev.Display(false); err != nil {
+		result = append(result, err)
+	}
 	time.Sleep(pauseTime)
-	dev.Display(true)
-	dev.Clear()
-	dev.WriteString("Set dev on")
+	if err := dev.Display(true); err != nil {
+		result = append(result, err)
+	}
+	if err := dev.Clear(); err != nil {
+		result = append(result, err)
+	}
+	if _, err := dev.WriteString("Set dev on"); err != nil {
+		result = append(result, err)
+	}
 	time.Sleep(pauseTime)
 
 	return result
