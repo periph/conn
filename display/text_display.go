@@ -4,6 +4,10 @@
 
 package display
 
+import (
+	"errors"
+)
+
 type CursorDirection int
 
 const (
@@ -95,3 +99,6 @@ type Contrast int
 type DisplayContrast interface {
 	Contrast(contrast Contrast) error
 }
+
+var ErrNotImplemented = errors.New("not implemented")
+var ErrInvalidCommand = errors.New("invalid command")
