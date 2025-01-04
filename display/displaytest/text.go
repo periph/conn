@@ -28,14 +28,16 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 	if err = dev.Display(true); err != nil {
 		result = append(result, err)
 	}
+
 	if err = dev.Clear(); err != nil {
 		result = append(result, err)
 	}
+
 	if _, err = dev.WriteString(dev.String()); err != nil {
 		result = append(result, err)
 	}
-
 	time.Sleep(pauseTime)
+
 	if err = dev.Clear(); err != nil {
 		result = append(result, err)
 	}
@@ -196,7 +198,9 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 
 	if interactive {
 		for _, e := range result {
-			fmt.Print(e)
+			if !errors.Is(err, display.ErrNotImplemented) {
+				fmt.Println(e)
+			}
 		}
 	}
 	return result
