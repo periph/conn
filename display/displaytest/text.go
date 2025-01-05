@@ -84,21 +84,21 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 	time.Sleep(pauseTime)
 
 	// Test Absolute Positioning
-	if err := dev.Clear(); err != nil {
+	if err = dev.Clear(); err != nil {
 		result = append(result, err)
 	}
-	if _, err := dev.WriteString("Absolute Positioning"); err != nil {
+	if _, err = dev.WriteString("Absolute Positioning"); err != nil {
 		result = append(result, err)
 	}
 	time.Sleep(pauseTime)
-	if err := dev.Clear(); err != nil {
+	if err = dev.Clear(); err != nil {
 		result = append(result, err)
 	}
 	for ix := range dev.Rows() {
-		if err := dev.MoveTo(dev.MinRow()+ix, dev.MinCol()+ix); err != nil {
+		if err = dev.MoveTo(dev.MinRow()+ix, dev.MinCol()+ix); err != nil {
 			result = append(result, err)
 		}
-		if _, err := dev.WriteString(fmt.Sprintf("(%d,%d)", dev.MinRow()+ix, dev.MinCol()+ix)); err != nil {
+		if _, err = dev.WriteString(fmt.Sprintf("(%d,%d)", dev.MinRow()+ix, dev.MinCol()+ix)); err != nil {
 			result = append(result, err)
 		}
 	}
@@ -115,49 +115,49 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 		{row: dev.Rows(), col: dev.Cols() + 1},
 	}
 	for _, tc := range moveCases {
-		if err := dev.MoveTo(tc.row, tc.col); err == nil {
+		if err = dev.MoveTo(tc.row, tc.col); err == nil {
 			result = append(result, fmt.Errorf("did not receive expected error on MoveTo(%d,%d)", tc.row, tc.col))
 		}
 	}
 
 	// Test Cursor Modes
-	if err := dev.Clear(); err != nil {
+	if err = dev.Clear(); err != nil {
 		result = append(result, err)
 	}
 	modes := []string{"Off", "Underline", "Block", "Blink"}
 	for ix := display.CursorOff; ix <= display.CursorBlink; ix++ {
-		if err := dev.MoveTo(dev.MinRow()/2+1, dev.MinCol()); err != nil {
+		if err = dev.MoveTo(dev.MinRow()/2+1, dev.MinCol()); err != nil {
 			result = append(result, err)
 		}
-		if _, err := dev.WriteString("Cursor: " + modes[ix]); err != nil {
+		if _, err = dev.WriteString("Cursor: " + modes[ix]); err != nil {
 			result = append(result, err)
 		}
-		if err := dev.Cursor(ix); err != nil {
+		if err = dev.Cursor(ix); err != nil {
 			result = append(result, err)
 		}
 		time.Sleep(pauseTime)
-		if err := dev.Cursor(display.CursorOff); err != nil {
+		if err = dev.Cursor(display.CursorOff); err != nil {
 			result = append(result, err)
 		}
-		if err := dev.Clear(); err != nil {
+		if err = dev.Clear(); err != nil {
 			result = append(result, err)
 		}
 	}
-	if err := dev.Cursor(display.CursorBlink + 1); err == nil {
+	if err = dev.Cursor(display.CursorBlink + 1); err == nil {
 		result = append(result, errors.New("did not receive expected error on Cursor() with invalid value"))
 	}
 
 	// Test Move Forward and Backward. 2 Should overwrite the 1
-	if err := dev.Clear(); err != nil {
+	if err = dev.Clear(); err != nil {
 		result = append(result, err)
 	}
-	if _, err := dev.WriteString("Testing >"); err != nil {
+	if _, err = dev.WriteString("Testing >"); err != nil {
 		result = append(result, err)
 	}
-	if err := dev.Move(display.Forward); err != nil {
+	if err = dev.Move(display.Forward); err != nil {
 		result = append(result, err)
 	}
-	if err := dev.Move(display.Forward); err != nil {
+	if err = dev.Move(display.Forward); err != nil {
 		result = append(result, err)
 	}
 	for ix := range 10 {
@@ -169,29 +169,29 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 			result = append(result, err)
 		}
 	}
-	if err := dev.Move(display.Down + 1); err == nil {
+	if err = dev.Move(display.Down + 1); err == nil {
 		result = append(result, errors.New("did not receive expected error on Move() with invalid value"))
 	}
 
 	// Test Display on/off
-	if err := dev.Clear(); err != nil {
+	if err = dev.Clear(); err != nil {
 		result = append(result, err)
 	}
-	if _, err := dev.WriteString("Set dev off"); err != nil {
-		result = append(result, err)
-	}
-	time.Sleep(pauseTime)
-	if err := dev.Display(false); err != nil {
+	if _, err = dev.WriteString("Set dev off"); err != nil {
 		result = append(result, err)
 	}
 	time.Sleep(pauseTime)
-	if err := dev.Display(true); err != nil {
+	if err = dev.Display(false); err != nil {
 		result = append(result, err)
 	}
-	if err := dev.Clear(); err != nil {
+	time.Sleep(pauseTime)
+	if err = dev.Display(true); err != nil {
 		result = append(result, err)
 	}
-	if _, err := dev.WriteString("Set dev on"); err != nil {
+	if err = dev.Clear(); err != nil {
+		result = append(result, err)
+	}
+	if _, err = dev.WriteString("Set dev on"); err != nil {
 		result = append(result, err)
 	}
 	time.Sleep(pauseTime)
