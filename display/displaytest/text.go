@@ -161,11 +161,11 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 		result = append(result, err)
 	}
 	for ix := range 10 {
-		if _, err := dev.WriteString(fmt.Sprintf("%d", ix)); err != nil {
+		if _, err = dev.WriteString(fmt.Sprintf("%d", ix)); err != nil {
 			result = append(result, err)
 		}
 		time.Sleep(pauseTime)
-		if err := dev.Move(display.Backward); err != nil {
+		if err = dev.Move(display.Backward); err != nil {
 			result = append(result, err)
 		}
 	}
