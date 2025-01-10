@@ -17,10 +17,10 @@ import (
 // routines. This doesn't test brightness or contrast to avoid EEPROM wear
 // issues.
 func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
-	result := make([]error, 0)
+	var result []error
 	var err error
 
-	pauseTime := time.Millisecond
+	pauseTime := time.Duration(0)
 	if interactive {
 		pauseTime = 3 * time.Second
 	}

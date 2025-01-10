@@ -59,7 +59,8 @@ type TextDisplay interface {
 	// Move the cursor forward or backward.
 	Move(dir CursorDirection) (err error)
 	// Move the cursor to arbitrary position. Implementations should return an
-	// error if row < MinRow() || row > Cols(), or col < MinCol() || col > Cols()
+	// error if row < MinRow() || row > (Rows()-MinRow()), or col < MinCol()
+	// || col > (Cols()-MinCol())
 	MoveTo(row, col int) (err error)
 	// Return the number of rows the display supports.
 	Rows() int
