@@ -1,3 +1,7 @@
+// Copyright 2025 The Periph Authors. All rights reserved.
+// Use of this source code is governed under the Apache License, Version 2.0
+// that can be found in the LICENSE file.
+
 package gpio
 
 import (
@@ -16,10 +20,10 @@ type GPIOValue uint64
 var GroupFeatureNotImplemented = errors.New("gpio group feature not implemented")
 
 // Group is an interface that an IO device can implement to manipulate multiple
-// IO Pins at one time. Performing GPIO Operations in this manner can dramatically 
+// IO Pins at one time. Performing GPIO Operations in this manner can dramatically
 // simplify code and reduce IO Operation latency.
 //
-// Device specific code can also provide methods that return a Group that operates 
+// Device specific code can also provide methods that return a Group that operates
 // on a subset of the pins the device supports.
 type Group interface {
 	// The set of GPIO pins that make up this group. Implementations will
@@ -49,7 +53,7 @@ type Group interface {
 	// should return gpio.GroupFeatureNotImplemented.
 	Read(mask GPIOValue) (GPIOValue, error)
 	// WaitForEdge blocks for a GPIO line change event to happen. If the does
-	// not implement gpio.PinIn, or doesn't support this capability, 
+	// not implement gpio.PinIn, or doesn't support this capability,
 	// implementations should return gpio.GroupFeatureNotImplemented.
 	//
 	// Number is the GPIO pin number within the group that had an edge change.
