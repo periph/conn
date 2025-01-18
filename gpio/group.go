@@ -17,7 +17,7 @@ type GPIOValue uint64
 // Implementations that don't implement specific interface methods should
 // return GroupFeatureNotImplemented as the error to allow clients to
 // generically check for the condition.
-var GroupFeatureNotImplemented = errors.New("gpio group feature not implemented")
+var ErrGroupFeatureNotImplemented = errors.New("gpio group feature not implemented")
 
 // Group is an interface that an IO device can implement to manipulate multiple
 // IO Pins at one time. Performing GPIO Operations in this manner can dramatically
