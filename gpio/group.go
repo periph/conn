@@ -33,7 +33,7 @@ type Group interface {
 	// Given a specific pin offset within the group, return that pin.
 	// For example, a pin group may be GPIO pins 3,5,7,9 in that order.
 	// ByOffset(1) returns GPIO pin 5.
-	ByOffset(number int) pin.Pin
+	ByOffset(offset int) pin.Pin
 	// Given the unique name of a GPIO pin, return that pin.
 	ByName(name string) pin.Pin
 	// Given the specific GPIO pin number, return the corresponding
