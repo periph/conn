@@ -15,7 +15,7 @@ import (
 type GPIOValue uint64
 
 // Implementations that don't implement specific interface methods should
-// return GroupFeatureNotImplemented as the error to allow clients to
+// return ErrGroupFeatureNotImplemented as the error to allow clients to
 // generically check for the condition.
 var ErrGroupFeatureNotImplemented = errors.New("gpio group feature not implemented")
 
@@ -46,15 +46,15 @@ type Group interface {
 	// 4 pins, you would use a mask of 0x0f.
 	//
 	// If the device doesn't support write operations, implementations should
-	// return gpio.GroupFeatureNotImplemented.
+	// return gpio.ErrGroupFeatureNotImplemented.
 	Out(value, mask GPIOValue) error
 	// Read reads the pins within the group, and returns the  value, ANDed with
 	// mask. If the device doesn't support read operations, implementations
-	// should return gpio.GroupFeatureNotImplemented.
+	// should return gpio.ErrGroupFeatureNotImplemented.
 	Read(mask GPIOValue) (GPIOValue, error)
 	// WaitForEdge blocks for a GPIO line change event to happen. If the does
 	// not implement gpio.PinIn, or doesn't support this capability,
-	// implementations should return gpio.GroupFeatureNotImplemented.
+	// implementations should return gpio.ErrGroupFeatureNotImplemented.
 	//
 	// Number is the GPIO pin number within the group that had an edge change.
 	WaitForEdge(timeout time.Duration) (number int, edge Edge, err error)
