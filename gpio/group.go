@@ -48,10 +48,10 @@ type Group interface {
 	// If the device doesn't support write operations, implementations should
 	// return gpio.ErrGroupFeatureNotImplemented.
 	Out(value, mask GPIOValue) error
-	// In reads the pins within the group, and returns the  value, ANDed with
+	// Read reads the pins within the group, and returns the  value, ANDed with
 	// mask. If the device doesn't support read operations, implementations
 	// should return gpio.ErrGroupFeatureNotImplemented.
-	In(mask GPIOValue) (GPIOValue, error)
+	Read(mask GPIOValue) (GPIOValue, error)
 	// WaitForEdge blocks for a GPIO line change event to happen. If the does
 	// not implement gpio.PinIn, or doesn't support this capability,
 	// implementations should return gpio.ErrGroupFeatureNotImplemented.
