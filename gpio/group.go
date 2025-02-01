@@ -29,7 +29,7 @@ type Group interface {
 	// The set of GPIO pins that make up this group. Implementations will
 	// typically Use gpio.PinIO, gpio.PinIn, or gpio.PinOut as the actual return
 	// value type.
-	Pins() []*pin.Pin
+	Pins() []pin.Pin
 	// Given a specific pin offset within the group, return that pin.
 	// For example, a pin group may be GPIO pins 3,5,7,9 in that order.
 	// ByOffset(1) returns GPIO pin 5.
