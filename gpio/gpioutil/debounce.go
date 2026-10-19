@@ -2,6 +2,8 @@
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
+// Filter GPIO reads and edge notifications using debounce and noise intervals.
+
 package gpioutil
 
 import (

@@ -2,6 +2,8 @@
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
+// Examples listing and opening registered I²C buses.
+
 package i2creg_test
 
 import (

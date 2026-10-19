@@ -2,6 +2,8 @@
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
+// Compute and validate the 1-wire CRC byte.
+
 package onewire
 
 // CheckCRC verifies that the last byte of the buffer contains the CRC of the previous bytes.

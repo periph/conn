@@ -2,6 +2,8 @@
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
+// UART transmit, receive, and flow-control pin function identifiers.
+
 package uart
 
 import "periph.io/x/conn/v3/pin"

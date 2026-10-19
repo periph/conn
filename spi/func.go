@@ -2,6 +2,8 @@
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
+// SPI clock, chip-select, and data pin function identifiers.
+
 package spi
 
 import "periph.io/x/conn/v3/pin"

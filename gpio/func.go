@@ -2,6 +2,8 @@
 // Use of this source code is governed under the Apache License, Version 2.0
 // that can be found in the LICENSE file.
 
+// GPIO input, output, and PWM pin function identifiers.
+
 package gpio
 
 import "periph.io/x/conn/v3/pin"
