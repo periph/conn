@@ -23,7 +23,8 @@ func Example() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// A command line tool may let the user choose a SPI port, yet default to the
@@ -32,21 +33,28 @@ func Example() {
 	flag.Parse()
 	p, err := spireg.Open(*name)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
-	defer p.Close()
+	defer func() {
+		if closeErr := p.Close(); closeErr != nil {
+			log.Print(closeErr)
+		}
+	}()
 
 	// Convert the spi.Port into a spi.Conn so it can be used for communication.
 	c, err := p.Connect(physic.MegaHertz, spi.Mode3, 8)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Write 0x10 to the device, and read a byte right after.
 	write := []byte{0x10, 0x00}
 	read := make([]byte, len(write))
 	if err := c.Tx(write, read); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 	// Use read.
 	fmt.Printf("%v\n", read[1:])
@@ -57,7 +65,8 @@ func ExampleAll() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Enumerate all SPI ports available and the corresponding pins.
@@ -92,7 +101,8 @@ func ExampleOpen() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// On Linux, the following calls will likely open the same port.

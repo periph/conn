@@ -91,7 +91,7 @@ func (d *Dev8) ReadUint64(reg uint8) (uint64, error) {
 //
 // It is expected to be called with a slice of integers, slice of structs,
 // pointer to an integer or to a struct.
-func (d *Dev8) ReadStruct(reg uint8, b interface{}) error {
+func (d *Dev8) ReadStruct(reg uint8, b any) error {
 	if err := d.check(); err != nil {
 		return err
 	}
@@ -144,7 +144,7 @@ func (d *Dev8) WriteUint64(reg uint8, v uint64) error {
 //
 // It is expected to be called with a slice of integers, slice of structs,
 // pointer to an integer or to a struct.
-func (d *Dev8) WriteStruct(reg uint8, b interface{}) error {
+func (d *Dev8) WriteStruct(reg uint8, b any) error {
 	if err := d.check(); err != nil {
 		return err
 	}
@@ -239,7 +239,7 @@ func (d *Dev16) ReadUint64(reg uint16) (uint64, error) {
 //
 // It is expected to be called with a slice of integers, slice of structs,
 // pointer to an integer or to a struct.
-func (d *Dev16) ReadStruct(reg uint16, b interface{}) error {
+func (d *Dev16) ReadStruct(reg uint16, b any) error {
 	if err := d.check(); err != nil {
 		return err
 	}
@@ -297,7 +297,7 @@ func (d *Dev16) WriteUint64(reg uint16, v uint64) error {
 //
 // It is expected to be called with a slice of integers, slice of structs,
 // pointer to an integer or to a struct.
-func (d *Dev16) WriteStruct(reg uint16, b interface{}) error {
+func (d *Dev16) WriteStruct(reg uint16, b any) error {
 	if err := d.check(); err != nil {
 		return err
 	}
@@ -315,7 +315,7 @@ func (d *Dev16) check() error {
 
 //
 
-func readReg(c conn.Conn, order binary.ByteOrder, reg []byte, b interface{}) error {
+func readReg(c conn.Conn, order binary.ByteOrder, reg []byte, b any) error {
 	if b == nil {
 		return errors.New("mmr: ReadRegStruct() requires a pointer or slice to an int or struct, got nil")
 	}
@@ -323,7 +323,7 @@ func readReg(c conn.Conn, order binary.ByteOrder, reg []byte, b interface{}) err
 	if !isAcceptableRead(v.Type()) {
 		return fmt.Errorf("mmr: ReadRegStruct() requires a slice or a pointer to a int or struct, got %s as %T", v.Kind(), b)
 	}
-	buf := make([]byte, int(getSize(v)))
+	buf := make([]byte, getSize(v))
 	if err := c.Tx(reg, buf); err != nil {
 		return err
 	}
@@ -336,7 +336,7 @@ func readReg(c conn.Conn, order binary.ByteOrder, reg []byte, b interface{}) err
 // writeReg writes an object `b` to register `reg`.
 //
 // Warning: reg is modified.
-func writeReg(c conn.Conn, order binary.ByteOrder, reg []byte, b interface{}) error {
+func writeReg(c conn.Conn, order binary.ByteOrder, reg []byte, b any) error {
 	if b == nil {
 		return errors.New("mmr: WriteRegStruct() requires a pointer or slice to an int or struct, got nil")
 	}
@@ -356,6 +356,7 @@ func writeReg(c conn.Conn, order binary.ByteOrder, reg []byte, b interface{}) er
 //
 // TODO(maruel): Run perf tests.
 func isAcceptableRead(t reflect.Type) bool {
+	//nolint:exhaustive // Only supported reflection kinds are serializable; default rejects the rest.
 	switch t.Kind() {
 	case reflect.Ptr, reflect.Slice:
 		return isAcceptableInner(t.Elem())
@@ -369,6 +370,7 @@ func isAcceptableRead(t reflect.Type) bool {
 //
 // TODO(maruel): Run perf tests.
 func isAcceptableWrite(t reflect.Type) bool {
+	//nolint:exhaustive // Only supported reflection kinds are serializable; default rejects the rest.
 	switch t.Kind() {
 	case reflect.Ptr, reflect.Slice:
 		return isAcceptableInner(t.Elem())
@@ -380,6 +382,7 @@ func isAcceptableWrite(t reflect.Type) bool {
 }
 
 func getSize(v reflect.Value) int {
+	//nolint:exhaustive // Only pointers and slices have a supported size here.
 	switch v.Kind() {
 	case reflect.Ptr:
 		return int(v.Type().Elem().Size())
@@ -392,6 +395,7 @@ func getSize(v reflect.Value) int {
 }
 
 func isAcceptableInner(t reflect.Type) bool {
+	//nolint:exhaustive // Only supported reflection kinds are serializable; default rejects the rest.
 	switch t.Kind() {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
 		reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
@@ -400,8 +404,8 @@ func isAcceptableInner(t reflect.Type) bool {
 	case reflect.Array:
 		return isAcceptableInner(t.Elem())
 	case reflect.Struct:
-		for i := 0; i < t.NumField(); i++ {
-			if f := t.Field(i); !isAcceptableInner(f.Type) {
+		for f := range t.Fields() {
+			if !isAcceptableInner(f.Type) {
 				return false
 			}
 		}

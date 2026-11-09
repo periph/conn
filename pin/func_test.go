@@ -11,6 +11,7 @@ import (
 )
 
 func TestFunc(t *testing.T) {
+	t.Parallel()
 	if v := FuncNone.Specialize(-1, -1); v != FuncNone {
 		t.Fatal(v)
 	}

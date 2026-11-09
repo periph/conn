@@ -17,6 +17,7 @@ import (
 )
 
 func TestAssumption(t *testing.T) {
+	t.Parallel()
 	f := gpiotest.Pin{}
 	if f.In(gpio.PullNoChange, gpio.BothEdges) == nil {
 		t.Fatal("Using gpiotest.Pin in no edge support mode")
@@ -100,6 +101,7 @@ func TestPollEdge_BothEdges(t *testing.T) {
 }
 
 func TestPollEdge_RealPin(t *testing.T) {
+	t.Parallel()
 	f := gpiotest.Pin{}
 	p := PollEdge(&f, physic.Hertz)
 	r, ok := p.(gpio.RealPin)
@@ -135,6 +137,7 @@ func TestPollEdge_RealPin_Deep(t *testing.T) {
 
 type pinLevels struct {
 	gpiotest.Pin
+
 	mu     sync.Mutex
 	levels []gpio.Level
 }
@@ -149,6 +152,7 @@ func (p *pinLevels) Read() gpio.Level {
 
 type pinWait struct {
 	gpiotest.Pin
+
 	wait chan struct{}
 	once sync.Once
 }

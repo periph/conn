@@ -154,6 +154,7 @@ func init() {
 
 type pinAlias struct {
 	*gpiotest.Pin
+
 	alias *gpiotest.Pin
 }
 

@@ -26,6 +26,7 @@ type IO struct {
 // This can then be used to feed to Playback to do "replay" based unit tests.
 type Record struct {
 	sync.Mutex
+
 	Bus onewire.Bus // Bus can be nil if only writes are being recorded.
 	Ops []IO
 }
@@ -68,8 +69,8 @@ func (r *Record) Q() gpio.PinIO {
 	return gpio.INVALID
 }
 
-// Search implements onewire.Bus
-func (r *Record) Search(alarmOnly bool) ([]onewire.Address, error) {
+// Search implements onewire.Bus.
+func (r *Record) Search(_ bool) ([]onewire.Address, error) {
 	return nil, nil
 }
 
@@ -87,6 +88,7 @@ func (r *Record) Search(alarmOnly bool) ([]onewire.Address, error) {
 // default.
 type Playback struct {
 	sync.Mutex
+
 	Ops       []IO // recorded operations
 	Count     int
 	Devices   []onewire.Address // devices that respond to a search operation
@@ -193,7 +195,7 @@ func (p *Playback) SearchTriplet(direction byte) (onewire.TripletResult, error) 
 // errorf is the internal implementation that optionally panic.
 //
 // If dontPanic is false, it panics instead.
-func errorf(dontPanic bool, format string, a ...interface{}) error {
+func errorf(dontPanic bool, format string, a ...any) error {
 	err := conntest.Errorf(format, a...)
 	if !dontPanic {
 		panic(err)

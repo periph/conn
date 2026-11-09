@@ -20,9 +20,10 @@ import (
 // PinIn
 
 func TestPinIn(t *testing.T) {
+	t.Parallel()
 	p := &PinIn{
 		N:   "Yo",
-		Ops: []InOp{{BitStream: gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true}, Pull: gpio.PullNoChange}},
+		Ops: []InOp{{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true, Pull: gpio.PullNoChange}},
 	}
 	b := gpiostream.BitStream{Freq: physic.Hertz, Bits: make([]byte, 1), LSBF: true}
 	if err := p.StreamIn(gpio.PullNoChange, &b); err != nil {
@@ -58,8 +59,9 @@ func TestPinIn(t *testing.T) {
 }
 
 func TestPinIn_fail_type(t *testing.T) {
+	t.Parallel()
 	p := &PinIn{
-		Ops:       []InOp{{BitStream: gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true}, Pull: gpio.PullNoChange}},
+		Ops:       []InOp{{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true, Pull: gpio.PullNoChange}},
 		DontPanic: true,
 	}
 	b := gpiostream.EdgeStream{Freq: physic.MilliHertz, Edges: make([]uint16, 1)}
@@ -75,8 +77,9 @@ func TestPinIn_fail_type(t *testing.T) {
 }
 
 func TestPinIn_fail_res(t *testing.T) {
+	t.Parallel()
 	p := &PinIn{
-		Ops:       []InOp{{BitStream: gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true}, Pull: gpio.PullNoChange}},
+		Ops:       []InOp{{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true, Pull: gpio.PullNoChange}},
 		DontPanic: true,
 	}
 	b := gpiostream.BitStream{Freq: physic.MilliHertz, Bits: make([]byte, 1), LSBF: true}
@@ -89,8 +92,9 @@ func TestPinIn_fail_res(t *testing.T) {
 }
 
 func TestPinIn_fail_len(t *testing.T) {
+	t.Parallel()
 	p := &PinIn{
-		Ops:       []InOp{{BitStream: gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true}, Pull: gpio.PullNoChange}},
+		Ops:       []InOp{{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true, Pull: gpio.PullNoChange}},
 		DontPanic: true,
 	}
 	b := gpiostream.BitStream{Freq: physic.Hertz, Bits: make([]byte, 2), LSBF: true}
@@ -100,8 +104,9 @@ func TestPinIn_fail_len(t *testing.T) {
 }
 
 func TestPinIn_fail_LSBF(t *testing.T) {
+	t.Parallel()
 	p := &PinIn{
-		Ops:       []InOp{{BitStream: gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true}, Pull: gpio.PullNoChange}},
+		Ops:       []InOp{{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true, Pull: gpio.PullNoChange}},
 		DontPanic: true,
 	}
 	b := gpiostream.BitStream{Freq: physic.Hertz, Bits: make([]byte, 1), LSBF: false}
@@ -111,8 +116,9 @@ func TestPinIn_fail_LSBF(t *testing.T) {
 }
 
 func TestPinIn_fail_pull(t *testing.T) {
+	t.Parallel()
 	p := &PinIn{
-		Ops:       []InOp{{BitStream: gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true}, Pull: gpio.PullNoChange}},
+		Ops:       []InOp{{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true, Pull: gpio.PullNoChange}},
 		DontPanic: true,
 	}
 	b := gpiostream.BitStream{Freq: physic.Hertz, Bits: make([]byte, 1), LSBF: true}
@@ -125,8 +131,9 @@ func TestPinIn_fail_pull(t *testing.T) {
 }
 
 func TestPinIn_fail_count(t *testing.T) {
+	t.Parallel()
 	p := &PinIn{
-		Ops:       []InOp{{BitStream: gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true}, Pull: gpio.PullNoChange}},
+		Ops:       []InOp{{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true, Pull: gpio.PullNoChange}},
 		Count:     1,
 		DontPanic: true,
 	}
@@ -137,8 +144,9 @@ func TestPinIn_fail_count(t *testing.T) {
 }
 
 func TestPinIn_panic_res(t *testing.T) {
+	t.Parallel()
 	p := &PinIn{
-		Ops: []InOp{{BitStream: gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true}, Pull: gpio.PullNoChange}},
+		Ops: []InOp{{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true, Pull: gpio.PullNoChange}},
 	}
 	defer func() {
 		if err, ok := recover().(error); !ok {
@@ -156,6 +164,7 @@ func TestPinIn_panic_res(t *testing.T) {
 // PinOutPlayback
 
 func TestPinOutPlayback(t *testing.T) {
+	t.Parallel()
 	p := &PinOutPlayback{N: "Yo", Ops: []gpiostream.Stream{&gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true}}}
 	if err := p.StreamOut(&gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true}); err != nil {
 		t.Fatal(err)
@@ -190,6 +199,7 @@ func TestPinOutPlayback(t *testing.T) {
 }
 
 func TestPinOutPlayback_fail(t *testing.T) {
+	t.Parallel()
 	p := &PinOutPlayback{DontPanic: true}
 	if p.StreamOut(&gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true}) == nil {
 		t.Fatal("expected failure")
@@ -210,6 +220,7 @@ func TestPinOutPlayback_fail(t *testing.T) {
 // PinOutRecord
 
 func TestPinOutRecord(t *testing.T) {
+	t.Parallel()
 	p := &PinOutRecord{N: "Yo"}
 	data := []gpiostream.Stream{
 		&gpiostream.BitStream{Freq: physic.Hertz, Bits: []byte{0xCC}, LSBF: true},
@@ -254,6 +265,7 @@ func TestPinOutRecord(t *testing.T) {
 }
 
 func TestPinOutRecord_fail(t *testing.T) {
+	t.Parallel()
 	p := &PinOutRecord{DontPanic: true}
 	if p.StreamOut(nil) == nil {
 		t.Fatal("expected failure")

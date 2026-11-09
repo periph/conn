@@ -82,7 +82,7 @@ func (invalidPin) SupportedFuncs() []pin.Func {
 	return nil
 }
 
-func (invalidPin) SetFunc(f pin.Func) error {
+func (invalidPin) SetFunc(_ pin.Func) error {
 	return errInvalidPin
 }
 
@@ -98,7 +98,7 @@ func (invalidPin) Read() (Sample, error) {
 	return Sample{}, errInvalidPin
 }
 
-func (invalidPin) Out(v int32) error {
+func (invalidPin) Out(_ int32) error {
 	return errInvalidPin
 }
 

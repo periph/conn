@@ -154,6 +154,7 @@ var (
 // real pin under the alias.
 type pinAlias struct {
 	gpio.PinIO
+
 	name string
 }
 
@@ -168,7 +169,7 @@ func (a *pinAlias) Name() string {
 	return a.name
 }
 
-// Real returns the real pin behind the alias
+// Real returns the real pin behind the alias.
 func (a *pinAlias) Real() gpio.PinIO {
 	return a.PinIO
 }
@@ -199,7 +200,7 @@ func insertPinByName(l []gpio.PinIO, p gpio.PinIO) []gpio.PinIO {
 
 // search implements the same algorithm as sort.Search().
 //
-// It was extracted to to not depend on sort, which depends on reflect.
+// It was extracted to not depend on sort, which depends on reflect.
 func search(n int, f func(int) bool) int {
 	lo := 0
 	for hi := n; lo < hi; {

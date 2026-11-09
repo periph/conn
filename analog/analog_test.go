@@ -13,6 +13,7 @@ import (
 )
 
 func TestINVALID(t *testing.T) {
+	t.Parallel()
 	if INVALID.Number() != -1 {
 		t.Fatal("Number")
 	}

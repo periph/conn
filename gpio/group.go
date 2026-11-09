@@ -14,11 +14,10 @@ import (
 	"periph.io/x/conn/v3/pin"
 )
 
+// GPIOValue holds the bit values for a group of pins.
 type GPIOValue uint64
 
-// Implementations that don't implement specific interface methods should
-// return ErrGroupFeatureNotImplemented as the error to allow clients to
-// generically check for the condition.
+// ErrGroupFeatureNotImplemented indicates that a group operation is unsupported.
 var ErrGroupFeatureNotImplemented = errors.New("gpio group feature not implemented")
 
 // Group is an interface that an IO device can implement to manipulate multiple

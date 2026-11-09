@@ -16,6 +16,7 @@ import (
 )
 
 func TestDevString(t *testing.T) {
+	t.Parallel()
 	d := Dev{&fakeBus{}, 12}
 	if s := d.String(); s != "fake(12)" {
 		t.Fatalf("got %s", s)
@@ -23,12 +24,13 @@ func TestDevString(t *testing.T) {
 }
 
 func TestDevTx(t *testing.T) {
+	t.Parallel()
 	exErr := errors.New("yes")
 	b := &fakeBus{err: exErr, r: []byte{1, 2, 3}}
 	d := Dev{b, 12}
 	r := make([]byte, 3)
 	w := []byte{3, 4, 5}
-	if err := d.Tx(w, r); exErr != err {
+	if err := d.Tx(w, r); !errors.Is(exErr, err) {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(b.w, w) {
@@ -47,6 +49,7 @@ func TestDevTx(t *testing.T) {
 }
 
 func TestDevWrite(t *testing.T) {
+	t.Parallel()
 	b := &fakeBus{}
 	d := Dev{b, 12}
 	w := []byte{3, 4, 5}
@@ -62,11 +65,12 @@ func TestDevWrite(t *testing.T) {
 }
 
 func TestDevWriteErr(t *testing.T) {
+	t.Parallel()
 	exErr := errors.New("yes")
 	b := &fakeBus{err: exErr}
 	d := Dev{b, 12}
 	w := []byte{3, 4, 5}
-	if n, err := d.Write(w); err != exErr || n != 0 {
+	if n, err := d.Write(w); !errors.Is(err, exErr) || n != 0 {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(b.w, w) {
@@ -108,6 +112,7 @@ func (f *fakeBus) SetSpeed(freq physic.Frequency) error {
 }
 
 func TestAddr_Set(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		str  string
 		want Addr
@@ -122,7 +127,7 @@ func TestAddr_Set(t *testing.T) {
 
 	for _, tt := range tests {
 		var a Addr
-		if err := a.Set(tt.str); err != tt.err {
+		if err := a.Set(tt.str); !errors.Is(err, tt.err) {
 			t.Errorf("i2cAddr.Set(%s) error %v", tt.str, err)
 		}
 		if tt.err == nil && a != tt.want {
@@ -132,6 +137,7 @@ func TestAddr_Set(t *testing.T) {
 }
 
 func TestAddr_String(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		Addr Addr
 		want string

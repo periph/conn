@@ -9,6 +9,7 @@ package onewire
 import "testing"
 
 func TestCheckCRC(t *testing.T) {
+	t.Parallel()
 	a := []byte{1, 2, 3, 4, 5, 6, 7}
 	c := CalcCRC(a)
 	if c != 15 {

@@ -18,6 +18,7 @@ import (
 )
 
 func TestDev8_String(t *testing.T) {
+	t.Parallel()
 	d := Dev8{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if s := d.String(); s != "discard" {
 		t.Fatal(s)
@@ -25,6 +26,7 @@ func TestDev8_String(t *testing.T) {
 }
 
 func TestDev8_Duplex(t *testing.T) {
+	t.Parallel()
 	d := Dev8{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if v := d.Duplex(); v != conn.Full {
 		t.Fatal(v)
@@ -32,6 +34,7 @@ func TestDev8_Duplex(t *testing.T) {
 }
 
 func TestDev8_Tx(t *testing.T) {
+	t.Parallel()
 	d := Dev8{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if err := d.Tx(nil, nil); err != nil {
 		t.Fatal(err)
@@ -39,6 +42,7 @@ func TestDev8_Tx(t *testing.T) {
 }
 
 func TestDev8_ReadUint_Full(t *testing.T) {
+	t.Parallel()
 	d := Dev8{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if v, err := d.ReadUint8(34); err == nil || v != 0 {
 		t.Fatal(v, err)
@@ -55,6 +59,7 @@ func TestDev8_ReadUint_Full(t *testing.T) {
 }
 
 func TestDev8_ReadUint(t *testing.T) {
+	t.Parallel()
 	r := []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10}
 	c := &conntest.Playback{Ops: []conntest.IO{{W: []byte{34}, R: r[:1]}}, D: conn.Half}
 	d := Dev8{Conn: c, Order: binary.BigEndian}
@@ -79,6 +84,7 @@ func TestDev8_ReadUint(t *testing.T) {
 }
 
 func TestDev8_ReadStruct_Full(t *testing.T) {
+	t.Parallel()
 	d := Dev8{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if d.ReadStruct(34, &packed{}) == nil {
 		t.Fatal("Order is nil")
@@ -86,6 +92,7 @@ func TestDev8_ReadStruct_Full(t *testing.T) {
 }
 
 func TestDev8_ReadStruct_Precond_Fail(t *testing.T) {
+	t.Parallel()
 	d := Dev8{Conn: &conntest.Playback{D: conn.Half}, Order: binary.LittleEndian}
 	if d.ReadStruct(34, nil) == nil {
 		t.Fatal("nil")
@@ -106,6 +113,7 @@ func TestDev8_ReadStruct_Precond_Fail(t *testing.T) {
 }
 
 func TestDev8_ReadStruct_Decode_fail(t *testing.T) {
+	t.Parallel()
 	d := Dev8{Conn: &conntest.Playback{Ops: []conntest.IO{{W: []byte{34}, R: []byte{}}}, D: conn.Half}, Order: binary.LittleEndian}
 	z := [0]int{}
 	if err := d.ReadStruct(34, &z); err == nil {
@@ -117,6 +125,7 @@ func TestDev8_ReadStruct_Decode_fail(t *testing.T) {
 }
 
 func TestDev8_ReadStruct_struct(t *testing.T) {
+	t.Parallel()
 	var buf bytes.Buffer
 	if err := binary.Write(&buf, binary.LittleEndian, packed{0x123456789abcdef0, 0x12345678, 0x1234, [2]uint8{0x12, 0x01}}); err != nil {
 		t.Fatal(err)
@@ -142,6 +151,7 @@ func TestDev8_ReadStruct_struct(t *testing.T) {
 }
 
 func TestDev8_ReadStruct_slice(t *testing.T) {
+	t.Parallel()
 	c := &conntest.Playback{Ops: []conntest.IO{{W: []byte{34}, R: []byte{1, 2}}}, D: conn.Half}
 	d := Dev8{Conn: c, Order: binary.LittleEndian}
 	p := make([]uint8, 2)
@@ -154,6 +164,7 @@ func TestDev8_ReadStruct_slice(t *testing.T) {
 }
 
 func TestDev8_WriteUint_Full(t *testing.T) {
+	t.Parallel()
 	d := Dev8{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if d.WriteUint8(34, 1) == nil {
 		t.Fatal("Order is nil")
@@ -170,6 +181,7 @@ func TestDev8_WriteUint_Full(t *testing.T) {
 }
 
 func TestDev8_WriteUint(t *testing.T) {
+	t.Parallel()
 	c := &conntest.Playback{Ops: []conntest.IO{{W: []byte{34, 56}}}, D: conn.Half}
 	d := Dev8{Conn: c, Order: binary.LittleEndian}
 	if err := d.WriteUint8(34, 56); err != nil {
@@ -193,6 +205,7 @@ func TestDev8_WriteUint(t *testing.T) {
 }
 
 func TestDev8_WriteStruct_Full(t *testing.T) {
+	t.Parallel()
 	d := Dev8{Conn: &conntest.Discard{D: conn.Full}, Order: binary.LittleEndian}
 	if err := d.WriteStruct(34, &packed{}); err == nil {
 		t.Fatal()
@@ -200,6 +213,7 @@ func TestDev8_WriteStruct_Full(t *testing.T) {
 }
 
 func TestDev8_WriteStruct_Precond_Fail(t *testing.T) {
+	t.Parallel()
 	d := Dev8{Conn: &conntest.Playback{D: conn.Half}, Order: binary.LittleEndian}
 	if err := d.WriteStruct(34, nil); err == nil {
 		t.Fatal()
@@ -225,6 +239,7 @@ func TestDev8_WriteStruct_Precond_Fail(t *testing.T) {
 }
 
 func TestDev8_WriteStruct(t *testing.T) {
+	t.Parallel()
 	c := &conntest.Playback{
 		Ops: []conntest.IO{
 			{
@@ -247,6 +262,7 @@ func TestDev8_WriteStruct(t *testing.T) {
 }
 
 func TestDev8_WriteStruct_uint16(t *testing.T) {
+	t.Parallel()
 	c := &conntest.Playback{
 		Ops: []conntest.IO{
 			{
@@ -267,6 +283,7 @@ func TestDev8_WriteStruct_uint16(t *testing.T) {
 //
 
 func TestDev16_String(t *testing.T) {
+	t.Parallel()
 	d := Dev16{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if s := d.String(); s != "discard" {
 		t.Fatal(s)
@@ -274,6 +291,7 @@ func TestDev16_String(t *testing.T) {
 }
 
 func TestDev16_Duplex(t *testing.T) {
+	t.Parallel()
 	d := Dev16{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if v := d.Duplex(); v != conn.Full {
 		t.Fatal(v)
@@ -281,6 +299,7 @@ func TestDev16_Duplex(t *testing.T) {
 }
 
 func TestDev16_Tx(t *testing.T) {
+	t.Parallel()
 	d := Dev16{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if err := d.Tx(nil, nil); err != nil {
 		t.Fatal(err)
@@ -288,6 +307,7 @@ func TestDev16_Tx(t *testing.T) {
 }
 
 func TestDev16_ReadUint_Full(t *testing.T) {
+	t.Parallel()
 	d := Dev16{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if v, err := d.ReadUint8(34); err == nil || v != 0 {
 		t.Fatal(v, err)
@@ -304,6 +324,7 @@ func TestDev16_ReadUint_Full(t *testing.T) {
 }
 
 func TestDev16_ReadUint(t *testing.T) {
+	t.Parallel()
 	r := []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10}
 	c := &conntest.Playback{Ops: []conntest.IO{{W: []byte{0x12, 0x34}, R: r[:1]}}, D: conn.Half}
 	d := Dev16{Conn: c, Order: binary.BigEndian}
@@ -328,6 +349,7 @@ func TestDev16_ReadUint(t *testing.T) {
 }
 
 func TestDev16_ReadStruct_Full(t *testing.T) {
+	t.Parallel()
 	d := Dev16{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if err := d.ReadStruct(0x1234, &packed{}); err == nil {
 		t.Fatal()
@@ -335,6 +357,7 @@ func TestDev16_ReadStruct_Full(t *testing.T) {
 }
 
 func TestDev16_ReadStruct_Precond_Fail(t *testing.T) {
+	t.Parallel()
 	d := Dev16{
 		Conn:  &conntest.Playback{D: conn.Half, DontPanic: true},
 		Order: binary.LittleEndian,
@@ -363,6 +386,7 @@ func TestDev16_ReadStruct_Precond_Fail(t *testing.T) {
 }
 
 func TestDev16_ReadStruct_Decode_fail(t *testing.T) {
+	t.Parallel()
 	d := Dev16{
 		Conn:  &conntest.Playback{Ops: []conntest.IO{{W: []byte{34}, R: []byte{}}}, D: conn.Half, DontPanic: true},
 		Order: binary.LittleEndian,
@@ -374,6 +398,7 @@ func TestDev16_ReadStruct_Decode_fail(t *testing.T) {
 }
 
 func TestDev16_ReadStruct_struct(t *testing.T) {
+	t.Parallel()
 	var buf bytes.Buffer
 	if err := binary.Write(&buf, binary.LittleEndian, packed{0x123456789abcdef0, 0x12345678, 0x1234, [2]uint8{0x12, 0x01}}); err != nil {
 		t.Fatal(err)
@@ -399,6 +424,7 @@ func TestDev16_ReadStruct_struct(t *testing.T) {
 }
 
 func TestDev16_ReadStruct_fail(t *testing.T) {
+	t.Parallel()
 	d := Dev16{Conn: &conntest.RecordRaw{W: writeFail{}}, Order: binary.LittleEndian}
 	if d.ReadStruct(34, &packed{}) == nil {
 		t.Fatal()
@@ -406,6 +432,7 @@ func TestDev16_ReadStruct_fail(t *testing.T) {
 }
 
 func TestDev16_ReadStruct_slice(t *testing.T) {
+	t.Parallel()
 	c := &conntest.Playback{Ops: []conntest.IO{{W: []byte{0x34, 0x12}, R: []byte{1, 2}}}, D: conn.Half}
 	d := Dev16{Conn: c, Order: binary.LittleEndian}
 	p := make([]uint8, 2)
@@ -418,6 +445,7 @@ func TestDev16_ReadStruct_slice(t *testing.T) {
 }
 
 func TestDev16_WriteUint_Full(t *testing.T) {
+	t.Parallel()
 	d := Dev16{Conn: &conntest.Discard{D: conn.Full}, Order: binary.BigEndian}
 	if d.WriteUint8(0x1234, 1) == nil {
 		t.Fatal("Order is nil")
@@ -434,6 +462,7 @@ func TestDev16_WriteUint_Full(t *testing.T) {
 }
 
 func TestDev16_WriteUint(t *testing.T) {
+	t.Parallel()
 	c := &conntest.Playback{Ops: []conntest.IO{{W: []byte{0x34, 0x12, 56}}}, D: conn.Half}
 	d := Dev16{Conn: c, Order: binary.LittleEndian}
 	if err := d.WriteUint8(0x1234, 56); err != nil {
@@ -457,6 +486,7 @@ func TestDev16_WriteUint(t *testing.T) {
 }
 
 func TestDev16_WriteStruct_Full(t *testing.T) {
+	t.Parallel()
 	d := Dev16{Conn: &conntest.Discard{D: conn.Full}, Order: binary.LittleEndian}
 	if err := d.WriteStruct(0x1234, &packed{}); err == nil {
 		t.Fatal()
@@ -464,6 +494,7 @@ func TestDev16_WriteStruct_Full(t *testing.T) {
 }
 
 func TestDev16_WriteStruct_Precond_Fail(t *testing.T) {
+	t.Parallel()
 	d := Dev16{Conn: &conntest.Playback{D: conn.Half}, Order: binary.LittleEndian}
 	if err := d.WriteStruct(0x1234, nil); err == nil {
 		t.Fatal()
@@ -488,6 +519,7 @@ func TestDev16_WriteStruct_Precond_Fail(t *testing.T) {
 }
 
 func TestDev16_WriteStruct(t *testing.T) {
+	t.Parallel()
 	c := &conntest.Playback{
 		Ops: []conntest.IO{
 			{
@@ -510,6 +542,7 @@ func TestDev16_WriteStruct(t *testing.T) {
 }
 
 func TestDev16_WriteStruct_uint16(t *testing.T) {
+	t.Parallel()
 	c := &conntest.Playback{
 		Ops: []conntest.IO{
 			{
@@ -530,6 +563,7 @@ func TestDev16_WriteStruct_uint16(t *testing.T) {
 //
 
 func TestEdgeCases(t *testing.T) {
+	t.Parallel()
 	if s := getSize(reflect.ValueOf(nil)); s != 0 {
 		t.Fatal(s)
 	}
@@ -546,6 +580,6 @@ type packed struct {
 
 type writeFail struct{}
 
-func (w writeFail) Write(p []byte) (int, error) {
+func (w writeFail) Write(_ []byte) (int, error) {
 	return 0, errors.New("simulating failure")
 }

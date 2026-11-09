@@ -120,7 +120,7 @@ func (b *BasicPin) SupportedFuncs() []Func {
 }
 
 // SetFunc implements PinFunc.
-func (b *BasicPin) SetFunc(f Func) error {
+func (b *BasicPin) SetFunc(_ Func) error {
 	return errors.New("pin: can't change static pin function")
 }
 

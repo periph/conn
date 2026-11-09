@@ -21,25 +21,33 @@ func Example() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Using SPI as an example. See package ./spi/spireg for more details.
 	p, err := spireg.Open("")
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
-	defer p.Close()
+	defer func() {
+		if closeErr := p.Close(); closeErr != nil {
+			log.Print(closeErr)
+		}
+	}()
 	c, err := p.Connect(physic.MegaHertz, spi.Mode3, 8)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Write 0x10 to the device, and read a byte right after.
 	write := []byte{0x10, 0x00}
 	read := make([]byte, len(write))
 	if err := c.Tx(write, read); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 	// Use read.
 	fmt.Printf("%v\n", read[1:])

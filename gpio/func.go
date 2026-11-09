@@ -10,12 +10,12 @@ import "periph.io/x/conn/v3/pin"
 
 // Well known pin functionality.
 const (
-	// Inputs
+	// IN and the following constants describe input modes.
 	IN      pin.Func = "IN"      // Input
 	IN_HIGH pin.Func = "In/High" // Read high
 	IN_LOW  pin.Func = "In/Low"  // Read low
 
-	// Outputs
+	// OUT and the following constants describe output modes.
 	OUT      pin.Func = "OUT"      // Output, drive
 	OUT_OC   pin.Func = "OUT_OPEN" // Output, open collector/drain
 	OUT_HIGH pin.Func = "Out/High" // Drive high

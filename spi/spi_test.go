@@ -11,6 +11,7 @@ import (
 )
 
 func TestMode_String(t *testing.T) {
+	t.Parallel()
 	if s := Mode(^int(0)).String(); s != "Mode3|HalfDuplex|NoCS|LSBFirst|0xffffffffffffffe0" {
 		t.Fatal(s)
 	}

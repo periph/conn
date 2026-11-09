@@ -10,29 +10,31 @@ import (
 	"errors"
 )
 
+// CursorDirection specifies movement relative to the current cursor.
 type CursorDirection int
 
 const (
-	// Constants for moving the cursor relative to it's current position.
-	//
-	// Move the cursor one unit back.
+	// Backward moves the cursor one unit back.
 	Backward CursorDirection = iota
-	// Move the cursor one unit forward.
+	// Forward moves the cursor one unit forward.
 	Forward
+	// Up moves the cursor up one row.
 	Up
+	// Down moves the cursor down one row.
 	Down
 )
 
+// CursorMode describes a visible cursor style.
 type CursorMode int
 
 const (
-	// Turn the cursor Off
+	// CursorOff hides the cursor.
 	CursorOff CursorMode = iota
-	// Enable Underline Cursor
+	// CursorUnderline displays an underline cursor.
 	CursorUnderline
-	// Enable Block Cursor
+	// CursorBlock displays a block cursor.
 	CursorBlock
-	// Blinking
+	// CursorBlink enables cursor blinking.
 	CursorBlink
 )
 
@@ -76,26 +78,28 @@ type TextDisplay interface {
 	WriteString(text string) (n int, err error)
 }
 
+// Intensity represents a backlight intensity.
 type Intensity int
 
-// Interface for displays that support a monochrome backlight.  Displays that
+// DisplayBacklight is implemented by displays with a monochrome backlight.  Displays that
 // support RGB Backlights should implement this as well for maximum
 // compatibility.
 //
 // Many units that support this command write the value to EEPROM, which has a
-// finite number of writes. To turn the unit on/off, use TextDisplay.Display()
+// finite number of writes. To turn the unit on/off, use TextDisplay.Display().
 type DisplayBacklight interface {
 	Backlight(intensity Intensity) error
 }
 
-// Interface for displays that support a RGB Backlight. E.G. the Sparkfun SerLCD
+// DisplayRGBBacklight is implemented by displays with an RGB backlight.
 type DisplayRGBBacklight interface {
 	RGBBacklight(red, green, blue Intensity) error
 }
 
+// Contrast represents a display contrast level.
 type Contrast int
 
-// Interface for displays that support a programmable contrast adjustment.
+// DisplayContrast is implemented by displays with programmable contrast.
 // As with SetBacklight(), many devices serialize the value to EEPROM,
 // which support only a finite number of writes, so this should be used
 // sparingly.
@@ -103,5 +107,8 @@ type DisplayContrast interface {
 	Contrast(contrast Contrast) error
 }
 
+// ErrNotImplemented indicates an unsupported display operation.
 var ErrNotImplemented = errors.New("not implemented")
+
+// ErrInvalidCommand indicates an invalid display command.
 var ErrInvalidCommand = errors.New("invalid command")

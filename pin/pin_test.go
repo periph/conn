@@ -11,12 +11,14 @@ import (
 )
 
 func TestInvalid(t *testing.T) {
+	t.Parallel()
 	if s := INVALID.String(); s != "INVALID" {
 		t.Fatal(s)
 	}
 }
 
 func TestBasicPin(t *testing.T) {
+	t.Parallel()
 	b := BasicPin{N: "Pin1"}
 	if s := b.String(); s != "Pin1" {
 		t.Fatal(s)
@@ -45,6 +47,7 @@ func TestBasicPin(t *testing.T) {
 }
 
 func TestV3_3(t *testing.T) {
+	t.Parallel()
 	if f := V3_3.Func(); f != FuncNone {
 		t.Fatal(f)
 	}

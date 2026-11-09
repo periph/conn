@@ -23,22 +23,29 @@ func ExampleDebounce() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	p := gpioreg.ByName("GPIO16")
 	if p != nil {
-		log.Fatal("please open another GPIO")
+		log.Print("please open another GPIO")
+		return
 	}
 
 	// Ignore glitches lasting less than 3ms, and ignore repeated edges within
 	// 30ms.
 	d, err := gpioutil.Debounce(p, 3*time.Millisecond, 30*time.Millisecond, gpio.BothEdges)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
-	defer d.Halt()
+	defer func() {
+		if err := d.Halt(); err != nil {
+			log.Print(err)
+		}
+	}()
 	for {
 		if d.WaitForEdge(-1) {
 			fmt.Println(d.Read())
@@ -51,20 +58,27 @@ func ExamplePollEdge() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Flow when it is known that the GPIO does not support edge detection.
 	p := gpioreg.ByName("XOI-P1")
 	if p != nil {
-		log.Fatal("please open another GPIO")
+		log.Print("please open another GPIO")
+		return
 	}
 	p = gpioutil.PollEdge(p, 20*physic.Hertz)
 	if err := p.In(gpio.PullDown, gpio.RisingEdge); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
-	defer p.Halt()
+	defer func() {
+		if err := p.Halt(); err != nil {
+			log.Print(err)
+		}
+	}()
 	for {
 		if p.WaitForEdge(-1) {
 			fmt.Println(p.Read())
@@ -77,7 +91,8 @@ func Example() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Complete solution:
@@ -88,13 +103,15 @@ func Example() {
 	// Order is important, as Debounce() requires working edge detection.
 	p := gpioreg.ByName("XOI-P1")
 	if p != nil {
-		log.Fatal("please open another GPIO")
+		log.Print("please open another GPIO")
+		return
 	}
 	if err := p.In(gpio.PullDown, gpio.BothEdges); err == nil {
 		// Try to fallback into software polling, then reinitialize.
 		p = gpioutil.PollEdge(p, 50*physic.Hertz)
 		if err = p.In(gpio.PullDown, gpio.BothEdges); err != nil {
-			log.Fatal(err)
+			log.Print(err)
+			return
 		}
 	}
 
@@ -103,10 +120,15 @@ func Example() {
 	// frequency.
 	d, err := gpioutil.Debounce(p, 10*time.Millisecond, 30*time.Millisecond, gpio.BothEdges)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
-	defer d.Halt()
+	defer func() {
+		if err := d.Halt(); err != nil {
+			log.Print(err)
+		}
+	}()
 	for {
 		if d.WaitForEdge(-1) {
 			fmt.Println(d.Read())

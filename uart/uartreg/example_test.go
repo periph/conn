@@ -23,7 +23,8 @@ func Example() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// How a command line tool may let the user choose an UART port, yet default
@@ -32,16 +33,23 @@ func Example() {
 	flag.Parse()
 	p, err := uartreg.Open(*name)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
-	defer p.Close()
+	defer func() {
+		if closeErr := p.Close(); closeErr != nil {
+			log.Print(closeErr)
+		}
+	}()
 
 	c, err := p.Connect(115200*physic.Hertz, uart.One, uart.NoParity, uart.RTSCTS, 8)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 	if err := c.Tx([]byte("cmd"), nil); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 }
 
@@ -50,7 +58,8 @@ func ExampleAll() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Enumerate all UART ports available and the corresponding pins.
@@ -85,7 +94,8 @@ func ExampleOpen() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// On linux, the following calls will likely open the same bus.

@@ -15,6 +15,7 @@ import (
 )
 
 func TestRecord_empty(t *testing.T) {
+	t.Parallel()
 	r := Record{}
 	if s := r.String(); s != "record" {
 		t.Fatal(s)
@@ -34,6 +35,7 @@ func TestRecord_empty(t *testing.T) {
 }
 
 func TestRecord_Tx_empty(t *testing.T) {
+	t.Parallel()
 	r := Record{}
 	if err := r.Tx(1, nil, nil); err != nil {
 		t.Fatal(err)
@@ -56,6 +58,7 @@ func TestRecord_Tx_empty(t *testing.T) {
 }
 
 func TestPlayback(t *testing.T) {
+	t.Parallel()
 	p := Playback{
 		SDAPin: &gpiotest.Pin{N: "DA"},
 		SCLPin: &gpiotest.Pin{N: "CL"},
@@ -78,6 +81,7 @@ func TestPlayback(t *testing.T) {
 }
 
 func TestPlayback_Close_panic(t *testing.T) {
+	t.Parallel()
 	p := Playback{Ops: []IO{{W: []byte{10}}}}
 	defer func() {
 		v := recover()
@@ -94,6 +98,7 @@ func TestPlayback_Close_panic(t *testing.T) {
 }
 
 func TestPlayback_Tx(t *testing.T) {
+	t.Parallel()
 	p := Playback{
 		Ops: []IO{
 			{
@@ -132,6 +137,7 @@ func TestPlayback_Tx(t *testing.T) {
 }
 
 func TestRecord_Playback(t *testing.T) {
+	t.Parallel()
 	r := Record{
 		Bus: &Playback{
 			Ops: []IO{

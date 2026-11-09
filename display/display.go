@@ -37,7 +37,7 @@ type Drawer interface {
 	//
 	// Coordinates are top-left 0,0.
 	//
-	// dstRect aligns the the drawing operation in the display, enabling partial
+	// dstRect aligns the drawing operation in the display, enabling partial
 	// update.
 	//
 	// srcPts aligns the image at this offset, enabling using a subset of the

@@ -18,6 +18,7 @@ import (
 type debounced struct {
 	// Immutable.
 	gpio.PinIO
+
 	// denoise delays state changes. It waits for this amount before reporting it.
 	denoise time.Duration
 	// debounce locks on after a steady state change. Once a state change
@@ -38,7 +39,7 @@ type debounced struct {
 // state, ignoring following state changes.
 //
 // Either value can be 0.
-func Debounce(p gpio.PinIO, denoise, debounce time.Duration, edge gpio.Edge) (gpio.PinIO, error) {
+func Debounce(p gpio.PinIO, denoise, debounce time.Duration, _ gpio.Edge) (gpio.PinIO, error) {
 	if denoise == 0 && debounce == 0 {
 		return p, nil
 	}
@@ -56,7 +57,7 @@ func Debounce(p gpio.PinIO, denoise, debounce time.Duration, edge gpio.Edge) (gp
 }
 
 // In implements gpio.PinIO.
-func (d *debounced) In(pull gpio.Pull, edge gpio.Edge) error {
+func (d *debounced) In(pull gpio.Pull, _ gpio.Edge) error {
 	err := d.PinIO.In(pull, gpio.BothEdges)
 	return err
 }

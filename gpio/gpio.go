@@ -291,7 +291,7 @@ func (invalidPin) SupportedFuncs() []pin.Func {
 	return nil
 }
 
-func (invalidPin) SetFunc(f pin.Func) error {
+func (invalidPin) SetFunc(_ pin.Func) error {
 	return errInvalidPin
 }
 
@@ -303,7 +303,7 @@ func (invalidPin) Read() Level {
 	return Low
 }
 
-func (invalidPin) WaitForEdge(timeout time.Duration) bool {
+func (invalidPin) WaitForEdge(_ time.Duration) bool {
 	return false
 }
 

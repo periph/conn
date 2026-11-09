@@ -16,6 +16,7 @@ import (
 )
 
 func TestDebounce_Err(t *testing.T) {
+	t.Parallel()
 	f := gpiotest.Pin{}
 	if _, err := Debounce(&f, time.Second, 0, gpio.BothEdges); err == nil {
 		t.Fatal("expected error")
@@ -23,6 +24,7 @@ func TestDebounce_Err(t *testing.T) {
 }
 
 func TestDebounce_Zero(t *testing.T) {
+	t.Parallel()
 	f := gpiotest.Pin{}
 	p, err := Debounce(&f, 0, 0, gpio.BothEdges)
 	if err != nil {
@@ -34,6 +36,7 @@ func TestDebounce_Zero(t *testing.T) {
 }
 
 func TestDebounce_In(t *testing.T) {
+	t.Parallel()
 	f := gpiotest.Pin{EdgesChan: make(chan gpio.Level)}
 	p, err := Debounce(&f, time.Second, 0, gpio.BothEdges)
 	if err != nil {
@@ -42,12 +45,13 @@ func TestDebounce_In(t *testing.T) {
 	if err = p.In(gpio.PullNoChange, gpio.BothEdges); err != nil {
 		t.Fatal(err)
 	}
-	if p.Halt() != nil {
+	if err := p.Halt(); err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestDebounce_Read_Low(t *testing.T) {
+	t.Parallel()
 	f := gpiotest.Pin{EdgesChan: make(chan gpio.Level)}
 	p, err := Debounce(&f, time.Second, time.Second, gpio.BothEdges)
 	if err != nil {
@@ -62,6 +66,7 @@ func TestDebounce_Read_Low(t *testing.T) {
 }
 
 func TestDebounce_Read_High(t *testing.T) {
+	t.Parallel()
 	f := gpiotest.Pin{L: gpio.High, EdgesChan: make(chan gpio.Level)}
 	p, err := Debounce(&f, time.Second, time.Second, gpio.BothEdges)
 	if err != nil {
@@ -85,8 +90,14 @@ func TestDebounce_WaitForEdge_Got(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	p.(*debounced).clock = fakeClock
-	f.Out(gpio.High)
+	d, ok := p.(*debounced)
+	if !ok {
+		t.Fatal("expected debounced pin")
+	}
+	d.clock = fakeClock
+	if err := f.Out(gpio.High); err != nil {
+		t.Error(err)
+	}
 	f.EdgesChan <- gpio.Low
 	go func() {
 		// Sleepers:
@@ -113,8 +124,14 @@ func TestDebounce_WaitForEdge_Noise_NoEdge(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	p.(*debounced).clock = fakeClock
-	f.Out(gpio.Low)
+	d, ok := p.(*debounced)
+	if !ok {
+		t.Fatal("expected debounced pin")
+	}
+	d.clock = fakeClock
+	if err := f.Out(gpio.Low); err != nil {
+		t.Error(err)
+	}
 
 	go func() {
 		// Sleepers:
@@ -126,7 +143,9 @@ func TestDebounce_WaitForEdge_Noise_NoEdge(t *testing.T) {
 		f.EdgesChan <- gpio.High
 		fakeClock.BlockUntil(numSleepers)
 		fakeClock.Advance(100 * time.Millisecond)
-		f.Out(gpio.Low)
+		if err := f.Out(gpio.Low); err != nil {
+			t.Error(err)
+		}
 		fakeClock.Advance(2 * time.Second)
 	}()
 
@@ -143,10 +162,16 @@ func TestDebounce_WaitForEdge_Noise_Edge(t *testing.T) {
 		EdgesChan: make(chan gpio.Level, 2),
 	}
 	p, err := Debounce(&f, time.Second, 0, gpio.BothEdges)
-	p.(*debounced).clock = fakeClock
-	f.Out(gpio.Low)
 	if err != nil {
 		t.Fatal(err)
+	}
+	d, ok := p.(*debounced)
+	if !ok {
+		t.Fatal("expected debounced pin")
+	}
+	d.clock = fakeClock
+	if err := f.Out(gpio.Low); err != nil {
+		t.Error(err)
 	}
 
 	go func() {
@@ -158,12 +183,16 @@ func TestDebounce_WaitForEdge_Noise_Edge(t *testing.T) {
 		// 100ms high (too short)
 		f.EdgesChan <- gpio.High
 		fakeClock.BlockUntil(numSleepers)
-		f.Out(gpio.Low)
+		if err := f.Out(gpio.Low); err != nil {
+			t.Error(err)
+		}
 		fakeClock.Advance(100 * time.Millisecond)
 
 		// stays high indefinitely (long enough)
 		fakeClock.BlockUntil(numSleepers)
-		f.Out(gpio.High)
+		if err := f.Out(gpio.High); err != nil {
+			t.Error(err)
+		}
 		fakeClock.Advance(2 * time.Second)
 	}()
 

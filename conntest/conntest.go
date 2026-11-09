@@ -7,6 +7,7 @@ package conntest
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"sync"
@@ -16,18 +17,20 @@ import (
 
 // IsErr returns true if the error is from a conntest failure.
 func IsErr(err error) bool {
-	_, ok := err.(testErr)
+	var testError testError
+	ok := errors.As(err, &testError)
 	return ok
 }
 
 // Errorf returns a new error that returns true with IsErr().
-func Errorf(format string, a ...interface{}) error {
-	return testErr{fmt.Errorf(format, a...)}
+func Errorf(format string, a ...any) error {
+	return testError{fmt.Errorf(format, a...)}
 }
 
 // RecordRaw implements conn.Conn. It sends everything written to it to W.
 type RecordRaw struct {
 	sync.Mutex
+
 	W io.Writer
 }
 
@@ -60,6 +63,7 @@ type IO struct {
 // This can then be used to feed to Playback to do "replay" based unit tests.
 type Record struct {
 	sync.Mutex
+
 	Conn conn.Conn // Conn can be nil if only writes are being recorded.
 	Ops  []IO
 }
@@ -111,6 +115,7 @@ func (r *Record) Duplex() conn.Duplex {
 // default.
 type Playback struct {
 	sync.Mutex
+
 	Ops       []IO
 	D         conn.Duplex
 	Count     int
@@ -167,7 +172,7 @@ func (d *Discard) String() string {
 }
 
 // Tx implements conn.Conn.
-func (d *Discard) Tx(w, r []byte) error {
+func (d *Discard) Tx(_, r []byte) error {
 	for i := range r {
 		r[i] = 0
 	}
@@ -184,7 +189,7 @@ func (d *Discard) Duplex() conn.Duplex {
 // errorf is the internal implementation that optionally panic.
 //
 // If dontPanic is false, it panics instead.
-func errorf(dontPanic bool, format string, a ...interface{}) error {
+func errorf(dontPanic bool, format string, a ...any) error {
 	err := Errorf(format, a...)
 	if !dontPanic {
 		panic(err)
@@ -192,7 +197,7 @@ func errorf(dontPanic bool, format string, a ...interface{}) error {
 	return err
 }
 
-type testErr struct {
+type testError struct {
 	error
 }
 

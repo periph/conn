@@ -9,6 +9,7 @@ package displaytest
 import (
 	"errors"
 	"fmt"
+	"strconv"
 	"time"
 
 	"periph.io/x/conn/v3/display"
@@ -67,7 +68,7 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 			if err != nil {
 				result = append(result, err)
 			}
-			c = c + 1
+			c++
 		}
 	}
 	// Test AutoScroll working
@@ -163,7 +164,7 @@ func TestTextDisplay(dev display.TextDisplay, interactive bool) []error {
 		result = append(result, err)
 	}
 	for ix := range 10 {
-		if _, err = dev.WriteString(fmt.Sprintf("%d", ix)); err != nil {
+		if _, err = dev.WriteString(strconv.Itoa(ix)); err != nil {
 			result = append(result, err)
 		}
 		time.Sleep(pauseTime)

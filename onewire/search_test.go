@@ -17,6 +17,7 @@ import (
 // TestSearch tests the onewire.Search function using the Playback bus preloaded
 // with a synthetic set of devices.
 func TestSearch(t *testing.T) {
+	t.Parallel()
 	p := playback{
 		Devices: []Address{
 			0x0000000000000000,
@@ -72,6 +73,7 @@ match:
 }
 
 func TestSearch_Tx_err(t *testing.T) {
+	t.Parallel()
 	p := playback{}
 	if addrs, err := p.Search(true); len(addrs) != 0 || err == nil {
 		t.Fatal("expected Tx() error")

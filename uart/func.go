@@ -15,7 +15,7 @@ const (
 	RTS pin.Func = "UART_RTS" // Request to send
 	CTS pin.Func = "UART_CTS" // Clear to send
 
-	// These are rarely used.
+	// DTR and the following control lines are rarely used.
 	DTR pin.Func = "UART_DTR" // Data terminal ready
 	DSR pin.Func = "UART_DSR" // Data set ready
 	DCD pin.Func = "UART_DCD" // Data carrier detect

@@ -181,6 +181,6 @@ func (f *fakeBus) Tx(w, r []byte, power onewire.Pullup) error {
 	return f.err
 }
 
-func (f *fakeBus) Search(alarmOnly bool) ([]onewire.Address, error) {
+func (f *fakeBus) Search(_ bool) ([]onewire.Address, error) {
 	return nil, errors.New("not implemented")
 }

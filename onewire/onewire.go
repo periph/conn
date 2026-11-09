@@ -25,6 +25,7 @@
 package onewire
 
 import (
+	"encoding/binary"
 	"strconv"
 
 	"periph.io/x/conn/v3"
@@ -72,9 +73,9 @@ type Address uint64
 type Pullup bool
 
 const (
-	// WeakPullup ends the transaction with weak pull-up
+	// WeakPullup ends the transaction with weak pull-up.
 	WeakPullup Pullup = false
-	// StrongPullup end the transaction with strong pull-up to power devices
+	// StrongPullup end the transaction with strong pull-up to power devices.
 	StrongPullup Pullup = true
 )
 
@@ -184,7 +185,7 @@ func (d *Dev) Tx(w, r []byte) error {
 	// bytes being written.
 	ww := make([]byte, 9, len(w)+9)
 	ww[0] = 0x55 // Match ROM
-	putUint64(ww[1:], d.Addr)
+	binary.LittleEndian.PutUint64(ww[1:], uint64(d.Addr))
 	ww = append(ww, w...)
 	return d.Bus.Tx(ww, r, WeakPullup)
 }
@@ -205,28 +206,12 @@ func (d *Dev) TxPower(w, r []byte) error {
 	// bytes being written.
 	ww := make([]byte, 9, len(w)+9)
 	ww[0] = 0x55 // Match ROM
-	putUint64(ww[1:], d.Addr)
+	binary.LittleEndian.PutUint64(ww[1:], uint64(d.Addr))
 	ww = append(ww, w...)
 	return d.Bus.Tx(ww, r, StrongPullup)
 }
 
 //
-
-// putUint64 is littleEndian.PutUint64().
-//
-// It was extracted to to not depend on encoding/binary, which depends on
-// reflect.
-func putUint64(b []byte, v Address) {
-	_ = b[7]
-	b[0] = byte(v)
-	b[1] = byte(v >> 8)
-	b[2] = byte(v >> 16)
-	b[3] = byte(v >> 24)
-	b[4] = byte(v >> 32)
-	b[5] = byte(v >> 40)
-	b[6] = byte(v >> 48)
-	b[7] = byte(v >> 56)
-}
 
 // Ensure that the appropriate interfaces are implemented.
 var _ conn.Conn = &Dev{}

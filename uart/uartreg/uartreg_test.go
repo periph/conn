@@ -164,11 +164,11 @@ func (f *fakePort) Close() error {
 	return errors.New("not implemented")
 }
 
-func (f *fakePort) LimitSpeed(freq physic.Frequency) error {
+func (f *fakePort) LimitSpeed(_ physic.Frequency) error {
 	return errors.New("not implemented")
 }
 
-func (f *fakePort) Connect(freq physic.Frequency, stopBit uart.Stop, parity uart.Parity, flow uart.Flow, bits int) (conn.Conn, error) {
+func (f *fakePort) Connect(_ physic.Frequency, _ uart.Stop, _ uart.Parity, _ uart.Flow, _ int) (conn.Conn, error) {
 	return &f.conn, nil
 }
 
@@ -185,7 +185,7 @@ func (f *fakeConn) String() string {
 	return "fake"
 }
 
-func (f *fakeConn) Tx(w, r []byte) error {
+func (f *fakeConn) Tx(_, _ []byte) error {
 	return errors.New("not implemented")
 }
 

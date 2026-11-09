@@ -16,6 +16,7 @@ import (
 )
 
 func TestAngle_String(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		in       Angle
 		expected string
@@ -51,36 +52,42 @@ func TestAngle_String(t *testing.T) {
 }
 
 func TestDistance_String(t *testing.T) {
+	t.Parallel()
 	if s := Mile.String(); s != "1.609km" {
 		t.Fatalf("%#v", s)
 	}
 }
 
 func TestElectricCurrent_String(t *testing.T) {
+	t.Parallel()
 	if s := Ampere.String(); s != "1A" {
 		t.Fatalf("%#v", s)
 	}
 }
 
 func TestElectricPotential_String(t *testing.T) {
+	t.Parallel()
 	if s := Volt.String(); s != "1V" {
 		t.Fatalf("%#v", s)
 	}
 }
 
 func TestElectricResistance_String(t *testing.T) {
+	t.Parallel()
 	if s := Ohm.String(); s != "1Ω" {
 		t.Fatalf("%#v", s)
 	}
 }
 
 func TestForce_String(t *testing.T) {
+	t.Parallel()
 	if s := Newton.String(); s != "1N" {
 		t.Fatalf("%#v", s)
 	}
 }
 
 func TestFrequency_String(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		in       Frequency
 		expected string
@@ -109,6 +116,7 @@ func TestFrequency_String(t *testing.T) {
 }
 
 func TestFrequency_Period(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		in       Frequency
 		expected time.Duration
@@ -140,6 +148,7 @@ func TestFrequency_Period(t *testing.T) {
 }
 
 func TestFrequency_Duration(t *testing.T) {
+	t.Parallel()
 	// TODO(maruel): To be removed in v4.0.0.
 	if MicroHertz.Duration() != MicroHertz.Period() {
 		t.Fatal("should have the same result")
@@ -147,6 +156,7 @@ func TestFrequency_Duration(t *testing.T) {
 }
 
 func TestFrequency_PeriodToFrequency(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		in       time.Duration
 		expected Frequency
@@ -176,12 +186,14 @@ func TestFrequency_PeriodToFrequency(t *testing.T) {
 }
 
 func TestMass_String(t *testing.T) {
+	t.Parallel()
 	if s := PoundMass.String(); s != "453.592g" {
 		t.Fatalf("%#v", s)
 	}
 }
 
 func TestPressure_String(t *testing.T) {
+	t.Parallel()
 	if s := NanoPascal.String(); s != "1nPa" {
 		t.Fatalf("%v", s)
 	}
@@ -203,10 +215,10 @@ func TestPressure_String(t *testing.T) {
 	if s := GigaPascal.String(); s != "1GPa" {
 		t.Fatalf("%v", s)
 	}
-
 }
 
 func TestRelativeHumidity_String(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		in       RelativeHumidity
 		expected string
@@ -233,12 +245,14 @@ func TestRelativeHumidity_String(t *testing.T) {
 }
 
 func TestSpeed_String(t *testing.T) {
+	t.Parallel()
 	if s := MilePerHour.String(); s != "447.040mm/s" {
 		t.Fatalf("%#v", s)
 	}
 }
 
 func TestTemperature_String(t *testing.T) {
+	t.Parallel()
 	if s := ZeroCelsius.String(); s != "0°C" {
 		t.Fatalf("%#v", s)
 	}
@@ -248,6 +262,7 @@ func TestTemperature_String(t *testing.T) {
 }
 
 func TestPower_String(t *testing.T) {
+	t.Parallel()
 	if s := NanoWatt.String(); s != "1nW" {
 		t.Fatalf("%v", s)
 	}
@@ -271,6 +286,7 @@ func TestPower_String(t *testing.T) {
 	}
 }
 func TestEnergy_String(t *testing.T) {
+	t.Parallel()
 	if s := NanoJoule.String(); s != "1nJ" {
 		t.Fatalf("%v", s)
 	}
@@ -295,6 +311,7 @@ func TestEnergy_String(t *testing.T) {
 }
 
 func TestCapacitance_String(t *testing.T) {
+	t.Parallel()
 	if s := PicoFarad.String(); s != "1pF" {
 		t.Fatalf("%v", s)
 	}
@@ -319,6 +336,7 @@ func TestCapacitance_String(t *testing.T) {
 }
 
 func TestLuminousIntensity_String(t *testing.T) {
+	t.Parallel()
 	if s := NanoCandela.String(); s != "1ncd" {
 		t.Fatalf("%v", s)
 	}
@@ -343,6 +361,7 @@ func TestLuminousIntensity_String(t *testing.T) {
 }
 
 func TestFlux_String(t *testing.T) {
+	t.Parallel()
 	if s := NanoLumen.String(); s != "1nlm" {
 		t.Fatalf("%v", s)
 	}
@@ -367,6 +386,7 @@ func TestFlux_String(t *testing.T) {
 }
 
 func TestPicoAsString(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		in       int64
 		expected string
@@ -410,7 +430,7 @@ func TestPicoAsString(t *testing.T) {
 		{-999999499999999, "-999.999"},
 		{999999500000001, "1k"},
 		{-999999500000001, "-1k"},
-		{1000000000000000, "1k"}, //30
+		{1000000000000000, "1k"}, // 30
 		{-1000000000000000, "-1k"},
 		{1100000000000000, "1.100k"},
 		{-1100000000000000, "-1.100k"},
@@ -438,6 +458,7 @@ func TestPicoAsString(t *testing.T) {
 }
 
 func TestNanoAsString(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		in       int64
 		expected string
@@ -521,6 +542,7 @@ func TestNanoAsString(t *testing.T) {
 }
 
 func TestMicroAsString(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		in       int64
 		expected string
@@ -564,7 +586,7 @@ func TestMicroAsString(t *testing.T) {
 		{-999999499999999, "-999.999M"},
 		{999999500000001, "1G"},
 		{-999999500000001, "-1G"},
-		{1000000000000000, "1G"}, //30
+		{1000000000000000, "1G"}, // 30
 		{-1000000000000000, "-1G"},
 		{1100000000000000, "1.100G"},
 		{-1100000000000000, "-1.100G"},
@@ -594,7 +616,7 @@ func TestMicroAsString(t *testing.T) {
 func BenchmarkCelsiusString(b *testing.B) {
 	v := 10*Celsius + ZeroCelsius
 	buf := bytes.Buffer{}
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		buf.WriteString(v.String())
 		buf.Reset()
 	}
@@ -603,7 +625,7 @@ func BenchmarkCelsiusString(b *testing.B) {
 func BenchmarkCelsiusFloatf(b *testing.B) {
 	v := float64(10)
 	buf := bytes.Buffer{}
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		buf.WriteString(fmt.Sprintf("%.1f°C", v))
 		buf.Reset()
 	}
@@ -612,13 +634,14 @@ func BenchmarkCelsiusFloatf(b *testing.B) {
 func BenchmarkCelsiusFloatg(b *testing.B) {
 	v := float64(10)
 	buf := bytes.Buffer{}
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		buf.WriteString(fmt.Sprintf("%g°C", v))
 		buf.Reset()
 	}
 }
 
 func TestAtod(t *testing.T) {
+	t.Parallel()
 	const (
 		negative = true
 		positive = false
@@ -702,6 +725,7 @@ func TestAtod(t *testing.T) {
 }
 
 func TestDtoi(t *testing.T) {
+	t.Parallel()
 	const (
 		negative = true
 		positive = false
@@ -768,6 +792,7 @@ func TestDtoi(t *testing.T) {
 }
 
 func Test_decimalMulScale(t *testing.T) {
+	t.Parallel()
 	const (
 		negative = true
 		positive = false
@@ -934,6 +959,7 @@ func Test_decimalMulScale(t *testing.T) {
 }
 
 func TestPrefix(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name   string
 		prefix rune
@@ -960,6 +986,7 @@ func TestPrefix(t *testing.T) {
 }
 
 func TestParseError(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		err  error
@@ -976,12 +1003,14 @@ func TestParseError(t *testing.T) {
 }
 
 func TestMaxInt64(t *testing.T) {
+	t.Parallel()
 	if strconv.FormatUint(maxInt64, 10) != maxInt64Str {
 		t.Fatal("unexpected text representation of max")
 	}
 }
 
 func TestValueOfUnitString(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in        string
 		uintbase  prefix
@@ -1091,6 +1120,7 @@ func TestValueOfUnitString(t *testing.T) {
 }
 
 func TestAngle_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected Angle
@@ -1240,6 +1270,7 @@ func TestAngle_Set(t *testing.T) {
 }
 
 func TestAngle_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Degree
 	var y Angle
 	if err := y.Set(x.String()); err != nil {
@@ -1251,6 +1282,7 @@ func TestAngle_RoundTrip(t *testing.T) {
 }
 
 func TestDistance_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected Distance
@@ -1445,6 +1477,7 @@ func TestDistance_Set(t *testing.T) {
 }
 
 func TestDistance_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Metre
 	var y Distance
 	if err := y.Set(x.String()); err != nil {
@@ -1456,6 +1489,7 @@ func TestDistance_RoundTrip(t *testing.T) {
 }
 
 func TestElectricPotential_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected ElectricPotential
@@ -1584,6 +1618,7 @@ func TestElectricPotential_Set(t *testing.T) {
 }
 
 func TestElectricPotential_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Volt
 	var y ElectricPotential
 	if err := y.Set(x.String()); err != nil {
@@ -1595,6 +1630,7 @@ func TestElectricPotential_RoundTrip(t *testing.T) {
 }
 
 func TestElectricCurrent_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected ElectricCurrent
@@ -1723,6 +1759,7 @@ func TestElectricCurrent_Set(t *testing.T) {
 }
 
 func TestElectricCurrent_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Ampere
 	var y ElectricCurrent
 	if err := y.Set(x.String()); err != nil {
@@ -1734,6 +1771,7 @@ func TestElectricCurrent_RoundTrip(t *testing.T) {
 }
 
 func TestElectricResistance_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected ElectricResistance
@@ -1865,6 +1903,7 @@ func TestElectricResistance_Set(t *testing.T) {
 }
 
 func TestElectricResistance_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Ohm
 	var y ElectricResistance
 	if err := y.Set(x.String()); err != nil {
@@ -1876,6 +1915,7 @@ func TestElectricResistance_RoundTrip(t *testing.T) {
 }
 
 func TestForce_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected Force
@@ -2044,6 +2084,7 @@ func TestForce_Set(t *testing.T) {
 }
 
 func TestForce_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Newton
 	var y Force
 	if err := y.Set(x.String()); err != nil {
@@ -2055,6 +2096,7 @@ func TestForce_RoundTrip(t *testing.T) {
 }
 
 func TestFrequency_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected Frequency
@@ -2184,6 +2226,7 @@ func TestFrequency_Set(t *testing.T) {
 }
 
 func TestFrequency_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Hertz
 	var y Frequency
 	if err := y.Set(x.String()); err != nil {
@@ -2195,6 +2238,7 @@ func TestFrequency_RoundTrip(t *testing.T) {
 }
 
 func TestMass_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected Mass
@@ -2339,6 +2383,7 @@ func TestMass_Set(t *testing.T) {
 }
 
 func TestMass_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Gram
 	var y Mass
 	if err := y.Set(x.String()); err != nil {
@@ -2350,6 +2395,7 @@ func TestMass_RoundTrip(t *testing.T) {
 }
 
 func TestPressure_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected Pressure
@@ -2480,6 +2526,7 @@ func TestPressure_Set(t *testing.T) {
 }
 
 func TestPressure_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Pascal
 	var y Pressure
 	if err := y.Set(x.String()); err != nil {
@@ -2491,6 +2538,7 @@ func TestPressure_RoundTrip(t *testing.T) {
 }
 
 func TestRelativeHumidity_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected RelativeHumidity
@@ -2590,6 +2638,7 @@ func TestRelativeHumidity_Set(t *testing.T) {
 }
 
 func TestRelativeHumidity_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 23 * PercentRH
 	var y RelativeHumidity
 	if err := y.Set(x.String()); err != nil {
@@ -2601,6 +2650,7 @@ func TestRelativeHumidity_RoundTrip(t *testing.T) {
 }
 
 func TestSpeed_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected Speed
@@ -2756,6 +2806,7 @@ func TestSpeed_Set(t *testing.T) {
 }
 
 func TestSpeed_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * MetrePerSecond
 	var y Speed
 	if err := y.Set(x.String()); err != nil {
@@ -2767,6 +2818,7 @@ func TestSpeed_RoundTrip(t *testing.T) {
 }
 
 func TestTemperature_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected Temperature
@@ -2921,6 +2973,7 @@ func TestTemperature_Set(t *testing.T) {
 }
 
 func TestTemperature_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Celsius
 	var y Temperature
 	if err := y.Set(x.String()); err != nil {
@@ -2932,6 +2985,7 @@ func TestTemperature_RoundTrip(t *testing.T) {
 }
 
 func TestTemperature_Celsius(t *testing.T) {
+	t.Parallel()
 	if v := ZeroCelsius.Celsius(); v != 0. {
 		t.Fatal(v)
 	}
@@ -2941,6 +2995,7 @@ func TestTemperature_Celsius(t *testing.T) {
 }
 
 func TestTemperature_Fahrenheit(t *testing.T) {
+	t.Parallel()
 	if v := ZeroFahrenheit.Fahrenheit(); v != 0. {
 		t.Fatal(v)
 	}
@@ -2950,6 +3005,7 @@ func TestTemperature_Fahrenheit(t *testing.T) {
 }
 
 func TestPower_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected Power
@@ -3082,6 +3138,7 @@ func TestPower_Set(t *testing.T) {
 }
 
 func TestPower_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Watt
 	var y Power
 	if err := y.Set(x.String()); err != nil {
@@ -3093,6 +3150,7 @@ func TestPower_RoundTrip(t *testing.T) {
 }
 
 func TestEnergy_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected Energy
@@ -3225,6 +3283,7 @@ func TestEnergy_Set(t *testing.T) {
 }
 
 func TestEnergy_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Joule
 	var y Energy
 	if err := y.Set(x.String()); err != nil {
@@ -3236,6 +3295,7 @@ func TestEnergy_RoundTrip(t *testing.T) {
 }
 
 func TestElectricalCapacitance_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected ElectricalCapacitance
@@ -3368,6 +3428,7 @@ func TestElectricalCapacitance_Set(t *testing.T) {
 }
 
 func TestElectricalCapacitance_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Farad
 	var y ElectricalCapacitance
 	if err := y.Set(x.String()); err != nil {
@@ -3379,6 +3440,7 @@ func TestElectricalCapacitance_RoundTrip(t *testing.T) {
 }
 
 func TestLuminousIntensity_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected LuminousIntensity
@@ -3509,6 +3571,7 @@ func TestLuminousIntensity_Set(t *testing.T) {
 }
 
 func TestLuminousIntensity_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Candela
 	var y LuminousIntensity
 	if err := y.Set(x.String()); err != nil {
@@ -3520,6 +3583,7 @@ func TestLuminousIntensity_RoundTrip(t *testing.T) {
 }
 
 func TestLuminousFlux_Set(t *testing.T) {
+	t.Parallel()
 	succeeds := []struct {
 		in       string
 		expected LuminousFlux
@@ -3650,6 +3714,7 @@ func TestLuminousFlux_Set(t *testing.T) {
 }
 
 func TestLuminousFlux_RoundTrip(t *testing.T) {
+	t.Parallel()
 	x := 123 * Lumen
 	var y LuminousFlux
 	if err := y.Set(x.String()); err != nil {
@@ -3666,7 +3731,7 @@ func BenchmarkDecimal(b *testing.B) {
 	var d decimal
 	var n int
 	var err error
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if d, n, err = atod("337.2m"); err != nil {
 			b.Fatal(err)
 		}
@@ -3679,13 +3744,13 @@ func BenchmarkDecimal2Int(b *testing.B) {
 	d := decimal{1234, 5, false}
 	var overflow bool
 	var v int64
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if v, overflow = dtoi(d, 0); overflow {
 			b.Fatal("unexpected overflow")
 		}
 	}
 	b.StopTimer()
-	_ = fmt.Sprintf("%d", v)
+	_ = strconv.FormatInt(v, 10)
 }
 
 func BenchmarkString2Decimal2Int(b *testing.B) {
@@ -3694,7 +3759,7 @@ func BenchmarkString2Decimal2Int(b *testing.B) {
 	var err error
 	var overflow bool
 	var v int64
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if d, n, err = atod("337.2m"); err != nil {
 			b.Fatal(err)
 		}
@@ -3710,7 +3775,7 @@ func BenchmarkDecimalNeg(b *testing.B) {
 	var d decimal
 	var n int
 	var err error
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if d, n, err = atod("-337.2m"); err != nil {
 			b.Fatal(err)
 		}
@@ -3725,7 +3790,7 @@ func BenchmarkString2Decimal2IntNeg(b *testing.B) {
 	var err error
 	var overflow bool
 	var v int64
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if d, n, err = atod("-337.2m"); err != nil {
 			b.Fatal(err)
 		}
@@ -3740,7 +3805,7 @@ func BenchmarkString2Decimal2IntNeg(b *testing.B) {
 func BenchmarkDistanceSet(b *testing.B) {
 	var err error
 	var d Distance
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if err = d.Set("1ft"); err != nil {
 			b.Fatal(err)
 		}
@@ -3752,7 +3817,7 @@ func BenchmarkDistanceSet(b *testing.B) {
 func BenchmarkElectricCurrentSet(b *testing.B) {
 	var err error
 	var e ElectricCurrent
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if err = e.Set("1A"); err != nil {
 			b.Fatal(err)
 		}
@@ -3764,7 +3829,7 @@ func BenchmarkElectricCurrentSet(b *testing.B) {
 func BenchmarkForceSetMetric(b *testing.B) {
 	var err error
 	var f Force
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if err = f.Set("123N"); err != nil {
 			b.Fatal(err)
 		}
@@ -3776,7 +3841,7 @@ func BenchmarkForceSetMetric(b *testing.B) {
 func BenchmarkForceSetImperial(b *testing.B) {
 	var err error
 	var f Force
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if err = f.Set("1.23Mlbf"); err != nil {
 			b.Fatal(err)
 		}
@@ -3788,7 +3853,7 @@ func BenchmarkForceSetImperial(b *testing.B) {
 func BenchmarkForceSetImperialWorstCase(b *testing.B) {
 	var err error
 	var f Force
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if err = f.Set("1.0000000000101lbf"); err != nil {
 			b.Fatal(err)
 		}
@@ -3800,7 +3865,7 @@ func BenchmarkForceSetImperialWorstCase(b *testing.B) {
 func BenchmarkAngleSetRadian(b *testing.B) {
 	var err error
 	var a Angle
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if err = a.Set("1rad"); err != nil {
 			b.Fatal(err)
 		}
@@ -3812,7 +3877,7 @@ func BenchmarkAngleSetRadian(b *testing.B) {
 func BenchmarkAngleSet1Degree(b *testing.B) {
 	var err error
 	var a Angle
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if err = a.Set("1deg"); err != nil {
 			b.Fatal(err)
 		}
@@ -3824,7 +3889,7 @@ func BenchmarkAngleSet1Degree(b *testing.B) {
 func BenchmarkAngleSet2Degree(b *testing.B) {
 	var err error
 	var a Angle
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		if err = a.Set("2deg"); err != nil {
 			b.Fatal(err)
 		}

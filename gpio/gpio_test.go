@@ -7,6 +7,7 @@
 package gpio
 
 import (
+	"errors"
 	"fmt"
 	"testing"
 	"time"
@@ -16,6 +17,7 @@ import (
 )
 
 func TestStrings(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		t fmt.Stringer
 		s string
@@ -38,6 +40,7 @@ func TestStrings(t *testing.T) {
 }
 
 func TestDuty_String(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		d        Duty
 		expected string
@@ -63,6 +66,7 @@ func TestDuty_String(t *testing.T) {
 }
 
 func TestDuty_Valid(t *testing.T) {
+	t.Parallel()
 	if !Duty(0).Valid() {
 		t.Fatal("0 is valid")
 	}
@@ -81,6 +85,7 @@ func TestDuty_Valid(t *testing.T) {
 }
 
 func TestParseDuty(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		input  string
 		d      Duty
@@ -106,6 +111,7 @@ func TestParseDuty(t *testing.T) {
 }
 
 func TestInvalid(t *testing.T) {
+	t.Parallel()
 	// conn.Resource
 	if s := INVALID.String(); s != "INVALID" {
 		t.Fatal(s)
@@ -124,7 +130,7 @@ func TestInvalid(t *testing.T) {
 		t.Fatal(s)
 	}
 	// gpio.PinIn
-	if err := INVALID.In(Float, NoEdge); err != errInvalidPin {
+	if err := INVALID.In(Float, NoEdge); !errors.Is(err, errInvalidPin) {
 		t.Fatal(err)
 	}
 	if l := INVALID.Read(); l != Low {
@@ -140,20 +146,24 @@ func TestInvalid(t *testing.T) {
 		t.Fatal(p)
 	}
 	// gpio.PinOut
-	if err := INVALID.Out(Low); err != errInvalidPin {
+	if err := INVALID.Out(Low); !errors.Is(err, errInvalidPin) {
 		t.Fatal(err)
 	}
-	if err := INVALID.PWM(DutyMax, physic.Hertz); err != errInvalidPin {
+	if err := INVALID.PWM(DutyMax, physic.Hertz); !errors.Is(err, errInvalidPin) {
 		t.Fatal(err)
 	}
 	// pin.PinFunc
-	if f := INVALID.(pin.PinFunc).Func(); f != pin.FuncNone {
+	pinFunc, ok := INVALID.(pin.PinFunc)
+	if !ok {
+		t.Fatal("INVALID does not implement pin.PinFunc")
+	}
+	if f := pinFunc.Func(); f != pin.FuncNone {
 		t.Fatal(f)
 	}
-	if f := INVALID.(pin.PinFunc).SupportedFuncs(); len(f) != 0 {
+	if f := pinFunc.SupportedFuncs(); len(f) != 0 {
 		t.Fatal(f)
 	}
-	if err := INVALID.(pin.PinFunc).SetFunc(IN_LOW); err == nil {
+	if err := pinFunc.SetFunc(IN_LOW); err == nil {
 		t.Fatal("can't set func")
 	}
 }

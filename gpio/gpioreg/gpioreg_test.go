@@ -219,6 +219,7 @@ func TestInsertPinByName(t *testing.T) {
 // basicPin implements Pin as a non-functional pin.
 type basicPin struct {
 	gpio.PinIO
+
 	name string
 	num  int
 }

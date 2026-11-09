@@ -24,6 +24,7 @@ import (
 )
 
 func TestRecordRaw(t *testing.T) {
+	t.Parallel()
 	b := bytes.Buffer{}
 	r := NewRecordRaw(&b)
 	if err := r.LimitSpeed(-100); err != nil {
@@ -57,6 +58,7 @@ func TestRecordRaw(t *testing.T) {
 }
 
 func TestRecord_empty(t *testing.T) {
+	t.Parallel()
 	r := Record{}
 	if s := r.String(); s != "record" {
 		t.Fatal(s)
@@ -86,7 +88,10 @@ func TestRecord_empty(t *testing.T) {
 	if d := c.Duplex(); d != conn.DuplexUnknown {
 		t.Fatal(d)
 	}
-	p := c.(spi.Pins)
+	p, ok := c.(spi.Pins)
+	if !ok {
+		t.Fatal("connection does not expose SPI pins")
+	}
 	if s := p.CLK(); s != gpio.INVALID {
 		t.Fatal(s)
 	}
@@ -105,6 +110,7 @@ func TestRecord_empty(t *testing.T) {
 }
 
 func TestRecord_Tx_empty(t *testing.T) {
+	t.Parallel()
 	r := Record{}
 	c, err := r.Connect(0, spi.Mode0, 8)
 	if err != nil {
@@ -131,6 +137,7 @@ func TestRecord_Tx_empty(t *testing.T) {
 }
 
 func TestPlayback(t *testing.T) {
+	t.Parallel()
 	p := Playback{
 		CLKPin:  &gpiotest.Pin{N: "CLK"},
 		MOSIPin: &gpiotest.Pin{N: "MOSI"},
@@ -153,16 +160,20 @@ func TestPlayback(t *testing.T) {
 	if err := c.TxPackets(nil); err == nil {
 		t.Fatal("not yet implemented")
 	}
-	if n := c.(spi.Pins).CLK().Name(); n != "CLK" {
+	pins, ok := c.(spi.Pins)
+	if !ok {
+		t.Fatal("connection does not expose SPI pins")
+	}
+	if n := pins.CLK().Name(); n != "CLK" {
 		t.Fatal(n)
 	}
-	if n := c.(spi.Pins).MOSI().Name(); n != "MOSI" {
+	if n := pins.MOSI().Name(); n != "MOSI" {
 		t.Fatal(n)
 	}
-	if n := c.(spi.Pins).MISO().Name(); n != "MISO" {
+	if n := pins.MISO().Name(); n != "MISO" {
 		t.Fatal(n)
 	}
-	if n := c.(spi.Pins).CS().Name(); n != "CS" {
+	if n := pins.CS().Name(); n != "CS" {
 		t.Fatal(n)
 	}
 	if err := p.Close(); err != nil {
@@ -171,11 +182,10 @@ func TestPlayback(t *testing.T) {
 }
 
 func TestPlayback_Tx_err(t *testing.T) {
+	t.Parallel()
 	p := Playback{
-		Playback: conntest.Playback{
-			Ops:       []conntest.IO{{W: []byte{10}, R: []byte{12}}},
-			DontPanic: true,
-		},
+		Ops:       []conntest.IO{{W: []byte{10}, R: []byte{12}}},
+		DontPanic: true,
 	}
 	c, err := p.Connect(0, spi.Mode0, 8)
 	if err != nil {
@@ -193,7 +203,8 @@ func TestPlayback_Tx_err(t *testing.T) {
 }
 
 func TestPlayback_Tx_empty(t *testing.T) {
-	p := Playback{Playback: conntest.Playback{DontPanic: true}}
+	t.Parallel()
+	p := Playback{DontPanic: true}
 	c, err := p.Connect(0, spi.Mode0, 8)
 	if err != nil {
 		t.Fatal(err)
@@ -204,10 +215,9 @@ func TestPlayback_Tx_empty(t *testing.T) {
 }
 
 func TestPlayback_Tx(t *testing.T) {
+	t.Parallel()
 	p := Playback{
-		Playback: conntest.Playback{
-			Ops: []conntest.IO{{W: []byte{10}, R: []byte{12}}},
-		},
+		Ops: []conntest.IO{{W: []byte{10}, R: []byte{12}}},
 	}
 	c, err := p.Connect(0, spi.Mode0, 8)
 	if err != nil {
@@ -226,17 +236,16 @@ func TestPlayback_Tx(t *testing.T) {
 }
 
 func TestRecord_Playback(t *testing.T) {
+	t.Parallel()
 	r := Record{
 		Port: &Playback{
-			Playback: conntest.Playback{
-				Ops:       []conntest.IO{{W: []byte{10}, R: []byte{12}}},
-				D:         conn.Full,
-				DontPanic: true,
-			},
-			CLKPin:  &gpiotest.Pin{N: "CLK"},
-			MOSIPin: &gpiotest.Pin{N: "MOSI"},
-			MISOPin: &gpiotest.Pin{N: "MISO"},
-			CSPin:   &gpiotest.Pin{N: "CS"},
+			Ops:       []conntest.IO{{W: []byte{10}, R: []byte{12}}},
+			D:         conn.Full,
+			DontPanic: true,
+			CLKPin:    &gpiotest.Pin{N: "CLK"},
+			MOSIPin:   &gpiotest.Pin{N: "MOSI"},
+			MISOPin:   &gpiotest.Pin{N: "MISO"},
+			CSPin:     &gpiotest.Pin{N: "CS"},
 		},
 	}
 	if err := r.LimitSpeed(-100); err != nil {
@@ -249,7 +258,10 @@ func TestRecord_Playback(t *testing.T) {
 	if d := c.Duplex(); d != conn.Full {
 		t.Fatal(d)
 	}
-	p := c.(spi.Pins)
+	p, ok := c.(spi.Pins)
+	if !ok {
+		t.Fatal("connection does not expose SPI pins")
+	}
 	if n := p.CLK().Name(); n != "CLK" {
 		t.Fatal(n)
 	}
@@ -282,11 +294,12 @@ type connectFail struct {
 	Playback
 }
 
-func (c *connectFail) Connect(f physic.Frequency, mode spi.Mode, bits int) (spi.Conn, error) {
+func (c *connectFail) Connect(_ physic.Frequency, _ spi.Mode, _ int) (spi.Conn, error) {
 	return nil, errors.New("foo")
 }
 
 func TestRecord_Fail(t *testing.T) {
+	t.Parallel()
 	r := Record{Port: &connectFail{}}
 	if _, err := r.Connect(0, spi.Mode0, 0); err == nil || err.Error() != "foo" {
 		t.Fatal("should have failed")
@@ -294,17 +307,16 @@ func TestRecord_Fail(t *testing.T) {
 }
 
 func TestLog_Playback(t *testing.T) {
+	t.Parallel()
 	r := Log{
 		PortCloser: &Playback{
-			Playback: conntest.Playback{
-				Ops:       []conntest.IO{{W: []byte{10}, R: []byte{12}}},
-				D:         conn.Full,
-				DontPanic: true,
-			},
-			CLKPin:  &gpiotest.Pin{N: "CLK"},
-			MOSIPin: &gpiotest.Pin{N: "MOSI"},
-			MISOPin: &gpiotest.Pin{N: "MISO"},
-			CSPin:   &gpiotest.Pin{N: "CS"},
+			Ops:       []conntest.IO{{W: []byte{10}, R: []byte{12}}},
+			D:         conn.Full,
+			DontPanic: true,
+			CLKPin:    &gpiotest.Pin{N: "CLK"},
+			MOSIPin:   &gpiotest.Pin{N: "MOSI"},
+			MISOPin:   &gpiotest.Pin{N: "MISO"},
+			CSPin:     &gpiotest.Pin{N: "CS"},
 		},
 	}
 	if err := r.LimitSpeed(-100); err != nil {

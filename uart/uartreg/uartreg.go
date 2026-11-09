@@ -196,7 +196,7 @@ func Unregister(name string) error {
 var (
 	mu     sync.Mutex
 	byName = map[string]*Ref{}
-	// Caches
+	// Caches.
 	byNumber = map[int]*Ref{}
 	byAlias  = map[string]*Ref{}
 )
@@ -226,7 +226,7 @@ func getDefault() *Ref {
 }
 
 // wrapf returns an error that is wrapped with the package name.
-func wrapf(format string, a ...interface{}) error {
+func wrapf(format string, a ...any) error {
 	return fmt.Errorf("uartreg: "+format, a...)
 }
 

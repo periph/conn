@@ -20,15 +20,21 @@ func Example() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Use onewirereg 1-wire bus registry to find the first available 1-wire bus.
 	b, err := onewirereg.Open("")
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
-	defer b.Close()
+	defer func() {
+		if closeErr := b.Close(); closeErr != nil {
+			log.Print(closeErr)
+		}
+	}()
 
 	// Dev is a valid conn.Conn.
 	d := &onewire.Dev{Addr: 23, Bus: b}
@@ -37,7 +43,8 @@ func Example() {
 	write := []byte{0x10}
 	read := make([]byte, 5)
 	if err := d.Tx(write, read); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 	fmt.Printf("%v\n", read)
 }
@@ -47,15 +54,21 @@ func ExamplePins() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Use onewirereg 1-wire bus registry to find the first available 1-wire bus.
 	b, err := onewirereg.Open("")
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
-	defer b.Close()
+	defer func() {
+		if closeErr := b.Close(); closeErr != nil {
+			log.Print(closeErr)
+		}
+	}()
 
 	// Prints out the gpio pin used.
 	if p, ok := b.(onewire.Pins); ok {

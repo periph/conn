@@ -17,6 +17,7 @@ import (
 type pollEdge struct {
 	// Immutable.
 	gpio.PinIO
+
 	// period is the delay between each poll.
 	period time.Duration
 	die    chan struct{}
@@ -76,6 +77,8 @@ func (p *pollEdge) WaitForEdge(timeout time.Duration) bool {
 			n := p.PinIO.Read()
 			if n != curr {
 				switch p.edge {
+				case gpio.NoEdge:
+					// No edge is reported when detection is disabled.
 				case gpio.RisingEdge:
 					if n == gpio.High {
 						return true

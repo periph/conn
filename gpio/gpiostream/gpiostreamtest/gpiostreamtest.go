@@ -29,12 +29,13 @@ type InOp struct {
 //
 // Embed in a struct with gpiotest.Pin for more functionality.
 type PinIn struct {
+	sync.Mutex
+
 	// These should be immutable.
 	N         string
 	DontPanic bool
 
 	// Grab the Mutex before accessing the following members.
-	sync.Mutex
 	Ops   []InOp
 	Count int
 }
@@ -124,12 +125,13 @@ func (p *PinIn) StreamIn(pull gpio.Pull, b gpiostream.Stream) error {
 //
 // Embed in a struct with gpiotest.Pin for more functionality.
 type PinOutPlayback struct {
+	sync.Mutex
+
 	// These should be immutable.
 	N         string
 	DontPanic bool
 
 	// Grab the Mutex before accessing the following members.
-	sync.Mutex
 	Ops   []gpiostream.Stream
 	Count int
 }
@@ -205,12 +207,13 @@ func (p *PinOutPlayback) StreamOut(s gpiostream.Stream) error {
 //
 // Embed in a struct with gpiotest.Pin for more functionality.
 type PinOutRecord struct {
+	sync.Mutex
+
 	// These should be immutable.
 	N         string
 	DontPanic bool
 
 	// Grab the Mutex before accessing the following members.
-	sync.Mutex
 	Ops []gpiostream.Stream
 }
 
@@ -274,7 +277,7 @@ func (p *PinOutRecord) StreamOut(s gpiostream.Stream) error {
 // errorf is the internal implementation that optionally panic.
 //
 // If dontPanic is false, it panics instead.
-func errorf(dontPanic bool, format string, a ...interface{}) error {
+func errorf(dontPanic bool, format string, a ...any) error {
 	err := conntest.Errorf(format, a...)
 	if !dontPanic {
 		panic(err)

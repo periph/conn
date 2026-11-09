@@ -26,7 +26,7 @@ func ExampleBitStream() {
 	}
 	for _, l := range stream.Bits {
 		fmt.Printf("0x%02X: ", l)
-		for j := 0; j < 8; j++ {
+		for j := range 8 {
 			mask := byte(1) << uint(j)
 			fmt.Printf("%4s,", gpio.Level(l&mask != 0))
 			if j != 7 {

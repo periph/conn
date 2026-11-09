@@ -380,6 +380,7 @@ func TestAfterExplodeStages3Dep(t *testing.T) {
 }
 
 func TestDrivers(t *testing.T) {
+	t.Parallel()
 	var d []driver.Impl
 	d = insertDriver(d, &driverFake{name: "b"})
 	d = insertDriver(d, &driverFake{name: "d"})
@@ -393,6 +394,7 @@ func TestDrivers(t *testing.T) {
 }
 
 func TestFailures(t *testing.T) {
+	t.Parallel()
 	var d []DriverFailure
 	d = insertDriverFailure(d, DriverFailure{D: &driverFake{name: "b"}})
 	d = insertDriverFailure(d, DriverFailure{D: &driverFake{name: "d"}})

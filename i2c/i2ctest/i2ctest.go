@@ -29,6 +29,7 @@ type IO struct {
 // Record doesn't implement i2c.BusCloser on purpose.
 type Record struct {
 	sync.Mutex
+
 	Bus i2c.Bus // Bus can be nil if only writes are being recorded.
 	Ops []IO
 }
@@ -37,7 +38,7 @@ func (r *Record) String() string {
 	return "record"
 }
 
-// Tx implements i2c.Bus
+// Tx implements i2c.Bus.
 func (r *Record) Tx(addr uint16, w, read []byte) error {
 	io := IO{Addr: addr}
 	if len(w) != 0 {
@@ -96,6 +97,7 @@ func (r *Record) SDA() gpio.PinIO {
 // default.
 type Playback struct {
 	sync.Mutex
+
 	Ops       []IO
 	Count     int
 	DontPanic bool
@@ -141,7 +143,7 @@ func (p *Playback) Tx(addr uint16, w, r []byte) error {
 }
 
 // SetSpeed implements i2c.Bus.
-func (p *Playback) SetSpeed(f physic.Frequency) error {
+func (p *Playback) SetSpeed(_ physic.Frequency) error {
 	return nil
 }
 
@@ -160,7 +162,7 @@ func (p *Playback) SDA() gpio.PinIO {
 // errorf is the internal implementation that optionally panic.
 //
 // If dontPanic is false, it panics instead.
-func errorf(dontPanic bool, format string, a ...interface{}) error {
+func errorf(dontPanic bool, format string, a ...any) error {
 	err := conntest.Errorf(format, a...)
 	if !dontPanic {
 		panic(err)

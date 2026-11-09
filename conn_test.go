@@ -11,6 +11,7 @@ import (
 )
 
 func TestDuplex(t *testing.T) {
+	t.Parallel()
 	if Half.String() != "Half" || Duplex(10).String() != "Duplex(10)" {
 		t.Fatal()
 	}

@@ -11,6 +11,7 @@ import (
 )
 
 func TestLessLess(t *testing.T) {
+	t.Parallel()
 	data := [][2]string{
 		{"", "a"},
 		{"a", "b"},
@@ -35,6 +36,7 @@ func TestLessLess(t *testing.T) {
 }
 
 func TestLessNot(t *testing.T) {
+	t.Parallel()
 	data := [][2]string{
 		{"a", ""},
 		{"a", "a"},

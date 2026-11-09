@@ -20,15 +20,21 @@ func ExamplePins() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Use uartreg UART port registry to find the first available UART port.
 	p, err := uartreg.Open("")
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
-	defer p.Close()
+	defer func() {
+		if closeErr := p.Close(); closeErr != nil {
+			log.Print(closeErr)
+		}
+	}()
 
 	// Prints out the gpio pin used.
 	if p, ok := p.(uart.Pins); ok {

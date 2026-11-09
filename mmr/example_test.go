@@ -24,21 +24,28 @@ func ExampleDev8() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Open a connection, using I²C as an example:
 	b, err := i2creg.Open("")
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
-	defer b.Close()
+	defer func() {
+		if closeErr := b.Close(); closeErr != nil {
+			log.Print(closeErr)
+		}
+	}()
 	c := &i2c.Dev{Bus: b, Addr: 0xD0}
 
 	d := mmr.Dev8{Conn: c, Order: binary.BigEndian}
 	v, err := d.ReadUint8(0xD0)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 	if v == 0x60 {
 		fmt.Printf("Found bme280 on bus %s\n", b)
@@ -50,15 +57,21 @@ func ExampleDev8_ReadStruct() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Open a connection, using I²C as an example:
 	b, err := i2creg.Open("")
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
-	defer b.Close()
+	defer func() {
+		if closeErr := b.Close(); closeErr != nil {
+			log.Print(closeErr)
+		}
+	}()
 	c := &i2c.Dev{Bus: b, Addr: 0xD0}
 
 	d := mmr.Dev8{Conn: c, Order: binary.BigEndian}
@@ -67,7 +80,8 @@ func ExampleDev8_ReadStruct() {
 		Flag8  [2]uint8
 	}{}
 	if err = d.ReadStruct(0xD0, &flags); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 	// Use flags.Flag16 and flags.Flag8.
 }
@@ -77,15 +91,21 @@ func ExampleDev8_WriteStruct() {
 	// TODO: Use host.Init(). It is not used in this example to prevent circular
 	// go package import.
 	if _, err := driverreg.Init(); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 
 	// Open a connection, using 1-wire as an example:
 	b, err := onewirereg.Open("")
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
-	defer b.Close()
+	defer func() {
+		if closeErr := b.Close(); closeErr != nil {
+			log.Print(closeErr)
+		}
+	}()
 	c := &onewire.Dev{Bus: b, Addr: 0xD0}
 
 	d := mmr.Dev8{Conn: c, Order: binary.LittleEndian}
@@ -97,6 +117,7 @@ func ExampleDev8_WriteStruct() {
 		[2]uint8{1, 2},
 	}
 	if err = d.WriteStruct(0xD0, &flags); err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		return
 	}
 }

@@ -11,7 +11,7 @@ type Key string
 // Keys use the original UNDER_SCORES format even if not Go idiomatic to
 // simplify the addition and removal of codes.
 const (
-	// The following was manually extracted from
+	// KEY_0 and the following keys were manually extracted from
 	// http://www.lirc.org/api-docs/html/input__map_8inc_source.html
 	KEY_0                        Key = "KEY_0"
 	KEY_102ND                    Key = "KEY_102ND"
@@ -545,7 +545,7 @@ const (
 	BTN_WHEEL                    Key = "BTN_WHEEL"
 	BTN_Z                        Key = "BTN_Z"
 
-	// The following came for the author's personal remote.
+	// KEY_100PLUS and the following keys come from the author's personal remote.
 	KEY_100PLUS Key = "KEY_100PLUS"
 	KEY_200PLUS Key = "KEY_200PLUS"
 	KEY_EQ      Key = "KEY_EQ"

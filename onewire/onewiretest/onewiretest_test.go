@@ -17,6 +17,7 @@ import (
 )
 
 func TestRecord_empty(t *testing.T) {
+	t.Parallel()
 	r := Record{}
 	if s := r.String(); s != "record" {
 		t.Fatal(s)
@@ -33,6 +34,7 @@ func TestRecord_empty(t *testing.T) {
 }
 
 func TestRecord_Tx_empty(t *testing.T) {
+	t.Parallel()
 	r := Record{}
 	if err := r.Tx(nil, nil, onewire.WeakPullup); err != nil {
 		t.Fatal(err)
@@ -55,6 +57,7 @@ func TestRecord_Tx_empty(t *testing.T) {
 }
 
 func TestPlayback_empty(t *testing.T) {
+	t.Parallel()
 	p := Playback{
 		QPin:      &gpiotest.Pin{N: "Q"},
 		DontPanic: true,
@@ -79,6 +82,7 @@ func TestPlayback_empty(t *testing.T) {
 }
 
 func TestPlayback(t *testing.T) {
+	t.Parallel()
 	p := Playback{
 		Ops: []IO{
 			{
@@ -99,6 +103,7 @@ func TestPlayback(t *testing.T) {
 }
 
 func TestPlayback_Close_panic(t *testing.T) {
+	t.Parallel()
 	p := Playback{Ops: []IO{{W: []byte{10}}}}
 	defer func() {
 		v := recover()
@@ -115,6 +120,7 @@ func TestPlayback_Close_panic(t *testing.T) {
 }
 
 func TestPlayback_searchbit(t *testing.T) {
+	t.Parallel()
 	p := Playback{searchBit: 64, DontPanic: true}
 	if _, err := p.SearchTriplet(0); err == nil {
 		t.Fatal("invalid search triplet")
@@ -122,6 +128,7 @@ func TestPlayback_searchbit(t *testing.T) {
 }
 
 func TestPlayback_inactive(t *testing.T) {
+	t.Parallel()
 	p := Playback{inactive: []bool{true}, DontPanic: true}
 	if _, err := p.SearchTriplet(0); err == nil {
 		t.Fatal("invalid search inactive devices")
@@ -129,6 +136,7 @@ func TestPlayback_inactive(t *testing.T) {
 }
 
 func TestRecord_Playback(t *testing.T) {
+	t.Parallel()
 	r := Record{
 		Bus: &Playback{
 			Ops: []IO{
@@ -188,6 +196,7 @@ func TestRecord_Playback(t *testing.T) {
 
 // TestSearch is the same as ../search_test.go.
 func TestSearch(t *testing.T) {
+	t.Parallel()
 	p := Playback{
 		Devices: []onewire.Address{
 			0x0000000000000000,

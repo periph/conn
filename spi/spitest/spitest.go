@@ -22,12 +22,13 @@ import (
 // It sends everything written to it to W.
 type RecordRaw struct {
 	conntest.RecordRaw
+
 	Initialized bool
 }
 
-// NewRecordRaw is a shortcut to create a RecordRaw
+// NewRecordRaw is a shortcut to create a RecordRaw.
 func NewRecordRaw(w io.Writer) *RecordRaw {
-	return &RecordRaw{RecordRaw: conntest.RecordRaw{W: w}}
+	return &RecordRaw{W: w}
 }
 
 // Close is a no-op.
@@ -38,12 +39,12 @@ func (r *RecordRaw) Close() error {
 }
 
 // LimitSpeed is a no-op.
-func (r *RecordRaw) LimitSpeed(f physic.Frequency) error {
+func (r *RecordRaw) LimitSpeed(_ physic.Frequency) error {
 	return nil
 }
 
 // Connect is a no-op.
-func (r *RecordRaw) Connect(f physic.Frequency, mode spi.Mode, bits int) (spi.Conn, error) {
+func (r *RecordRaw) Connect(_ physic.Frequency, _ spi.Mode, _ int) (spi.Conn, error) {
 	r.Lock()
 	defer r.Unlock()
 	if r.Initialized {
@@ -69,7 +70,7 @@ func (r *recordRawConn) Duplex() conn.Duplex {
 	return r.r.Duplex()
 }
 
-func (r *recordRawConn) TxPackets(p []spi.Packet) error {
+func (r *recordRawConn) TxPackets(_ []spi.Packet) error {
 	return conntest.Errorf("spitest: TxPackets is not implemented")
 }
 
@@ -80,6 +81,7 @@ func (r *recordRawConn) TxPackets(p []spi.Packet) error {
 // This can then be used to feed to Playback to do "replay" based unit tests.
 type Record struct {
 	sync.Mutex
+
 	Port        spi.PortCloser // Port can be nil if only writes are being recorded.
 	Ops         []conntest.IO
 	Initialized bool
@@ -203,7 +205,7 @@ func (r *recordConn) Tx(w, read []byte) error {
 }
 
 // TxPackets is not yet implemented.
-func (r *recordConn) TxPackets(p []spi.Packet) error {
+func (r *recordConn) TxPackets(_ []spi.Packet) error {
 	return conntest.Errorf("spitest: TxPackets is not implemented")
 }
 
@@ -235,6 +237,7 @@ func (r *recordConn) CS() gpio.PinOut {
 // an easy way to do basic code coverage.
 type Playback struct {
 	conntest.Playback
+
 	CLKPin      gpio.PinIO
 	MOSIPin     gpio.PinIO
 	MISOPin     gpio.PinIO
@@ -250,12 +253,12 @@ func (p *Playback) Close() error {
 }
 
 // LimitSpeed implements spi.PortCloser.
-func (p *Playback) LimitSpeed(f physic.Frequency) error {
+func (p *Playback) LimitSpeed(_ physic.Frequency) error {
 	return nil
 }
 
 // Connect implements spi.PortCloser.
-func (p *Playback) Connect(f physic.Frequency, mode spi.Mode, bits int) (spi.Conn, error) {
+func (p *Playback) Connect(_ physic.Frequency, _ spi.Mode, _ int) (spi.Conn, error) {
 	p.Lock()
 	defer p.Unlock()
 	if p.Initialized {
@@ -301,7 +304,7 @@ func (p *playbackConn) Tx(w, r []byte) error {
 	return p.p.Tx(w, r)
 }
 
-func (p *playbackConn) TxPackets(packets []spi.Packet) error {
+func (p *playbackConn) TxPackets(_ []spi.Packet) error {
 	return conntest.Errorf("spitest: TxPackets is not implemented")
 }
 
@@ -364,7 +367,7 @@ func (l *LogConn) Tx(w, r []byte) error {
 }
 
 // TxPackets is not yet implemented.
-func (l *LogConn) TxPackets(p []spi.Packet) error {
+func (l *LogConn) TxPackets(_ []spi.Packet) error {
 	return conntest.Errorf("spitest: TxPackets is not implemented")
 }
 

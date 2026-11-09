@@ -105,7 +105,6 @@ func ExampleDistance_Set() {
 	// 304.800mm
 	// 1m
 	// 14.484km
-
 }
 
 func ExampleDistance_flag() {

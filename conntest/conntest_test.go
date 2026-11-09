@@ -14,6 +14,7 @@ import (
 )
 
 func TestRecordRaw(t *testing.T) {
+	t.Parallel()
 	b := bytes.Buffer{}
 	r := RecordRaw{W: &b}
 	if d := r.Duplex(); d != conn.Half {
@@ -34,6 +35,7 @@ func TestRecordRaw(t *testing.T) {
 }
 
 func TestRecord_empty(t *testing.T) {
+	t.Parallel()
 	r := Record{}
 	if s := r.String(); s != "record" {
 		t.Fatal(s)
@@ -47,6 +49,7 @@ func TestRecord_empty(t *testing.T) {
 }
 
 func TestRecord_Tx_empty(t *testing.T) {
+	t.Parallel()
 	r := Record{}
 	if err := r.Tx(nil, nil); err != nil {
 		t.Fatal(err)
@@ -69,6 +72,7 @@ func TestRecord_Tx_empty(t *testing.T) {
 }
 
 func TestPlayback(t *testing.T) {
+	t.Parallel()
 	p := Playback{}
 	if s := p.String(); s != "playback" {
 		t.Fatal(s)
@@ -79,6 +83,7 @@ func TestPlayback(t *testing.T) {
 }
 
 func TestPlayback_Close_panic(t *testing.T) {
+	t.Parallel()
 	p := Playback{Ops: []IO{{W: []byte{10}}}}
 	defer func() {
 		v := recover()
@@ -95,6 +100,7 @@ func TestPlayback_Close_panic(t *testing.T) {
 }
 
 func TestPlayback_Tx(t *testing.T) {
+	t.Parallel()
 	p := Playback{
 		Ops: []IO{
 			{
@@ -129,6 +135,7 @@ func TestPlayback_Tx(t *testing.T) {
 }
 
 func TestPlayback_Tx_panic_count(t *testing.T) {
+	t.Parallel()
 	p := Playback{}
 	defer func() {
 		v := recover()
@@ -145,6 +152,7 @@ func TestPlayback_Tx_panic_count(t *testing.T) {
 }
 
 func TestPlayback_Tx_panic_write(t *testing.T) {
+	t.Parallel()
 	p := Playback{Ops: []IO{{W: []byte{1}}}}
 	defer func() {
 		v := recover()
@@ -161,6 +169,7 @@ func TestPlayback_Tx_panic_write(t *testing.T) {
 }
 
 func TestPlayback_Tx_panic_read(t *testing.T) {
+	t.Parallel()
 	p := Playback{Ops: []IO{{R: []byte{1}}}}
 	defer func() {
 		v := recover()
@@ -177,6 +186,7 @@ func TestPlayback_Tx_panic_read(t *testing.T) {
 }
 
 func TestRecord_Playback(t *testing.T) {
+	t.Parallel()
 	r := Record{
 		Conn: &Playback{
 			Ops: []IO{
@@ -206,6 +216,7 @@ func TestRecord_Playback(t *testing.T) {
 }
 
 func TestDiscard(t *testing.T) {
+	t.Parallel()
 	d := Discard{D: conn.Half}
 	if s := d.String(); s != "discard" {
 		t.Fatal(s)

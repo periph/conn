@@ -6,7 +6,6 @@
 // load the drivers as fast as possible by parallelising work.
 
 //go:build !tinygo
-// +build !tinygo
 
 package driverreg
 
@@ -25,27 +24,21 @@ func initImpl() (*State, error) {
 	cS := make(chan DriverFailure)
 	cE := make(chan DriverFailure)
 	var wg sync.WaitGroup
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	wg.Go(func() {
 		for d := range cD {
 			state.Loaded = insertDriver(state.Loaded, d)
 		}
-	}()
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	})
+	wg.Go(func() {
 		for f := range cS {
 			state.Skipped = insertDriverFailure(state.Skipped, f)
 		}
-	}()
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	})
+	wg.Go(func() {
 		for f := range cE {
 			state.Failed = insertDriverFailure(state.Failed, f)
 		}
-	}()
+	})
 
 	stages, err := explodeStages()
 	if err != nil {

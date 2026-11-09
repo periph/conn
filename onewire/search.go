@@ -9,6 +9,7 @@ package onewire
 import (
 	"errors"
 	"strconv"
+	"strings"
 )
 
 // BusSearcher provides the basic bus transaction necessary to search a 1-wire
@@ -62,7 +63,7 @@ func Search(bus BusSearcher, alarmOnly bool) ([]Address, error) {
 		discrepancy := -1   // how far we need to repeat the same ID in this iteration
 		var device uint64   // ID of current device
 		var idBytes [8]byte // ID of device as bytes
-		for bit := 0; bit < 64; bit++ {
+		for bit := range 64 {
 			// Decide which direction to search into: 0 or 1.
 			var dir byte
 			if bit < lastDiscrepancy {
@@ -99,7 +100,7 @@ func Search(bus BusSearcher, alarmOnly bool) ([]Address, error) {
 
 			// If we got a full byte then save it for CRC calculation.
 			if bit&7 == 7 {
-				idBytes[bit>>3] = byte(device >> uint(bit-7))
+				idBytes[bit>>3] = byte((device >> uint(bit-7)) & 0xff)
 			}
 		}
 
@@ -107,12 +108,14 @@ func Search(bus BusSearcher, alarmOnly bool) ([]Address, error) {
 		if !CheckCRC(idBytes[:]) {
 			// CRC error: return partial result. This is a transient error.
 			msg := "onewire: CRC error during search, addr=["
+			var msgSb110 strings.Builder
 			for i, b := range idBytes {
-				msg += strconv.Itoa(int(b))
+				msgSb110.WriteString(strconv.Itoa(int(b)))
 				if i != len(idBytes)-1 {
-					msg += " "
+					msgSb110.WriteString(" ")
 				}
 			}
+			msg += msgSb110.String()
 			return devices, busError(msg + "]")
 		}
 		devices = append(devices, Address(device))

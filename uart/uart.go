@@ -63,6 +63,7 @@ func MakeXOnXOffFlow(xon, xoff byte) Flow {
 }
 
 func (f Flow) String() string {
+	//nolint:exhaustive // XOnXOff includes encoded characters; other bit patterns use the fallback.
 	switch f {
 	case NoFlow:
 		return "None"
@@ -70,7 +71,7 @@ func (f Flow) String() string {
 		return "RTS/CTS"
 	default:
 		if f&mask == XOnXOff {
-			return fmt.Sprintf("XOn(%c)/XOff(%c)", byte(f>>8), byte(f))
+			return fmt.Sprintf("XOn(%c)/XOff(%c)", byte((f>>8)&0xff), byte(f&0xff))
 		}
 		return fmt.Sprintf("Flow(%x)", uint32(f))
 	}

@@ -22,6 +22,8 @@ import (
 //
 // Modify its members to simulate hardware events.
 type Pin struct {
+	sync.Mutex
+
 	// These should be immutable.
 	N   string
 	Num int
@@ -31,7 +33,6 @@ type Pin struct {
 	Clock clockwork.Clock // If nil, real clock will be used.
 
 	// Grab the Mutex before accessing the following members.
-	sync.Mutex
 	L         gpio.Level // Used for both input and output
 	P         gpio.Pull
 	EdgesChan chan gpio.Level  // Use it to fake edges
@@ -77,7 +78,7 @@ func (p *Pin) SupportedFuncs() []pin.Func {
 }
 
 // SetFunc implements pin.PinFunc.
-func (p *Pin) SetFunc(f pin.Func) error {
+func (p *Pin) SetFunc(_ pin.Func) error {
 	return errors.New("gpiotest: not supported")
 }
 

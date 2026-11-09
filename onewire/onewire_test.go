@@ -15,6 +15,7 @@ import (
 )
 
 func TestPullUp(t *testing.T) {
+	t.Parallel()
 	if s := WeakPullup.String(); s != "Weak" {
 		t.Fatal(s)
 	}
@@ -24,6 +25,7 @@ func TestPullUp(t *testing.T) {
 }
 
 func TestNoDevicesError(t *testing.T) {
+	t.Parallel()
 	e := noDevicesError("no")
 	if !e.NoDevices() {
 		t.Fatal("expected NoDevices")
@@ -34,6 +36,7 @@ func TestNoDevicesError(t *testing.T) {
 }
 
 func TestShortedBusError(t *testing.T) {
+	t.Parallel()
 	e := shortedBusError("no")
 	if !e.IsShorted() {
 		t.Fatal("expected IsShorted")
@@ -47,6 +50,7 @@ func TestShortedBusError(t *testing.T) {
 }
 
 func TestBusError(t *testing.T) {
+	t.Parallel()
 	e := busError("no")
 	if !e.BusError() {
 		t.Fatal("expected BusError")
@@ -57,6 +61,7 @@ func TestBusError(t *testing.T) {
 }
 
 func TestDevString(t *testing.T) {
+	t.Parallel()
 	d := Dev{&fakeBus{}, 12}
 	if s := d.String(); s != "fake(0x000000000000000c)" {
 		t.Fatalf("got %s", s)
@@ -64,12 +69,13 @@ func TestDevString(t *testing.T) {
 }
 
 func TestDevTx(t *testing.T) {
+	t.Parallel()
 	exErr := errors.New("yes")
 	b := &fakeBus{err: exErr, r: []byte{1, 2, 3}}
 	d := Dev{b, 12}
 	r := make([]byte, 3)
 	w := []byte{3, 4, 5}
-	if err := d.Tx(w, r); exErr != err {
+	if err := d.Tx(w, r); !errors.Is(exErr, err) {
 		t.Fatalf("got %s", err)
 	}
 	expected := []byte{85, 12, 0, 0, 0, 0, 0, 0, 0, 3, 4, 5}
@@ -86,6 +92,7 @@ func TestDevTx(t *testing.T) {
 }
 
 func TestDevTxPower(t *testing.T) {
+	t.Parallel()
 	b := nopBus("hi")
 	d := Dev{Bus: &b, Addr: 12}
 	if s := d.String(); s != "hi(0x000000000000000c)" {
@@ -127,14 +134,14 @@ func (f *fakeBus) Tx(w, r []byte, power Pullup) error {
 	return f.err
 }
 
-func (f *fakeBus) Search(alarmOnly bool) ([]Address, error) {
+func (f *fakeBus) Search(_ bool) ([]Address, error) {
 	return nil, errors.New("not implemented")
 }
 
 // nopBus implements Bus.
 type nopBus string
 
-func (b *nopBus) String() string                           { return string(*b) }
-func (b *nopBus) Tx(w, r []byte, power Pullup) error       { return nil }
-func (b *nopBus) Search(alarmOnly bool) ([]Address, error) { return nil, nil }
-func (b *nopBus) Close() error                             { return nil }
+func (b *nopBus) String() string                   { return string(*b) }
+func (b *nopBus) Tx(_, _ []byte, _ Pullup) error   { return nil }
+func (b *nopBus) Search(_ bool) ([]Address, error) { return nil, nil }
+func (b *nopBus) Close() error                     { return nil }

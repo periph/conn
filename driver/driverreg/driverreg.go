@@ -201,7 +201,7 @@ func insertString(l []string, s string) []string {
 
 // search implements the same algorithm as sort.Search().
 //
-// It was extracted to to not depend on sort, which depends on reflect.
+// It was extracted to not depend on sort, which depends on reflect.
 func search(n int, f func(int) bool) int {
 	lo := 0
 	for hi := n; lo < hi; {

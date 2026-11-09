@@ -21,12 +21,10 @@ func TestPulseIn_Success(t *testing.T) {
 	clock := clockwork.NewFakeClock()
 
 	pin := pulseInPin{
-		sleeps: []time.Duration{0, time.Second},
-		Pin: gpiotest.Pin{
-			EdgesChan: edgesChan,
-			L:         gpio.Low,
-			Clock:     clock,
-		},
+		sleeps:    []time.Duration{0, time.Second},
+		EdgesChan: edgesChan,
+		L:         gpio.Low,
+		Clock:     clock,
 	}
 
 	go func() {
@@ -55,11 +53,9 @@ func TestPulseIn_Timeout_1(t *testing.T) {
 	clock := clockwork.NewFakeClock()
 
 	pin := pulseInPin{
-		Pin: gpiotest.Pin{
-			EdgesChan: edgesChan,
-			L:         gpio.Low,
-			Clock:     clock,
-		},
+		EdgesChan: edgesChan,
+		L:         gpio.Low,
+		Clock:     clock,
 	}
 
 	go func() {
@@ -82,11 +78,9 @@ func TestPulseIn_Timeout_2(t *testing.T) {
 	clock := clockwork.NewFakeClock()
 
 	pin := pulseInPin{
-		Pin: gpiotest.Pin{
-			EdgesChan: edgesChan,
-			L:         gpio.Low,
-			Clock:     clock,
-		},
+		EdgesChan: edgesChan,
+		L:         gpio.Low,
+		Clock:     clock,
 	}
 
 	go func() {

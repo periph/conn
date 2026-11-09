@@ -14,6 +14,7 @@ import (
 )
 
 func TestBitStream(t *testing.T) {
+	t.Parallel()
 	var b [16]byte
 	for i := range b {
 		b[i] = byte(i)
@@ -31,6 +32,7 @@ func TestBitStream(t *testing.T) {
 }
 
 func TestBitStream_Empty(t *testing.T) {
+	t.Parallel()
 	var b [16]byte
 	s := BitStream{Bits: b[:]}
 	if d := s.Duration(); d != 0 {
@@ -39,6 +41,7 @@ func TestBitStream_Empty(t *testing.T) {
 }
 
 func TestEdgeStream(t *testing.T) {
+	t.Parallel()
 	s := EdgeStream{Freq: physic.KiloHertz, Edges: []uint16{1000, 1}}
 	if f := s.Frequency(); f != physic.KiloHertz {
 		t.Fatal(f)
@@ -53,6 +56,7 @@ func TestEdgeStream(t *testing.T) {
 }
 
 func TestProgram(t *testing.T) {
+	t.Parallel()
 	s := Program{
 		Parts: []Stream{
 			&EdgeStream{Freq: physic.KiloHertz, Edges: []uint16{1000, 1}},
@@ -83,6 +87,7 @@ func TestProgram(t *testing.T) {
 }
 
 func TestProgram_Nyquist(t *testing.T) {
+	t.Parallel()
 	s := Program{
 		Parts: []Stream{
 			&BitStream{Freq: 998 * physic.MilliHertz, Bits: make([]byte, 1)},

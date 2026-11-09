@@ -97,7 +97,7 @@ func (d *Dev) Tx(w, r []byte) error {
 
 // Write writes to the I²C bus without reading, implementing io.Writer.
 //
-// It's a wrapper for Tx()
+// It's a wrapper for Tx().
 func (d *Dev) Write(b []byte) (int, error) {
 	if err := d.Tx(b, nil); err != nil {
 		return 0, err

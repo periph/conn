@@ -59,6 +59,7 @@ const (
 
 func (m Mode) String() string {
 	s := ""
+	//nolint:exhaustive // The mask selects clock mode bits; other flags are handled below.
 	switch m & Mode3 {
 	case Mode0:
 		s = "Mode0"
@@ -84,7 +85,7 @@ func (m Mode) String() string {
 	m &^= LSBFirst
 	if m != 0 {
 		s += "|0x"
-		s += strconv.FormatUint(uint64(m), 16)
+		s += strconv.FormatUint(uint64(m), 16) //nolint:gosec // Preserve the full bit pattern, including negative Mode values.
 	}
 	return s
 }

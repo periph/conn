@@ -23,6 +23,7 @@ import (
 )
 
 func TestPin(t *testing.T) {
+	t.Parallel()
 	p := &Pin{N: "GPIO1", Num: 10, Fn: "I2C1_SDA"}
 	// conn.Resource
 	if s := p.String(); s != "GPIO1(10)" {
@@ -80,6 +81,7 @@ func TestPin(t *testing.T) {
 }
 
 func TestPin_edge(t *testing.T) {
+	t.Parallel()
 	p := &Pin{N: "GPIO1", Num: 1, Fn: "I2C1_SDA", EdgesChan: make(chan gpio.Level, 1)}
 	p.EdgesChan <- gpio.High
 	if !p.WaitForEdge(-1) {
@@ -101,6 +103,7 @@ func TestPin_edge(t *testing.T) {
 }
 
 func TestPin_fail(t *testing.T) {
+	t.Parallel()
 	p := &Pin{N: "GPIO1", Num: 1, Fn: "I2C1_SDA"}
 	if err := p.In(gpio.Float, gpio.BothEdges); err == nil {
 		t.Fatal()
@@ -108,6 +111,7 @@ func TestPin_fail(t *testing.T) {
 }
 
 func TestLogPinIO(t *testing.T) {
+	t.Parallel()
 	p := &Pin{}
 	l := &LogPinIO{p}
 	if l.Real() != p {
@@ -139,12 +143,14 @@ func TestLogPinIO(t *testing.T) {
 }
 
 func TestAll(t *testing.T) {
+	t.Parallel()
 	if len(gpioreg.All()) != 2 {
 		t.Fatal("expected two pins registered for test")
 	}
 }
 
 func TestByName(t *testing.T) {
+	t.Parallel()
 	if gpioreg.ByName("GPIO0") != nil {
 		t.Fatal("GPIO0 doesn't exist")
 	}
